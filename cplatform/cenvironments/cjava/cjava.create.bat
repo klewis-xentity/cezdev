@@ -9,7 +9,6 @@
 set "CJAVACREATEHOME=%CD%"
 echo [CALLING] %~nx0
 
-
 if "%C3DCLASSES_NAME%"=="" set "C3DCLASSES_NAME=c3dclassessdk"
 if "%C3DCLASSES_VERSION%"=="" set "C3DCLASSES_VERSION=1.0"
 set "C3DCLASSES_JAVA_ENV=cjava"
@@ -29,8 +28,20 @@ echo [INFO] Java environment path: %C3DCLASSES_JAVA_ENV_PATH%
 echo [INFO] Java environment name: %C3DCLASSES_JAVA_ENV%
 
 echo [CREATING] Java environment...
+
 call scripts.copy.bat "%C3DCLASSES_JAVA_ENV_PATH%" "%CMETADATA%\cenvironments\%C3DCLASSES_JAVA_ENV%"
 set "PATH=%PATH%;%CMETADATA%\cenvironments\%C3DCLASSES_JAVA_ENV%"
+
+if exist "%C3DCLASSES_JAR%" (
+    echo [INFO] JAR file already exists at: %C3DCLASSES_JAR%
+    echo [SKIPPING] Java environment creation
+    goto end
+)
+
+echo [REMOVING] Old Java project directory...
+if exist "%C3DCLASSES_JAVA%" (
+    rmdir /s /q "%C3DCLASSES_JAVA%"
+)
 
 :: set the src and dst directories to write from and to
 set "src=%C3DCLASSES%"
@@ -51,15 +62,7 @@ if not exist "%dst%\pom.xml" (
     exit /b 1
 )
 
-echo [STEP] Generating c3dclassessdk filenames JSON...
-call path.list.bat "%CMETADATA%\c3dclassessdk.filenames.json" "%src%"
-cd /d "%dst%"
-echo [STEP] Running Maven build...
-call mvn clean install test -e -Drelease.artifactId=%C3DCLASSES_NAME% -Drelease.version=%C3DCLASSES_VERSION% -Drelease.path=%CEZDEV_HOME%
-echo [STEP] Generating c3dclasses_java filenames JSON...
-call path.list.bat "%CMETADATA%\c3dclasses_java.filenames.json" "%dst%"
-echo [STEP] Generating c3dclasses filenames JSON...
-call path.list.bat "%CMETADATA%\c3dclasses.filenames.json" "%src%"
+start cmvn.bat
 
 :end
 echo [ENDING] %~nx0

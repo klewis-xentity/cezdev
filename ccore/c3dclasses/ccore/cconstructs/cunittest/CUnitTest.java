@@ -20,6 +20,6 @@ import org.junit.Test;
 //--------------------------------------------------------
 public class CUnitTest {
 	public void assertTrue(boolean condition) {
-		assertEquals(condition, true); 
+		assertEquals(true, condition); 
 	} // end assertTrue()
 } // end CUnitTest

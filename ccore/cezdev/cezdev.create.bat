@@ -47,4 +47,7 @@ IF NOT EXIST "%CVIDEOS%" (
     mkdir "%CVIDEOS%"
     echo [MKDIR] %CVIDEOS%
 )
+
+scripts.copy.bat "%C3DCLASSES%" "%CMETADATA%\c3dclasses_bat"
+
 echo [ENDING] %~nx0
