@@ -31,8 +31,6 @@ if exist "%CPY_ENV_PATH%" (
 	echo [WARN] Python environment path not found: %CPY_ENV_PATH%
 )
 
-mkdir "%C3DCLASSESSDK_PY%" 2>nul
-
 where python >nul 2>nul
 if errorlevel 1 (
 	echo [ERROR] python is not available on PATH.
@@ -61,6 +59,13 @@ if exist "%DIRECTORY_COPY%" (
 ) else (
 	set "DIRECTORY_COPY=directory.copy.bat"
 )
+
+if exist "%dst%" (
+	echo [OK] Python package already exists at %dst%. Skipping create/install.
+	goto DONE_CPY_CREATE
+)
+
+mkdir "%dst%" 2>nul
 
 if exist "%src%" (
 	echo [COPYING] Python source files...
@@ -103,6 +108,8 @@ if errorlevel 1 (
 	exit /b 1
 )
 
+
+:DONE_CPY_CREATE
 
 
 cd /d "%CPYCREATEHOME%"

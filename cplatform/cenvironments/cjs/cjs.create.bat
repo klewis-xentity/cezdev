@@ -94,6 +94,11 @@ echo [OK] Node modules installed.
 ::------------------------------------------------------
 :: Build JavaScript package (webpack project)
 ::------------------------------------------------------
+if exist "%dst%" (
+    echo [OK] JavaScript package already exists at %dst%. Skipping create/build.
+    goto DONE_CJS_CREATE
+)
+
 if not exist "%dst%" mkdir "%dst%"
 if not exist "%dst%\src" mkdir "%dst%\src"
 if not exist "%dst%\tests" mkdir "%dst%\tests"
@@ -137,6 +142,8 @@ call npm run build
 echo [ACTION] Generating project metadata...
 call path.list.bat "%CMETADATA%\c3dclasses_js.filenames.json" "%dst%"
 call path.list.bat "%CMETADATA%\c3dclasses.filenames.json" "%src%"
+
+:DONE_CJS_CREATE
 
 ::------------------------------------------------------
 :: Restore original directory
