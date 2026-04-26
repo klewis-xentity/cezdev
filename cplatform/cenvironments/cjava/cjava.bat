@@ -21,6 +21,13 @@ if "%C3DCLASSES_JAR%"=="" (
     exit /b 1
 )
 
+if "%~1"=="" (
+    echo [MODE] No class argument provided - running java with current arguments
+) else (
+    echo [MODE] Running Java class: %~1
+)
+
+echo [INFO] Launching from: %C3DCLASSES_JAVA%\target
 cd /d "%C3DCLASSES_JAVA%\target"
 call java -cp "%C3DCLASSES_JAR%;%CJAVAHOME%" %*
 

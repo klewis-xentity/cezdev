@@ -30,7 +30,7 @@ set CENVIRONMENTS=%CPLATFORM%\cenvironments
 set CMETADATA_CVARS=%CMETADATA%\cvars.json
 set CMEMORY_DRIVER=json
 set CWSL=\\wsl.localhost\Ubuntu\home\c3dclasses
-set PATH=%CEZDEV%;%PATH%
+set PATH=%CEZDEV%;%CENVIRONMENTS%\cjava;%CENVIRONMENTS%\cjs;%CENVIRONMENTS%\cpy;%PATH%
 
 ::------------------------------------------------------
 :: Ensure required directories exist

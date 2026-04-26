@@ -7,9 +7,10 @@
 @echo off
 setlocal
 
-echo [INFO] Starting %~nx0
+echo [CALLING] %~nx0
 
 set "CJSRUNHOME=%CD%"
+echo [MODE] JavaScript development server
 
 ::------------------------------------------------------
 :: Validate required environment variables
@@ -40,9 +41,10 @@ if not exist "%C3DCLASSES_JS%" (
 :: Start development server
 ::------------------------------------------------------
 echo [ACTION] Starting webpack development server...
+echo [INFO] Launching from: %C3DCLASSES_JS%
 cd /d "%C3DCLASSES_JS%"
 call npm start
 
 cd /d "%CJSRUNHOME%"
-echo [INFO] Ending %~nx0
+echo [ENDING] %~nx0
 endlocal

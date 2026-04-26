@@ -26,7 +26,7 @@ call scripts.call %CPROJECTS% *.create.bat
 ::------------------------------------------------------
 :: Optional: Start file monitoring (uncomment to enable)
 ::------------------------------------------------------
-set "MONITOR_CALLBACK=%CJAVA_MODIFIED_BAT%"
+set "MONITOR_CALLBACK=%CJAVA_MODIFIED_BAT%,%CENVIRONMENTS%\cjs\cjs.modified.bat,%CENVIRONMENTS%\cpy\cpy.modified.bat"
 call file.monitor.bat "%CCORE%,%CPLATFORM%" "%MONITOR_CALLBACK%"
 
 ::------------------------------------------------------

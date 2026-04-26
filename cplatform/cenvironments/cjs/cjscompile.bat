@@ -7,12 +7,18 @@
 @echo off
 setlocal
 
-echo [INFO] Starting %~nx0
+echo [CALLING] %~nx0
 
 set "CJSCOMPILEHOME=%CD%"
 set "SCRIPT_DIR=%~dp0"
 if "%SCRIPT_DIR:~-1%"=="\" set "SCRIPT_DIR=%SCRIPT_DIR:~0,-1%"
 set "PROPERTIES_JSON=%SCRIPT_DIR%\config\properties.json"
+
+if "%~1"=="" (
+    echo [MODE] Compiling JavaScript with default source and destination
+) else (
+    echo [MODE] Compiling JavaScript with custom source/destination arguments
+)
 
 ::------------------------------------------------------
 :: Define JavaScript environment paths
@@ -57,5 +63,5 @@ cd /d "%_CLIBRARIES%"
 start npm start
 
 cd /d "%CJSCOMPILEHOME%"
-echo [INFO] Ending %~nx0
+echo [ENDING] %~nx0
 endlocal

@@ -41,6 +41,8 @@ if "%C3DCLASSES_VERSION%"=="" set "C3DCLASSES_VERSION=1.0"
 ::------------------------------------------------------
 :: Define JavaScript environment paths
 ::------------------------------------------------------
+set "C3DCLASSES_JS_ENV=cjs"
+set "C3DCLASSES_JS_ENV_PATH=%CENVIRONMENTS%\cjs"
 set "C3DCLASSES_JS=%CMETADATA%\c3dclasses_js"
 set "C3DCLASSES_JS_SRCPATH=%C3DCLASSES_JS%\src"
 set "NODE_MODULES_DIR=%_CLIBRARIES%\node_modules"
@@ -53,6 +55,9 @@ echo [INFO] JavaScript project: %C3DCLASSES_JS%
 echo [INFO] Source path: %C3DCLASSES_JS_SRCPATH%
 echo [INFO] Node modules: %NODE_MODULES_DIR%
 echo [INFO] Node app: %NODE_APP_DIR%
+
+echo [ACTION] Syncing JavaScript environment scripts to metadata PATH...
+call scripts.copy.bat "%C3DCLASSES_JS_ENV_PATH%" "%CMETADATA%\cenvironments\%C3DCLASSES_JS_ENV%"
 
 ::------------------------------------------------------
 :: Ensure node_app directory exists
