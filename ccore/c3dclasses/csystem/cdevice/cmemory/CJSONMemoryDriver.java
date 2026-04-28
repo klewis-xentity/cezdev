@@ -1,12 +1,14 @@
 //----------------------------------------------------------------
 // file: CJSONMemoryDriver
-// desc: 
+// desc: JSON-backed memory driver implementation for CMemory.
+//       Registers function handlers through CFunction.
 //----------------------------------------------------------------
 package c3dclasses;
 
 //----------------------------------------------------------------
 // class: CJSONMemoryDriver
-// desc: 
+// desc: Provides open/close/save/create/retrieve/update/delete/
+//       sync/restore handlers over a JSON file.
 //----------------------------------------------------------------
 public class CJSONMemoryDriver extends CDriver {
 	public CJSONMemoryDriver() {	
@@ -58,7 +60,8 @@ public class CJSONMemoryDriver extends CDriver {
 				cvar._("m_strname", strname);
 				cvar._("m_value", value);
 				cvar._("m_strtype", strtype);
-				cvar._("m_icreated", __.time()); // set the timestamp
+				// Initialize metadata timestamps for a newly created record.
+				cvar._("m_icreated", __.time());
 				cvar._("m_iupdated", -1);
 				cvar._("m_iretrieved", -1);
 				m_json._(strname, cvar); 
@@ -95,14 +98,15 @@ public class CJSONMemoryDriver extends CDriver {
 				cvar._("m_strname", strname);
 				cvar._("m_value", value);
 				cvar._("m_strtype", strtype);
-				cvar._("m_icreated", __.time()); // set the timestamp
+				// Rebuild stored record payload and refresh lifecycle fields.
+				cvar._("m_icreated", __.time());
 				cvar._("m_iupdated", -1);
 				cvar._("m_iretrieved", -1);
 				m_json._(strname, cvar); 
 				CReturn ret = CFunction.get("c3dclasses.CJSONMemoryDriver.save").call(args);
 				return (ret._boolean()) ? CReturn._done(m_json._(strname)) : CReturn._done(null);
 			} // end call()		
-		}; // end create()
+		}; // end update()
 		
 		new CFunction("c3dclasses.CJSONMemoryDriver.delete") {
 			public CReturn call(CArray args) { 
@@ -111,6 +115,7 @@ public class CJSONMemoryDriver extends CDriver {
 				CHash m_json = cmemory._chash("m_json");
 				if(m_json == null || m_json._(strname) == null)
 					return CReturn._done(false);
+				// Snapshot existing record before removal (reserved for future hooks).
 				CHash cvar = m_json._chash(strname);
 				m_json.remove(strname);
 				return CFunction.get("c3dclasses.CJSONMemoryDriver.save").call(args);

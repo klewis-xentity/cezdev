@@ -1,12 +1,14 @@
 //----------------------------------------------------------------
 // file: json_driver
-// desc: 
+// desc: Thin adapter that exposes short driver function names and
+//       maps them to CJSONMemoryDriver implementations.
 //----------------------------------------------------------------
 import c3dclasses.*;
 
 //----------------------------------------------------------------
 // class: json_driver
-// desc: 
+// desc: Registers CRUD/sync/open/close function aliases used by
+//       CMemory when the driver type is set to "json_driver".
 //----------------------------------------------------------------
 public class json_driver extends CJSONMemoryDriver {
 	public json_driver() {		

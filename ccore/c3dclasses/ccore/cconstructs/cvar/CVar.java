@@ -1,12 +1,12 @@
 //-----------------------------------------------------------------------------------------
 // file: CVar.java
-// desc: an object that represent a local/remote variable in a program
+// desc: Wrapper around a driver-backed memory variable with typed access helpers.
 //-----------------------------------------------------------------------------------------
 package c3dclasses;
 
 //----------------------------------------------------------------
 // file: CVar
-// desc: 
+// desc: Represents one named value stored in CMemory.
 //----------------------------------------------------------------
 public class CVar extends CCast {	
 	protected CMemory m_cmemory;
@@ -60,7 +60,7 @@ public class CVar extends CCast {
 	public CReturn die() { return this.destroy(); }
 	public void sync() { this.m_cmemory.sync(); }
 	
-	// other
+	// Internal state helpers
 	public boolean init(CMemory cmemory, CHash cvar){ 
 		if(cvar == null)
 			return false;
@@ -83,7 +83,7 @@ public class CVar extends CCast {
 	public CMemory getCMemory() { return this.m_cmemory; }
 	
 	///////////////////
-	// class methods
+	// Static constructors/helpers
 	public static CVar _use(String strmemoryid, String strname, Object value){
 		CVar cvar = null;
 		return ((cvar = CVar._new(strmemoryid, strname, value)) != null || (cvar = CVar._get(strmemoryid, strname)) != null) ? cvar : null;

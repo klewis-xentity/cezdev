@@ -1,6 +1,6 @@
 ::------------------------------------------------------------------------------------------
 :: name: lsvars.bat
-:: desc: list all the variables stored in memory
-:: usage: lsvars
+:: desc: Lists all variables stored in CMemory.
+:: usage: lsvars <memory-file>
 ::------------------------------------------------------------------------------------------
 call cjava c3dclasses.CListVarsCommand "%CMETADATA_CVARS%" %*

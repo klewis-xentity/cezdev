@@ -1,20 +1,20 @@
 //---------------------------------------------------------------------------------------------------------
 // name: CDeleteVarCommand.java
-// desc: deletes a cmemory variable and environment variable
+// desc: Deletes a variable from CMemory and emits a temp script that unsets the env var.
 //---------------------------------------------------------------------------------------------------------
 package c3dclasses;
 
 //-----------------------------------------------------------------------------------------------------------
 // name: CDeleteVarCommand
-// desc: deletes a cmemory variable and environment variable
+// desc: Command entry point for deleting one variable from persistent metadata.
 //-----------------------------------------------------------------------------------------------------------
 public class CDeleteVarCommand {
 	//-------------------------------------------------------------------------------------
 	// name: main()
-	// desc:
+	// desc: Args: <memory-file> <env-var-name>
 	//-------------------------------------------------------------------------------------
 	public static void main(String[] args) {
-		// get command line arguments
+		// Read command line arguments.
 		CArray cargs = __.carray(args);
 		if(cargs == null || cargs.length() < 2) {
 			__.println("Please supply 1 arguments.");
@@ -30,12 +30,12 @@ public class CDeleteVarCommand {
 		String strvarname = cargs._string(1);
 		String strvarspath = cargs._string(0);
 		
-		// include / open memory
+		// Include and open memory store.
 		if(CMemory.include("cvars.js", strvarspath, "c3dclasses.CJSONMemoryDriver", null) == null)
 			return;
 		CMemory cmemory = CMemory.use("cvars.js");
 		
-		// delete the memory contents
+		// Delete variable from memory store.
 		CReturn creturn = cmemory.delete(strvarname);	
 		if(creturn != null && creturn._boolean())
 			__.println("cmemory.delete(" + strvarname + ") - Deleted the memory location.");
@@ -43,7 +43,7 @@ public class CDeleteVarCommand {
 		cmemory.close();
 		__.println("cmemory.close() - closing memory location.");
 				
-		// create a tmp script to delete the environment variable
+		// Create temp script that unsets the environment variable in the caller shell.
 		String strscriptfile = strmetapath + "/" + strvarname + "_tmp.bat";
 		String strcontents = "echo 'deleting the environment variable:'\n";
 		strcontents += "set " + strvarname + "=\n";

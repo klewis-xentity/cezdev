@@ -1,20 +1,20 @@
 //---------------------------------------------------------------------------------------------------------
 // name: CGetVarCommand.java
-// desc: gets a var path from an environment variable and cmemory to be shared by EZDEV and C3DClassesSDK
+// desc: Reads one variable from CMemory and emits a temp script that sets the env var.
 //---------------------------------------------------------------------------------------------------------
 package c3dclasses;
 
 //-----------------------------------------------------------------------------------------------------------
 // name: CGetVarCommand
-// desc: gets a var path from an environment variable and cmemory to be shared by EZDEV and C3DClassesSDK
+// desc: Command entry point for exporting a persisted variable to shell context.
 //-----------------------------------------------------------------------------------------------------------
 public class CGetVarCommand {
 	//-------------------------------------------------------------------------------------
 	// name: main()
-	// desc:
+	// desc: Args: <memory-file> <env-var-name>
 	//-------------------------------------------------------------------------------------
 	public static void main(String[] args) {
-		// get command line arguments
+		// Read command line arguments.
 		CArray cargs = __.carray(args);
 		if(cargs == null || cargs.length() < 2) {
 			__.println("Please supply 1 arguments.");
@@ -29,12 +29,12 @@ public class CGetVarCommand {
 		String strvarname = cargs._string(1);
 		String strvarspath = cargs._string(0);
 		
-		// include / open memory
+		// Include and open memory store.
 		if(CMemory.include("cvars", strvarspath, "c3dclasses.CJSONMemoryDriver", null) == null)
 			return;
 		CMemory cmemory = CMemory.use("cvars");
 		
-		// get the memory contents
+		// Retrieve variable from memory store.
 		CReturn creturn = cmemory.retrieve(strvarname);	
 		if(creturn == null || (CHash) creturn.data() == null) {
 			__.println("cmemory.retrieve(" + strvarname + ") - Could not retrieve memory location.");
@@ -47,7 +47,7 @@ public class CGetVarCommand {
 		CHash cvar = (CHash) creturn.data();
 		String strvarvalue = (cvar != null) ? cvar._string("m_value") : "";
 			
-		// create the script to set the environment variable for EZDEV
+		// Create temp script that sets the environment variable in the caller shell.
 		String strscriptfile = strmetapath + "/" + strvarname + "_tmp.bat";
 		String strcontents = "echo setting the environment variable:\n";
 		strcontents += "set " + strvarname + "=" + strvarvalue + "\n";

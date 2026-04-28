@@ -1,20 +1,20 @@
 //---------------------------------------------------------------------------------------------------------
 // name: CListVarsCommand.java
-// desc: sets a var path from an environment variable and cmemory to be shared by EZDEV and C3DClassesSDK
+// desc: Lists all variables currently stored in the configured CMemory file.
 //---------------------------------------------------------------------------------------------------------
 package c3dclasses;
 
 //-----------------------------------------------------------------------------------------------------------
 // name: CListVarsCommand
-// desc: sets a var path from an environment variable and cmemory to be shared by EZDEV and C3DClassesSDK
+// desc: Command entry point for printing memory-backed variables as JSON.
 //-----------------------------------------------------------------------------------------------------------
 public class CListVarsCommand {
 	//-------------------------------------------------------------------------------------
 	// name: main()
-	// desc:
+	// desc: Args: <memory-file>
 	//-------------------------------------------------------------------------------------
 	public static void main(String[] args) {
-		// get command line arguments
+		// Read command line arguments.
 		CArray cargs = __.carray(args);
 		if(cargs == null || cargs.length() < 1) {
 			__.println("Please supply 1 argument.");
@@ -26,12 +26,12 @@ public class CListVarsCommand {
 		String strmetapath =  __.dirname(cargs._string(0));
 		String strvarspath = cargs._string(0);
 		
-		// include / open memory
+		// Include and open memory store.
 		if(CMemory.include("cvars", strvarspath, "c3dclasses.CJSONMemoryDriver", null) == null)
 			return;
 		CMemory cmemory = CMemory.use("cvars");
 		
-		// show the memory contents
+		// Print memory contents.
 		__.println(cmemory.cache().toJSON(false));
 	} // end main()
-} // end CIncludeBinPathCommand
+} // end CListVarsCommand

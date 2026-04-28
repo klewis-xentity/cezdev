@@ -1,20 +1,20 @@
 //---------------------------------------------------------------------------------------------------------
 // name: CSetVarCommand.java
-// desc: sets a var path from an environment variable and cmemory to be shared by EZDEV and C3DClassesSDK
+// desc: Writes/updates a variable in CMemory and emits a temp script to set env vars.
 //---------------------------------------------------------------------------------------------------------
 package c3dclasses;
 
 //-----------------------------------------------------------------------------------------------------------
 // name: CSetVarCommand
-// desc: sets a var path from an environment variable and cmemory to be shared by EZDEV and C3DClassesSDK
+// desc: Command entry point for persisting and exporting environment variable values.
 //-----------------------------------------------------------------------------------------------------------
 public class CSetVarCommand {
 	//-------------------------------------------------------------------------------------
 	// name: main()
-	// desc:
+	// desc: Args: <memory-file> <env-var-name> <value|prompt> [mode-flag]
 	//-------------------------------------------------------------------------------------
 	public static void main(String[] args) {
-		// get command line argument
+		// Read command line arguments.
 		CArray cargs = __.carray(args);
 		if(cargs == null || cargs.length() < 3) {
 			__.println("Please supply 2-4 arguments.");
@@ -38,12 +38,12 @@ public class CSetVarCommand {
 		boolean bsetdir = (cargs._string(3) != null) ? cargs._string(3).equals("-dir") : false;
 		String strvarvalue = "";
 		
-		// include / open memory
+		// Include and open memory store.
 		if(CMemory.include("cvars", strvarspath, "c3dclasses.CJSONMemoryDriver", null) == null)
 			return;
 		CMemory cmemory = CMemory.use("cvars");
 		
-		// get the memory contents
+		// Retrieve existing variable or create one when missing.
 		CReturn creturn = cmemory.retrieve(strvarname);	
 		if(creturn == null || (CHash) creturn.data() == null) {
 			__.println("cmemory.retrieve(" + strvarname + ") - Could not retrieve memory location.");
@@ -55,7 +55,7 @@ public class CSetVarCommand {
 			CHash cvar = (CHash) creturn.data();
 			String strpaths = (cvar != null) ? cvar._string("m_value") : "";
 		
-			// get a valid directory path from cmemory
+			// Reuse first valid cached path if present.
 			CArray paths = __.split(";", strpaths);
 			if(paths == null) 
 				paths = __.carray();
@@ -72,7 +72,7 @@ public class CSetVarCommand {
 			} // end for
 			
 			if(strvarvalue.equals("")) {
-				// if no valid directory path in cmemory then get it from file dialog
+				// Otherwise prompt user for a path and persist it.
 				__.println("Opening the file dialog to get a path to set....");	
 				String strpath = "";
 				strpath = __.prompt_path(strpromptmsg);
@@ -82,7 +82,7 @@ public class CSetVarCommand {
 					return;
 				} // end if
 				
-				// add the directory to the paths`
+				// Append selected path and persist updated list.
 				paths.push(strpath);
 				strpaths = paths.join(";");			
 				cmemory.update(strvarname, strpaths, "string", null);
@@ -101,7 +101,7 @@ public class CSetVarCommand {
 			__.println("cmemory.close() - closing memory location.");	
 		} // end else
 		
-		// create the script to set the environment variable for EZDEV
+		// Create temp script that sets environment variables in the caller shell.
 		String strscriptfile = strmetapath + "/" + strvarname + "_tmp.bat";
 		String strcontents = "echo setting the environment variable:\n";
 		strcontents += "set " + strvarname + "=" + strvarvalue + "\n";

@@ -1,12 +1,14 @@
 //----------------------------------------------------------------
 // file: CMemory
-// desc: 
+// desc: Memory resource facade that delegates persistence to a
+//       pluggable driver and keeps a local cache in sync.
 //----------------------------------------------------------------
 package c3dclasses;
 
 //----------------------------------------------------------------
 // class: CMemory
-// desc: 
+// desc: High-level API for driver-backed memory CRUD operations.
+//       Wraps remote calls and mirrors successful results locally.
 //----------------------------------------------------------------
 public class CMemory extends CResource { 
 	public CMemory() { 
@@ -14,7 +16,7 @@ public class CMemory extends CResource {
 		this.m_cache = null; 
 	} // end CMemory()
 	
-	// open / close
+	// Lifecycle operations
 	public boolean open(String strpath, String strtype, CHash params) {
 		if(!super.open(strpath, strtype, params))
 			return false;	
@@ -22,9 +24,11 @@ public class CMemory extends CResource {
 			return false;	
 		this.m_cache = __.chash();
 		if(params != null && params.containsKey("cmemory_cache")) {
+			// Allow caller-provided cache bootstrap to avoid immediate driver sync.
 			this.m_cache.append((CHash)params._("cmemory_cache"));	
-			return true;
+			return true; 
 		} // end if
+		// Pull latest driver state into the local cache when available.
 		CReturn creturn = this.sync();
 		if(creturn.isdone() && creturn.data() != null) {
 			this.m_cache = creturn._chash();
@@ -39,7 +43,7 @@ public class CMemory extends CResource {
 		return true;
 	} // end close()	
 	
-	// remote CRUD
+	// Driver-backed CRUD operations
 	public CReturn create(String strname, Object value, String strtype, CHash params) {
 		CReturn creturn = this.driver("create", __.args(this, strname, value, strtype, params));
 		if(creturn.isdone() && creturn.data() != null)
@@ -79,9 +83,9 @@ public class CMemory extends CResource {
 		CReturn creturn = this.create(strname, value, strtype, params);	
 		return (creturn == null || creturn.data() == null) ? 
 			this.update(strname, value, strtype, params) : creturn;
-	} // end create_update()
+	} // end upsert()
 	
-	// set / get
+	// Cache value helpers
 	public void set(String strname, Object value, String strtype) {
 		if(this.m_cache._(strname) == null)
 			return;
@@ -95,7 +99,7 @@ public class CMemory extends CResource {
 		return (CHash) this.m_cache._chash(strname); 
 	} // end get()
 	
-	// other
+	// Cache accessors and diagnostics
 	public CHash cache() { 
 		return this.m_cache; 
 	} // cache()
@@ -113,7 +117,7 @@ public class CMemory extends CResource {
 		return (cfunction != null) ? cfunction.call(args) : CReturn._error(null);		
 	} // end driver()
 	
-	// include / use 
+	// Static resource helpers
 	static public CResource include(String strid, String strdriverpath, String strdrivertype, CHash params) {
 		return (CDriver.include(strdrivertype)) ? CResource.include(strid, strdriverpath, 				
 				"c3dclasses.CMemory", __.chash(params)._("cmemory_driver_type", strdrivertype)) : null;
@@ -123,5 +127,6 @@ public class CMemory extends CResource {
 		return (CMemory) CResource.use(strid); 
 	} // end use()
 	
+	// Local mirror of driver state for quick reads and staged updates.
 	protected CHash m_cache = null;
 } // end CMemory()

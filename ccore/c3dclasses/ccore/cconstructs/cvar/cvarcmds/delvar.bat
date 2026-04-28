@@ -1,5 +1,6 @@
 ::------------------------------------------------------------------------------------------
 :: name: delvar.bat
-:: desc: reomves the var from memory
+:: desc: Removes a variable from CMemory.
+:: usage: delvar <envvar>
 ::------------------------------------------------------------------------------------------
 call cjava c3dclasses.CDeleteVarCommand "%CMETADATA_CVARS%" %*

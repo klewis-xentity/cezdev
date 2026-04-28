@@ -1,18 +1,18 @@
 //-------------------------------------------------------------------------------------------------------
 // file: CVarUnitTest.java
-// desc: 
+// desc: Integration-style unit test coverage for CVar operations over CMemory.
 //-------------------------------------------------------------------------------------------------------
 package c3dclasses;
 import org.junit.Test;
 
 //-----------------------------------------------------------
 // name: CVarUnitTest
-// desc:
+// desc: Verifies create/read/update/delete and helper constructor behavior.
 //-----------------------------------------------------------
 public class CVarUnitTest extends CUnitTest {
 	@Test
 	public void test() {	
-		// set up the pool of memory areas to access vars from
+		// Set up multiple memory stores used by the test scenarios.
 		String strpath = __.dir_path(this) + "/cmemory-test1.json";
 		this.assertTrue(CMemory.include("cmemory-test1", strpath, "c3dclasses.CJSONMemoryDriver", null) != null);
 		CMemory cmemory1 = CMemory.use("cmemory-test1");

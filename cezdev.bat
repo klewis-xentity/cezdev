@@ -19,9 +19,9 @@ call "%~dp0ccore\cezdev\cezdev.create.bat" "%~dp0"
 ::------------------------------------------------------
 :: Create initial metadata files if they don't exist
 ::------------------------------------------------------
-call scripts.call %CLIBRARIES% *.create.bat
-call scripts.call %CENVIRONMENTS% *.create.bat
-call scripts.call %CPROJECTS% *.create.bat
+call scripts.call clibraries.*.create.bat
+call scripts.call cenvironments.*.create.bat
+call scripts.call cprojects.*.create.bat
 
 ::------------------------------------------------------
 :: Optional: Start file monitoring (uncomment to enable)
