@@ -22,7 +22,22 @@ class CCheckboxInstructions extends CInstructions {
         CFunction fnCreateJCheckbox = new CFunction() {
             public CReturn call(CObject obj) {
                 CControl control = (CControl) obj;
-                m_ccontrolinstructions.createJControl(control, new JCheckBox((String) control._("m_value")));
+                JCheckBox checkbox = new JCheckBox((String) control._("m_value"));
+                Object restored = CControlStateMemory.load(control);
+                if (restored != null) {
+                    if (restored instanceof Boolean) checkbox.setSelected((Boolean) restored);
+                    else checkbox.setSelected(Boolean.parseBoolean(String.valueOf(restored)));
+                }
+
+                // Always persist checkbox state on user toggle, even when onclick/onchange is not configured.
+                checkbox.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        JCheckBox source = (JCheckBox) e.getSource();
+                        CControlStateMemory.save(control, source.isSelected());
+                    }
+                });
+
+                m_ccontrolinstructions.createJControl(control, checkbox);
                 return CReturn._done(control);
             }
         };
@@ -33,6 +48,7 @@ class CCheckboxInstructions extends CInstructions {
                 AbstractButton jcontrol = (AbstractButton) ccontrol._("m_jcontrol");
                 Boolean value = (Boolean) ccontrol._("m_propvalue");
                 jcontrol.setSelected(value != null && value);
+                CControlStateMemory.save(ccontrol, jcontrol.isSelected());
                 return null;
             }
         };
@@ -48,14 +64,20 @@ class CCheckboxInstructions extends CInstructions {
 
         CFunction fnOnClick = new CFunction() {
             public CReturn call(CObject obj) {
-                CControl ccontrol = (CControl) obj;
+                final CControl ccontrol = (CControl) obj;
                 JComponent jcomponent = (JComponent) ccontrol._("m_jcontrol");
-                final String command = (String) ccontrol._("m_propvalue") + " " + (String) ccontrol._("m_strid");
+                final String baseCommand = (String) ccontrol._("m_propvalue");
 
-                if (jcomponent instanceof AbstractButton && command != null && !command.isEmpty()) {
+                if (jcomponent instanceof AbstractButton) {
                     ((AbstractButton) jcomponent).addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            __.exec_command(command);
+                            AbstractButton button = (AbstractButton) e.getSource();
+                            boolean selected = button.isSelected();
+                            CControlStateMemory.save(ccontrol, selected);
+
+                            if (baseCommand != null && !baseCommand.trim().isEmpty()) {
+                                __.exec_command(baseCommand + " " + (String) ccontrol._("m_strid"));
+                            }
                         }
                     });
                 }
@@ -67,5 +89,6 @@ class CCheckboxInstructions extends CInstructions {
         cprocessor._("checkbox->set->selected", fnSetSelected);
         cprocessor._("checkbox->get->selected", fnGetSelected);
         cprocessor._("checkbox->set->onclick", fnOnClick);
+        cprocessor._("checkbox->set->onchange", fnOnClick);
     }
 }

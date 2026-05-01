@@ -58,6 +58,45 @@ class CComboBoxInstructions extends CInstructions {
         // Register the Swing control
         ccontrolinstructions.createJControl(control, comboBox);
 
+        Object restored = CControlStateMemory.load(control);
+        if (restored != null) {
+            String restoredValue = String.valueOf(restored);
+            boolean applied = false;
+
+            for (int i = 0; i < comboBox.getItemCount(); i++) {
+                Object item = comboBox.getItemAt(i);
+                if (item != null && restoredValue.equals(String.valueOf(item))) {
+                    comboBox.setSelectedItem(item);
+                    applied = true;
+                    break;
+                }
+            }
+
+            if (!applied && options != null) {
+                CArray keys = options.keys();
+                for (int i = 0; i < keys.length(); i++) {
+                    String key = keys._string(i);
+                    String value = options._string(key);
+                    if (restoredValue.equals(value)) {
+                        comboBox.setSelectedItem(key);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Always persist current selection for retrieval even if onchange is never configured.
+        comboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<?> source = (JComboBox<?>) e.getSource();
+                Object selected = source.getSelectedItem();
+                CHash hash = (CHash) control._("m_options");
+                String selectedValue = (hash != null) ? (String) hash._(selected) : null;
+                String valueToStore = (selectedValue != null) ? selectedValue : (selected != null ? selected.toString() : "");
+                CControlStateMemory.save(control, valueToStore);
+            }
+        });
+
         return CReturn._done(control);
     }
 };
@@ -89,12 +128,9 @@ class CComboBoxInstructions extends CInstructions {
             public CReturn call(CObject obj) {
                 final CControl ccontrol = (CControl) obj;
                 JComponent jcomponent = (JComponent) ccontrol._("m_jcontrol");
-                JComboBox<?> combo = (JComboBox<?>) jcomponent;
-                final String selected = (String) combo.getSelectedItem();
-                final String command = (String) ccontrol._("m_propvalue") + " " + (String) ccontrol._("m_strid") + " " + selected;
-                //CHash options =  ccontrol._("m_options");
+                final String baseCommand = (String) ccontrol._("m_propvalue");
 
-                if (jcomponent instanceof JComboBox && command != null && !command.isEmpty()) {
+                if (jcomponent instanceof JComboBox) {
                     ((JComboBox<?>) jcomponent).addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                              // The source of the event is the JComboBox
@@ -103,18 +139,17 @@ class CComboBoxInstructions extends CInstructions {
                             // Get the selected item at the moment of the event
                             Object selected = combo.getSelectedItem();
                             CHash hash = (CHash) ccontrol._("m_options");
-                            String selectedValue = (String) hash._(selected);
+                            String selectedValue = (hash != null) ? (String) hash._(selected) : null;
+                            String valueToStore = (selectedValue != null) ? selectedValue : (selected != null ? selected.toString() : "");
 
-                            // Build the command string dynamically
-                            String command = (String) ccontrol._("m_propvalue") + " " 
-                                        + (String) ccontrol._("m_strid") + " " 
-                                        + selected + " " + selectedValue;
-                            
-                            String command2 = "setvar " + (String) ccontrol._("m_strid") + " " + selectedValue ;
+                            CControlStateMemory.save(ccontrol, valueToStore);
 
-                            __.exec_command(command2);
-
-                            __.exec_command(command);
+                            if (baseCommand != null && !baseCommand.trim().isEmpty()) {
+                                String command = baseCommand + " " 
+                                            + (String) ccontrol._("m_strid") + " " 
+                                            + selected + " " + valueToStore;
+                                __.exec_command(command);
+                            }
 
                         }
                     });

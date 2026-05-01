@@ -17,7 +17,7 @@ public class CSetVarCommand {
 		// Read command line arguments.
 		CArray cargs = __.carray(args);
 		if(cargs == null || cargs.length() < 3) {
-			__.println("Please supply 2-4 arguments.");
+			__.println("[USAGE] supply 2-4 arguments");
 			__.println("setvar <ENVVARNAME> <value>");
 			__.println("setvar <ENVVARNAME> <prompt message> <-file|-dir|-path>");
 			__.println("setvar JAVA_HOME 'my value'");
@@ -27,7 +27,7 @@ public class CSetVarCommand {
 			__.println();
 			return;
 		} // end if
-		__.print("params: ");
+		__.print("[PARAMS] ");
 		__.println(cargs);
 		String strmetapath =  __.dirname(cargs._string(0));
 		String strvarname = cargs._string(1);
@@ -46,8 +46,8 @@ public class CSetVarCommand {
 		// Retrieve existing variable or create one when missing.
 		CReturn creturn = cmemory.retrieve(strvarname);	
 		if(creturn == null || (CHash) creturn.data() == null) {
-			__.println("cmemory.retrieve(" + strvarname + ") - Could not retrieve memory location.");
-			__.println("cmemory.retrieve(" + strvarname + ") - Creating a new memory location now.....");
+		__.println("[ERROR] cmemory could not retrieve memory location");
+		__.println("[CREATING] cmemory new memory location");
 			creturn = cmemory.create(strvarname, "", "string", null);
 		} // end if		
 		
@@ -64,20 +64,20 @@ public class CSetVarCommand {
 				if(strpath == "" || strpath == null)
 					continue;
 				if(__.is_directory(strpath)) {
-					__.println("The following path is a directory in the system: " + strpath);
+					__.println("[VALID] path is a directory: " + strpath);
 					strvarvalue = strpath;
 					break;
 				} // end if
-				else __.println("The following path is not a directory in the system: " + strpath);
+				else __.println("[INVALID] path is not a directory: " + strpath);
 			} // end for
 			
 			if(strvarvalue.equals("")) {
 				// Otherwise prompt user for a path and persist it.
-				__.println("Opening the file dialog to get a path to set....");	
+				__.println("[OPENING] file dialog to get path");	
 				String strpath = "";
 				strpath = __.prompt_path(strpromptmsg);
 				if(!__.is_directory(strpath)) {
-					__.println("The following path is not a directory in the system: " + strpath);	
+					__.println("[INVALID] path is not a directory: " + strpath);	
 					cmemory.close();
 					return;
 				} // end if
@@ -87,9 +87,9 @@ public class CSetVarCommand {
 				strpaths = paths.join(";");			
 				cmemory.update(strvarname, strpaths, "string", null);
 				cmemory.close();
-				__.println("cmemory.update(" + strvarname + ") - updating memory location with new contents: " + strpath);
-				__.println("cmemory.close() - closing memory location.");
-				__.println("The following path is a directory in the system: " + strpath);
+				__.println("[UPDATING] cmemory with new path: " + strpath);
+				__.println("[CLOSED] cmemory");
+				__.println("[VALID] path is a directory: " + strpath);
 				strvarvalue = strpath;			
 			} // end if
 		} // end if
@@ -97,19 +97,19 @@ public class CSetVarCommand {
 			strvarvalue =  cargs._string(2);
 			cmemory.update(strvarname, strvarvalue, "string", null);
 			cmemory.close();
-			__.println("cmemory.update(" + strvarname + ") - updating memory location with new contents: " + strvarvalue);
-			__.println("cmemory.close() - closing memory location.");	
+			__.println("[UPDATING] cmemory with new value: " + strvarvalue);
+			__.println("[CLOSED] cmemory");	
 		} // end else
 		
 		// Create temp script that sets environment variables in the caller shell.
 		String strscriptfile = strmetapath + "/" + strvarname + "_tmp.bat";
-		String strcontents = "echo setting the environment variable:\n";
+		String strcontents = "echo [SETTING] the environment variable: " + strvarname + " with value: " + strvarvalue + "\n";
 		strcontents += "set " + strvarname + "=" + strvarvalue + "\n";
 		if(bsetpath) {
-			strcontents += "echo setting the PATH:\n";
+			strcontents += "echo [SETTING] the PATH with: " + strvarname + "\n";
 			strcontents += "\nset PATH=%PATH%;%"+strvarname+"%;\n";
 		} // end if
-		__.println("Creating the script for the environment variable in: " + strscriptfile);
+		__.println("[CREATED] script for environment variable in: " + strscriptfile);
 		__.file_set_contents(strscriptfile, strcontents);
 		return;
 	} // end main()

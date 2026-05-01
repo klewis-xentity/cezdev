@@ -17,7 +17,7 @@ public class CListVarsCommand {
 		// Read command line arguments.
 		CArray cargs = __.carray(args);
 		if(cargs == null || cargs.length() < 1) {
-			__.println("Please supply 1 argument.");
+			__.println("[USAGE] supply 1 argument");
 			__.println("lsvars <memory-file>");
 			__.println("lsvars C:/path/to/cvars.json");
 			__.println();

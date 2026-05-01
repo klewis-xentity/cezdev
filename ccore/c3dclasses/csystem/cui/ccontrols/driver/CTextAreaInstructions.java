@@ -31,8 +31,8 @@ class CTextAreaInstructions extends CInstructions {
         // CREATE
         CFunction fnCreate = new CFunction() {
             public CReturn call(CObject obj) {
-                CControl control = (CControl) obj;
-                JTextArea ta = new JTextArea();
+                final CControl control = (CControl) obj;
+                final JTextArea ta = new JTextArea();
                 CHash params = (CHash) control._("m_params");
                 if (params != null) {
                     Object rows = params._("m_rows");
@@ -46,6 +46,22 @@ class CTextAreaInstructions extends CInstructions {
                     Object wsw = params._("m_wrapstyleword");
                     if (wsw instanceof Boolean) ta.setWrapStyleWord((Boolean) wsw);
                 }
+
+                Object restored = CControlStateMemory.load(control);
+                if (restored != null) {
+                    ta.setText(String.valueOf(restored));
+                }
+
+                // Always persist textarea state, even when onchange command is not configured.
+                ta.getDocument().addDocumentListener(new DocumentListener() {
+                    private void persist() {
+                        CControlStateMemory.save(control, ta.getText());
+                    }
+                    public void insertUpdate(DocumentEvent e) { persist(); }
+                    public void removeUpdate(DocumentEvent e) { persist(); }
+                    public void changedUpdate(DocumentEvent e) { persist(); }
+                });
+
                 m_ccontrolinstructions.createJControl(control, ta);
                 return CReturn._done(control);
             }
@@ -58,6 +74,7 @@ class CTextAreaInstructions extends CInstructions {
                 JTextArea ta = (JTextArea) c._("m_jcontrol");
                 Object v = c._("m_propvalue");
                 ta.setText(v == null ? "" : String.valueOf(v));
+                CControlStateMemory.save(c, ta.getText());
                 return null;
             }
         };
@@ -164,16 +181,19 @@ class CTextAreaInstructions extends CInstructions {
                     ta.getDocument().removeDocumentListener((DocumentListener) prev);
                 }
 
-                if (command != null && !command.trim().isEmpty()) {
-                    DocumentListener dl = new DocumentListener() {
-                        private void fire() { __.exec_command(command + " " + (String) c._("m_strid")); }
-                        public void insertUpdate(DocumentEvent e) { fire(); }
-                        public void removeUpdate(DocumentEvent e) { fire(); }
-                        public void changedUpdate(DocumentEvent e) { fire(); }
-                    };
-                    ta.getDocument().addDocumentListener(dl);
-                    c._("m_onchange_listener", dl);
-                }
+                DocumentListener dl = new DocumentListener() {
+                    private void fire() {
+                        CControlStateMemory.save(c, ta.getText());
+                        if (command != null && !command.trim().isEmpty()) {
+                            __.exec_command(command + " " + (String) c._("m_strid"));
+                        }
+                    }
+                    public void insertUpdate(DocumentEvent e) { fire(); }
+                    public void removeUpdate(DocumentEvent e) { fire(); }
+                    public void changedUpdate(DocumentEvent e) { fire(); }
+                };
+                ta.getDocument().addDocumentListener(dl);
+                c._("m_onchange_listener", dl);
                 return null;
             }
         };

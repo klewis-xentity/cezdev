@@ -21,6 +21,7 @@ public class CControlsDriver extends CProcessor {
 		this.addCInstructions("CCheckboxInstructions", new CCheckboxInstructions(this));
 		this.addCInstructions("CComboBoxInstructions", new CComboBoxInstructions(this));
 		this.addCInstructions("CTextInputInstructions", new CTextInputInstructions(this));
+		this.addCInstructions("CTextAreaInstructions", new CTextAreaInstructions(this));
 	} // end CControlsDriver()
 	 
 	public String toInstruction(CObject operand) {

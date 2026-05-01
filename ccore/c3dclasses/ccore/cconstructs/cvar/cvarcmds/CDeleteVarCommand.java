@@ -17,13 +17,13 @@ public class CDeleteVarCommand {
 		// Read command line arguments.
 		CArray cargs = __.carray(args);
 		if(cargs == null || cargs.length() < 2) {
-			__.println("Please supply 1 arguments.");
+			__.println("[USAGE] supply 1 argument");
 			__.println("delvar <ENVVARNAME>");
 			__.println("delvar JAVA_HOME");
 			__.println();
 			return;
 		} // end if
-		__.print("params: ");
+		__.print("[PARAMS] ");
 		__.println(cargs);
 		
 		String strmetapath =  __.dirname(cargs._string(0));
@@ -38,16 +38,16 @@ public class CDeleteVarCommand {
 		// Delete variable from memory store.
 		CReturn creturn = cmemory.delete(strvarname);	
 		if(creturn != null && creturn._boolean())
-			__.println("cmemory.delete(" + strvarname + ") - Deleted the memory location.");
-		else __.println("cmemory.delete(" + strvarname + ") - Could not deleted the memory location - it may not exist.");
+			__.println("[DELETED] memory location for: " + strvarname);
+		else __.println("[ERROR] could not delete memory location: " + strvarname);
 		cmemory.close();
-		__.println("cmemory.close() - closing memory location.");
+		__.println("[CLOSED] memory location");
 				
 		// Create temp script that unsets the environment variable in the caller shell.
 		String strscriptfile = strmetapath + "/" + strvarname + "_tmp.bat";
 		String strcontents = "echo 'deleting the environment variable:'\n";
 		strcontents += "set " + strvarname + "=\n";
-		__.println("Created the script for deleting environment variable in: " + strscriptfile);
+		__.println("[CREATED] script for deleting environment variable in: " + strscriptfile);
 		__.file_set_contents(strscriptfile, strcontents);
 		return;
 	} // end main()

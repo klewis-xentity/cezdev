@@ -8,6 +8,6 @@
 
 echo [CALLING] %~nx0
 
-call "%~dp0cjava.create.bat" %1 %2
+::call "%~dp0cjava.create.bat" %1 %2
 
 echo [ENDING] %~nx0

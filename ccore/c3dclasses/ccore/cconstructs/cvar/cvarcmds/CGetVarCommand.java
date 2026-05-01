@@ -17,13 +17,13 @@ public class CGetVarCommand {
 		// Read command line arguments.
 		CArray cargs = __.carray(args);
 		if(cargs == null || cargs.length() < 2) {
-			__.println("Please supply 1 arguments.");
+			__.println("[USAGE] supply 1 argument");
 			__.println("getvar <ENVVARNAME>");
 			__.println("getvar JAVA_HOME");
 			__.println();
 			return;
 		} // end if
-		__.print("params: ");
+		__.print("[PARAMS] ");
 		__.println(cargs);
 		String strmetapath =  __.dirname(cargs._string(0));
 		String strvarname = cargs._string(1);
@@ -37,21 +37,23 @@ public class CGetVarCommand {
 		// Retrieve variable from memory store.
 		CReturn creturn = cmemory.retrieve(strvarname);	
 		if(creturn == null || (CHash) creturn.data() == null) {
-			__.println("cmemory.retrieve(" + strvarname + ") - Could not retrieve memory location.");
-			__.println("Try using setvar command to create a variable before using getvar command.");
+			__.println("[ERROR] could not retrieve memory location");
+			__.println("[INFO] use setvar command to create variable first");
 			return;
 		} // end if		
 		cmemory.close();
-		__.println("cmemory.close() - closing memory location.");
+		__.println("[CLOSED] memory location");
 				
 		CHash cvar = (CHash) creturn.data();
 		String strvarvalue = (cvar != null) ? cvar._string("m_value") : "";
 			
 		// Create temp script that sets the environment variable in the caller shell.
 		String strscriptfile = strmetapath + "/" + strvarname + "_tmp.bat";
-		String strcontents = "echo setting the environment variable:\n";
+		String strcontents = "echo [SETTING] the environment variable: " + strvarname + " with value: " + strvarvalue + "\n";
 		strcontents += "set " + strvarname + "=" + strvarvalue + "\n";
-		__.println("Creating the script for setting the environment variable in: " + strscriptfile);
+		__.println("[CREATED] script for setting environment variable in: " + strscriptfile);
+		__.println("[ENVNAME] " + strvarname);
+		__.println("[ENVVAL] " + strvarvalue);
 		__.file_set_contents(strscriptfile, strcontents);
 		return;
 	} // end main()

@@ -31,14 +31,29 @@ class CTextInputInstructions extends CInstructions {
         final CTextInputInstructions _this = this;
 CFunction fnCreate = new CFunction() {
     public CReturn call(CObject obj) {
-        CControl control = (CControl) obj;
+        final CControl control = (CControl) obj;
 
-        JTextField tf = new JTextField();
+        final JTextField tf = new JTextField();
         tf.setText("foo-boo"); // initialize with value
 
         // Expand to take available width
         tf.setPreferredSize(new Dimension(400, tf.getPreferredSize().height));
         tf.setMaximumSize(new Dimension(Integer.MAX_VALUE, tf.getPreferredSize().height));
+
+        Object restored = CControlStateMemory.load(control);
+        if (restored != null) {
+            tf.setText(String.valueOf(restored));
+        }
+
+        // Always persist text state, even when onchange command is not configured.
+        tf.getDocument().addDocumentListener(new DocumentListener() {
+            private void persist() {
+                CControlStateMemory.save(control, tf.getText());
+            }
+            public void insertUpdate(DocumentEvent e) { persist(); }
+            public void removeUpdate(DocumentEvent e) { persist(); }
+            public void changedUpdate(DocumentEvent e) { persist(); }
+        });
 
         m_ccontrolinstructions.createJControl(control, tf);
         return CReturn._done(control);
@@ -52,6 +67,7 @@ CFunction fnCreate = new CFunction() {
                 JTextField tf = (JTextField) c._("m_jcontrol");
                 Object v = c._("m_propvalue");
                 tf.setText(v == null ? "" : String.valueOf(v));
+                CControlStateMemory.save(c, tf.getText());
                 return null;
             }
         };
@@ -112,16 +128,19 @@ CFunction fnCreate = new CFunction() {
                 if (prev instanceof DocumentListener) {
                     tf.getDocument().removeDocumentListener((DocumentListener) prev);
                 }
-                if (command != null && !command.trim().isEmpty()) {
-                    DocumentListener dl = new DocumentListener() {
-                        private void fire() { __.exec_command(command + " " + (String) c._("m_strid")); }
-                        public void insertUpdate(DocumentEvent e) { fire(); }
-                        public void removeUpdate(DocumentEvent e) { fire(); }
-                        public void changedUpdate(DocumentEvent e) { fire(); }
-                    };
-                    tf.getDocument().addDocumentListener(dl);
-                    c._("m_onchange_listener", dl);
-                }
+                DocumentListener dl = new DocumentListener() {
+                    private void fire() {
+                        CControlStateMemory.save(c, tf.getText());
+                        if (command != null && !command.trim().isEmpty()) {
+                            __.exec_command(command + " " + (String) c._("m_strid"));
+                        }
+                    }
+                    public void insertUpdate(DocumentEvent e) { fire(); }
+                    public void removeUpdate(DocumentEvent e) { fire(); }
+                    public void changedUpdate(DocumentEvent e) { fire(); }
+                };
+                tf.getDocument().addDocumentListener(dl);
+                c._("m_onchange_listener", dl);
                 return null;
             }
         };
