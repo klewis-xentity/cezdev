@@ -4,10 +4,13 @@
 ::------------------------------------------------------------------------------------------
 
 @echo off
+setlocal enabledelayedexpansion
 
 :: Save the current directory
 set "CMVN_HOME=%CD%"
 echo [CALLING] %~nx0
+echo [STARTED] %date% %time%
+set "START_TIME=%time%"
 
 :: Set defaults for required environment variables
 if "%CEZDEV_HOME%"=="" set "CEZDEV_HOME=%CD%"
@@ -36,6 +39,27 @@ call path.list.bat "%CMETADATA%\c3dclasses_java.filenames.json" "%dst%"
 echo [STEP] Generating c3dclasses filenames JSON...
 call path.list.bat "%CMETADATA%\c3dclasses.filenames.json" "%src%"
 
+set "END_TIME=%time%"
+echo [ENDED] %date% !END_TIME!
+
+for /f "tokens=1-4 delims=:.," %%a in ("!START_TIME!") do (
+   set /a start_seconds=%%a*3600+%%b*60+%%c
+)
+
+for /f "tokens=1-4 delims=:.," %%a in ("!END_TIME!") do (
+   set /a end_seconds=%%a*3600+%%b*60+%%c
+)
+
+if !end_seconds! lss !start_seconds! set /a end_seconds=!end_seconds!+86400
+set /a elapsed_seconds=!end_seconds!-!start_seconds!
+set /a hours=!elapsed_seconds!/3600
+set /a minutes=((!elapsed_seconds!%%3600))/60
+set /a seconds=!elapsed_seconds!%%60
+
+echo [DURATION] started: !START_TIME! - ended: !END_TIME!
+echo [ELAPSED] !hours!h !minutes!m !seconds!s
 echo [ENDING] %~nx0
 cd /d "%CMVN_HOME%"
+endlocal
+pause
 exit

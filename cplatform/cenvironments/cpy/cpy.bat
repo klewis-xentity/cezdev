@@ -10,6 +10,18 @@ set "SCRIPT_NAME=%~nx0"
 echo [CALLING] %SCRIPT_NAME%
 set "CPYHOME=%CD%"
 
+set "PYTHON_CMD=python"
+set "PYTHON_ARGS="
+if defined PYTHON_HOME if exist "%PYTHON_HOME%\python.exe" (
+    set "PYTHON_CMD=%PYTHON_HOME%\python.exe"
+) else (
+    where py >nul 2>nul
+    if not errorlevel 1 (
+        set "PYTHON_CMD=py"
+        set "PYTHON_ARGS=-3"
+    )
+)
+
 if "%~1"=="" goto NOPARAM
 
 set "TARGET=%~1"
@@ -63,31 +75,31 @@ if errorlevel 1 (
     echo [ERROR] Package install failed.
     goto DONE
 )
-echo [CHECK] python -m py_compile "%TARGET%"
-python -m py_compile "%TARGET%"
+echo [CHECK] "%PYTHON_CMD%" %PYTHON_ARGS% -m py_compile "%TARGET%"
+"%PYTHON_CMD%" %PYTHON_ARGS% -m py_compile "%TARGET%"
 if errorlevel 1 (
     echo [ERROR] Syntax check failed.
     goto DONE
 )
-echo [RUN] python "%TARGET%"%RUN_ARGS%
-python "%TARGET%"%RUN_ARGS%
+echo [RUN] "%PYTHON_CMD%" %PYTHON_ARGS% "%TARGET%"%RUN_ARGS%
+"%PYTHON_CMD%" %PYTHON_ARGS% "%TARGET%"%RUN_ARGS%
 goto DONE
 
 :NO_PROJECT
 echo [MODE] Plain Python script - syntax check and run
-echo [CHECK] python -m py_compile "%TARGET%"
-python -m py_compile "%TARGET%"
+echo [CHECK] "%PYTHON_CMD%" %PYTHON_ARGS% -m py_compile "%TARGET%"
+"%PYTHON_CMD%" %PYTHON_ARGS% -m py_compile "%TARGET%"
 if errorlevel 1 (
     echo [ERROR] Syntax check failed.
     goto DONE
 )
-echo [RUN] python "%TARGET%"%RUN_ARGS%
-python "%TARGET%"%RUN_ARGS%
+echo [RUN] "%PYTHON_CMD%" %PYTHON_ARGS% "%TARGET%"%RUN_ARGS%
+"%PYTHON_CMD%" %PYTHON_ARGS% "%TARGET%"%RUN_ARGS%
 goto DONE
 
 :NOPARAM
 echo [MODE] No script provided - launching Python REPL
-call python
+"%PYTHON_CMD%" %PYTHON_ARGS%
 
 :DONE
 cd /d "%CPYHOME%"

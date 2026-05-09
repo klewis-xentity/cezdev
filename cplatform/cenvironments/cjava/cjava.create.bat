@@ -4,10 +4,13 @@
 ::------------------------------------------------------------------------------------------
 
 @echo off
+setlocal enabledelayedexpansion
 
 :: Save the current directory
 set "CJAVACREATEHOME=%CD%"
 echo [CALLING] %~nx0
+echo [STARTED] %date% %time%
+set "START_TIME=%time%"
 
 if "%C3DCLASSES_NAME%"=="" set "C3DCLASSES_NAME=c3dclassessdk"
 if "%C3DCLASSES_VERSION%"=="" set "C3DCLASSES_VERSION=1.0"
@@ -65,5 +68,25 @@ if not exist "%dst%\pom.xml" (
 start cmvn.bat
 
 :end
+set "END_TIME=%time%"
+echo [ENDED] %date% !END_TIME!
+
+for /f "tokens=1-4 delims=:.," %%a in ("!START_TIME!") do (
+   set /a start_seconds=%%a*3600+%%b*60+%%c
+)
+
+for /f "tokens=1-4 delims=:.," %%a in ("!END_TIME!") do (
+   set /a end_seconds=%%a*3600+%%b*60+%%c
+)
+
+if !end_seconds! lss !start_seconds! set /a end_seconds=!end_seconds!+86400
+set /a elapsed_seconds=!end_seconds!-!start_seconds!
+set /a hours=!elapsed_seconds!/3600
+set /a minutes=((!elapsed_seconds!%%3600))/60
+set /a seconds=!elapsed_seconds!%%60
+
+echo [DURATION] started: !START_TIME! - ended: !END_TIME!
+echo [ELAPSED] !hours!h !minutes!m !seconds!s
 echo [ENDING] %~nx0
 cd /d "%CJAVACREATEHOME%"
+endlocal
