@@ -1,0 +1,141 @@
+handler log initialized
+[HANDLER] Sat 05/09/2026  8:06:21.15
+control=combo-select-0
+selected_label=cpy
+selected_value=c:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\cenvironments\cpy
+
+[HANDLER] Sat 05/09/2026  8:07:09.43
+control=combo-select-0
+selected_label=cpy
+selected_value=c:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\cenvironments\cpy
+
+[HANDLER] Sat 05/09/2026  8:08:42.65
+control=combo-select-0
+selected_label=cpy
+selected_value=c:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\cenvironments\cpy
+
+[HANDLER] Sat 05/09/2026  8:44:16.12
+control=combo-select-0
+selected_label=cjs
+selected_value=c:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjs
+
+[HANDLER] Sat 05/09/2026  8:44:21.03
+control=combo-select-0
+selected_label=cpy
+selected_value=c:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cpy
+
+[HANDLER] Sat 05/09/2026  8:44:27.76
+control=combo-select-0
+selected_label=cjava
+selected_value=c:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjava
+
+[HANDLER] Sat 05/09/2026  8:44:32.71
+control=combo-select-0
+selected_label=cjs
+selected_value=c:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjs
+
+[HANDLER] Sat 05/09/2026  8:44:36.55
+control=combo-select-0
+selected_label=cpy
+selected_value=c:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cpy
+
+[HANDLER] Sat 05/09/2026 10:25:08.59
+control=combo-select-0
+selected_label=cjs
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjs
+
+[HANDLER] Sat 05/09/2026 10:25:13.19
+control=combo-select-0
+selected_label=cpy
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cpy
+
+[HANDLER] Sat 05/09/2026 10:30:23.52
+control=combo-select-0
+selected_label=cjs
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjs
+
+[HANDLER] Sat 05/09/2026 10:30:31.69
+control=combo-select-0
+selected_label=cjava
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjava
+
+[HANDLER] Sat 05/09/2026 11:19:31.41
+control=combo-select-0
+selected_label=cjs
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjs
+
+[HANDLER] Sat 05/09/2026 23:27:10.23
+control=btn-control-1
+selected_label=
+selected_value=
+
+[HANDLER] Sat 05/09/2026 23:27:17.56
+control=btn-control-1
+selected_label=
+selected_value=
+
+[HANDLER] Sat 05/09/2026 23:27:22.92
+control=btn-control-0
+selected_label=
+selected_value=
+
+[HANDLER] Sat 05/09/2026 23:32:07.77
+control=combo-btn-0-0
+selected_label=
+selected_value=
+
+[HANDLER] Sat 05/09/2026 23:32:11.48
+control=combo-btn-0-1
+selected_label=
+selected_value=
+
+[HANDLER] Sat 05/09/2026 23:32:15.83
+control=combo-select-0
+selected_label=cpy
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cpy
+
+[HANDLER] Sat 05/09/2026 23:32:20.90
+control=combo-select-0
+selected_label=cjava
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjava
+
+[HANDLER] Sat 05/09/2026 23:33:16.39
+control=combo-select-0
+selected_label=cjava
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjava
+
+[HANDLER] Sat 05/09/2026 23:37:03.55
+control=combo-btn-0-1
+selected_label=
+selected_value=
+
+[HANDLER] Sat 05/09/2026 23:37:09.16
+control=combo-btn-0-0
+selected_label=
+selected_value=
+
+[HANDLER] Sat 05/09/2026 23:37:25.64
+control=combo-select-0
+selected_label=cpy
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cpy
+
+[HANDLER] Sun 05/10/2026  6:34:18.60
+control=combo-select-0
+selected_label=cjava
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjava
+
+[HANDLER] Sun 05/10/2026  6:34:23.77
+control=combo-select-0
+selected_label=cjs
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjs
+
+[HANDLER] Sun 05/10/2026  6:34:27.97
+control=combo-select-0
+selected_label=cpy
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cpy
+
+[HANDLER] Sun 05/10/2026  6:42:33.68
+control=combo-select-0
+selected_label=cjava
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjava
+

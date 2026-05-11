@@ -30,6 +30,26 @@ class CControlStateMemory {
         }
 
         String key = toMemoryKey(ccontrol);
+        
+        // Check if this is a select control
+        String strComponent = (String) ccontrol._("m_component");
+        if (strComponent != null && strComponent.equals("select")) {
+            // For select controls, create CHash with m_value and m_options
+            CHash stateHash = new CHash();
+            stateHash.set("m_value", value);
+            
+            Object optionsObj = ccontrol._("m_options");
+            if (optionsObj != null) {
+                stateHash.set("m_options", optionsObj);
+            }
+            
+            // Use the value's type, not "chash"
+            String valueType = __.typeOf(value);
+            CReturn creturn = cmemory.upsert(key, stateHash, valueType, null);
+            return creturn != null && creturn.isdone();
+        }
+        
+        // For all other controls, save the value directly with its proper type
         CReturn creturn = cmemory.upsert(key, value, __.typeOf(value), null);
         return creturn != null && creturn.isdone();
     }
@@ -58,8 +78,63 @@ class CControlStateMemory {
             return null;
         }
 
-        CHash cvar = (CHash) creturn.data();
-        return (cvar != null) ? cvar._("m_value") : null;
+        Object data = creturn.data();
+        
+        // If data is a CHash, extract m_value (used for select controls)
+        if (data instanceof CHash) {
+            CHash cvar = (CHash) data;
+            return cvar._("m_value");
+        }
+        
+        // Otherwise return the value directly (used for other control types)
+        return data;
+    }
+
+    static CHash loadState(CControl ccontrol) {
+        if (ccontrol == null) {
+            return null;
+        }
+
+        String memoryPath = resolveMemoryPath();
+        if (memoryPath == null || memoryPath.trim().isEmpty()) {
+            return null;
+        }
+
+        if (CMemory.include(MEMORY_ID, memoryPath, "c3dclasses.CJSONMemoryDriver", null) == null) {
+            return null;
+        }
+
+        CMemory cmemory = CMemory.use(MEMORY_ID);
+        if (cmemory == null) {
+            return null;
+        }
+
+        CReturn creturn = cmemory.retrieve(toMemoryKey(ccontrol));
+        if (creturn == null || creturn.data() == null) {
+            return null;
+        }
+
+        Object data = creturn.data();
+        
+        // If data is already a CHash (for select controls), return it
+        if (data instanceof CHash) {
+            return (CHash) data;
+        }
+        
+        // Otherwise wrap the value in a CHash for consistency
+        CHash stateHash = new CHash();
+        stateHash.set("m_value", data);
+        return stateHash;
+    }
+
+    static Object loadOptions(CControl ccontrol) {
+        CHash stateHash = loadState(ccontrol);
+        if (stateHash == null) {
+            return null;
+        }
+        
+        // Return m_options if present (typically for select controls)
+        return stateHash._("m_options");
     }
 
     static String toMemoryKey(CControl ccontrol) {

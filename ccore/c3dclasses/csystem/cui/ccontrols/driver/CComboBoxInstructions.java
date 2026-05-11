@@ -12,6 +12,7 @@ import java.util.*;
 
 class CComboBoxInstructions extends CInstructions {
     CControlInstructions m_ccontrolinstructions;
+    private static CControls s_ccontrols = null;
 
     public CComboBoxInstructions(CProcessor cprocessor) {
         super(cprocessor);
@@ -123,12 +124,23 @@ class CComboBoxInstructions extends CInstructions {
             }
         };
 
+        // --- SET LOADING CONTROL ID ---
+        CFunction fnSetLoadingControlId = new CFunction() {
+            public CReturn call(CObject obj) {
+                CControl ccontrol = (CControl) obj;
+                String loadingControlId = (String) ccontrol._("m_propvalue");
+                ccontrol._("m_loadingControlId", loadingControlId);
+                return null;
+            }
+        };
+
         // --- ONCHANGE HANDLER ---
         CFunction fnOnChange = new CFunction() {
             public CReturn call(CObject obj) {
                 final CControl ccontrol = (CControl) obj;
                 JComponent jcomponent = (JComponent) ccontrol._("m_jcontrol");
                 final String baseCommand = (String) ccontrol._("m_propvalue");
+                final String loadingControlId = (String) ccontrol._("m_loadingControlId");
 
                 if (jcomponent instanceof JComboBox) {
                     ((JComboBox<?>) jcomponent).addActionListener(new ActionListener() {
@@ -144,13 +156,42 @@ class CComboBoxInstructions extends CInstructions {
 
                             CControlStateMemory.save(ccontrol, valueToStore);
 
+                            // Show loading indicator if available
+                            if (loadingControlId != null && !loadingControlId.trim().isEmpty()) {
+                                try {
+                                    CControls ccontrols = CComboBoxInstructions.getCControls();
+                                    if (ccontrols != null) {
+                                        ccontrols.retrieve(loadingControlId).setProp("visible", "true");
+                                    }
+                                } catch (Exception ex) {
+                                    __.print("Failed to show loading control: " + ex.getMessage());
+                                }
+                            }
+
                             if (baseCommand != null && !baseCommand.trim().isEmpty()) {
                                 String command = baseCommand + " " 
-                                            + (String) ccontrol._("m_strid") + " " 
-                                            + selected + " " + valueToStore;
+                                            + quoteArg((String) ccontrol._("m_strid")) + " " 
+                                            + quoteArg(selected != null ? selected.toString() : "") + " " 
+                                            + quoteArg(valueToStore);
                                 __.exec_command(command);
                             }
 
+                            // Hide loading indicator after 2 seconds in a background thread
+                            if (loadingControlId != null && !loadingControlId.trim().isEmpty()) {
+                                new Thread(new Runnable() {
+                                    public void run() {
+                                        try {
+                                            Thread.sleep(2000);
+                                            CControls ccontrols = CComboBoxInstructions.getCControls();
+                                            if (ccontrols != null) {
+                                                ccontrols.retrieve(loadingControlId).setProp("visible", "false");
+                                            }
+                                        } catch (Exception ex) {
+                                            __.print("Failed to hide loading control: " + ex.getMessage());
+                                        }
+                                    }
+                                }).start();
+                            }
                         }
                     });
                 }
@@ -162,11 +203,26 @@ class CComboBoxInstructions extends CInstructions {
         cprocessor._("combobox->create", fnCreateJComboBox);
         cprocessor._("combobox->get->selected", fnGetSelectedItem);
         cprocessor._("combobox->set->selected", fnSetSelectedItem);
+        cprocessor._("combobox->set->loadingControlId", fnSetLoadingControlId);
         cprocessor._("combobox->set->onchange", fnOnChange);
         cprocessor._("select->create", fnCreateJComboBox);
         cprocessor._("select->get->selected", fnGetSelectedItem);
         cprocessor._("select->set->selected", fnSetSelectedItem);
+        cprocessor._("select->set->loadingControlId", fnSetLoadingControlId);
         cprocessor._("select->set->onchange", fnOnChange);
     
+    }
+
+    private static String quoteArg(String value) {
+        String safeValue = (value == null) ? "" : value.replace("\"", "\\\"");
+        return "\"" + safeValue + "\"";
+    }
+
+    public static void setCControls(CControls ccontrols) {
+        s_ccontrols = ccontrols;
+    }
+
+    private static CControls getCControls() {
+        return s_ccontrols;
     }
 }

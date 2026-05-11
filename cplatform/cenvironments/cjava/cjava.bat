@@ -29,7 +29,7 @@ if "%~1"=="" (
 
 echo [INFO] Launching from: %C3DCLASSES_JAVA%\target
 cd /d "%C3DCLASSES_JAVA%\target"
-call java -cp "%C3DCLASSES_JAR%;%CJAVAHOME%" %*
+call java -cp "%CJAVAHOME%;%C3DCLASSES_JAR%" %*
 
 cd /d "%CJAVAHOME%"
 echo [ENDING] %~nx0

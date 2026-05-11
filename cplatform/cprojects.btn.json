@@ -1,0 +1,4 @@
+{
+	"label": "Open Projects",
+	"handler": "./handler.bat"
+}

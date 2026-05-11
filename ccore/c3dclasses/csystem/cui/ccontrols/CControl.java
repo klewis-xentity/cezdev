@@ -98,6 +98,94 @@ public class CControl extends CObject implements AutoCloseable  {
 		return str.toString();
 	} // end toStringContents()
 
+	///////////////////////////////////////////////////////////////////////////////////
+	// Schema/Dynamic Field Addition
+	///////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Add fields from a UI schema JSON dynamically to this control container.
+	 * This allows adding form fields programmatically to an existing form/panel/container
+	 * that is already running/visible.
+	 * 
+	 * Example usage:
+	 *   String newFieldsJson = "{\"fields\":[{\"name\":\"newField\",\"label\":\"New Field\",\"component\":\"text\"}]}";
+	 *   CControls updatedControls = myControl.addUISchemaJson(newFieldsJson);
+	 * 
+	 * @param strUiSchemaJson JSON string containing a "fields" array to add to this control
+	 * @return The CControls manager object, allowing further manipulation or null on error
+	 */
+	public CControls addUISchemaJson(String strUiSchemaJson) {
+		CControls ccontrols = (CControls) this._("m_ccontrols");
+		String strpathid = (String) this._("m_strpathid");
+		
+		if (ccontrols == null || strpathid == null) {
+			return null;
+		}
+		
+		CControlsSchemaRender renderer = new CControlsSchemaRender();
+		return renderer.renderFieldsIntoContainer(strUiSchemaJson, ccontrols, strpathid);
+	} // end addUISchemaJson()
+	
+	/**
+	 * Add a single field from a field definition JSON to this control container.
+	 * 
+	 * Example usage:
+	 *   String fieldJson = "{\"name\":\"newField\",\"label\":\"New Field\",\"component\":\"text\"}";
+	 *   CControls updatedControls = myControl.addUISchemaField(fieldJson);
+	 * 
+	 * @param strFieldJson JSON string containing a single field definition
+	 * @return The CControls manager object, allowing further manipulation or null on error
+	 */
+	public CControls addUISchemaField(String strFieldJson) {
+		CControls ccontrols = (CControls) this._("m_ccontrols");
+		String strpathid = (String) this._("m_strpathid");
+		
+		if (ccontrols == null || strpathid == null) {
+			return null;
+		}
+		
+		CControlsSchemaRender renderer = new CControlsSchemaRender();
+		return renderer.renderFieldIntoContainer(strFieldJson, ccontrols, strpathid);
+	} // end addUISchemaField()
+
+	/**
+	 * Create a new panel as a child of this control and populate it with fields from a schema.
+	 * Useful for dynamically adding grouped fields to a running form.
+	 * 
+	 * Example usage:
+	 *   String fieldsJson = "{\"fields\":[{\"name\":\"field1\",\"label\":\"Field 1\",\"component\":\"text\"}]}";
+	 *   CControls updated = formControl.addNewPanel(fieldsJson, "panel1", "Panel Label");
+	 * 
+	 * @param strFieldsJson JSON string containing a "fields" array to populate the new panel
+	 * @param strPanelId The ID for the new panel
+	 * @param strPanelLabel The label for the new panel
+	 * @return The CControls manager object, allowing further manipulation or null on error
+	 */
+	public CControls addNewPanel(String strFieldsJson, String strPanelId, String strPanelLabel) {
+		CControls ccontrols = (CControls) this._("m_ccontrols");
+		String strpathid = (String) this._("m_strpathid");
+		
+		if (ccontrols == null || strpathid == null) {
+			return null;
+		}
+		
+		// Create the panel under this control
+		ccontrols.getContainers().push(this);
+		ccontrols.panel(strPanelId, strPanelLabel, null);
+		ccontrols.getContainers().pop();
+		
+		// Build the path ID for the new panel
+		String panelPathId = strpathid + " " + strPanelId;
+		CControl panelControl = ccontrols.retrieve(panelPathId);
+		
+		// Add fields to the new panel if provided
+		if (panelControl != null && strFieldsJson != null && !strFieldsJson.trim().equals("")) {
+			CControlsSchemaRender renderer = new CControlsSchemaRender();
+			renderer.renderFieldsIntoContainer(strFieldsJson, ccontrols, panelPathId);
+		}
+		
+		return ccontrols;
+	} // end addNewPanel()
 
 	/////////////////////////
 	// event handlers

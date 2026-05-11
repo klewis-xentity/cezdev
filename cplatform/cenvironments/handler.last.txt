@@ -1,0 +1,30 @@
+[HANDLER] Sun 05/10/2026  0:22:59.08
+control=btn-control-0
+selected_label=
+selected_value=
+
+[HANDLER] Sun 05/10/2026  0:26:52.92
+control=test-environment
+selected_label=
+selected_value=
+
+[HANDLER] Sun 05/10/2026  6:27:34.71
+control=btn-control-0
+selected_label=
+selected_value=
+
+[HANDLER] Sun 05/10/2026  6:27:38.00
+control=test-environment
+selected_label=
+selected_value=
+
+[HANDLER] Sun 05/10/2026  6:34:11.94
+control=test-environment
+selected_label=
+selected_value=
+
+[HANDLER] Sun 05/10/2026  6:42:28.03
+control=test-environment
+selected_label=
+selected_value=
+

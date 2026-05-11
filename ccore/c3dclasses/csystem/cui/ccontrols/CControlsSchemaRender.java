@@ -80,13 +80,7 @@ public class CControlsSchemaRender {
         Object fieldsObj = uiSchema._("fields");
         CArray fields = (fieldsObj instanceof CArray) ? (CArray) fieldsObj : null;
         if (fields != null) {
-            for (int i = 0; i < fields.length(); i++) {
-                Object fieldObj = fields._(i);
-                if (!(fieldObj instanceof CHash)) {
-                    continue;
-                }
-                this.renderField(ccontrols, strFormId, (CHash) fieldObj, i);
-            }
+            this.renderFields(ccontrols, strFormId, fields);
         }
 
         ccontrols.endform();
@@ -98,10 +92,39 @@ public class CControlsSchemaRender {
         return ccontrols;
     }
 
+    private void renderFields(CControls ccontrols, String strParentId, CArray fields) {
+        if (fields == null) {
+            return;
+        }
+        for (int i = 0; i < fields.length(); i++) {
+            Object fieldObj = fields._(i);
+            if (!(fieldObj instanceof CHash)) {
+                continue;
+            }
+            this.renderField(ccontrols, strParentId, (CHash) fieldObj, i);
+        }
+    }
+
     private void renderField(CControls ccontrols, String strFormId, CHash field, int index) {
         String strName = this.getOrDefault(field._string("name"), "field" + index);
         String strLabel = this.getOrDefault(field._string("label"), strName);
+        String strType = this.getOrDefault(field._string("type"), "").toLowerCase();
         String strComponent = this.getOrDefault(field._string("component"), "text").toLowerCase();
+
+        // Handle nested containers (panel, section)
+        if (strType.equals("panel") || strType.equals("section")) {
+            ccontrols.panel(strName, strLabel, null);
+            
+            // Recursively render nested fields
+            Object nestedFieldsObj = field._("fields");
+            CArray nestedFields = (nestedFieldsObj instanceof CArray) ? (CArray) nestedFieldsObj : null;
+            if (nestedFields != null) {
+                this.renderFields(ccontrols, strFormId, nestedFields);
+            }
+            
+            ccontrols.endpanel();
+            return;
+        }
 
         String strLabelId = strName + "-label";
         String strInputId = strName;
@@ -222,5 +245,86 @@ public class CControlsSchemaRender {
             return fallback;
         }
         return value;
+    }
+
+    /**
+     * Renders fields from a schema JSON string into an existing container control.
+     * Used for dynamically adding fields to a running form/panel/container.
+     * 
+     * @param strUiSchemaJson JSON schema containing fields array
+     * @param ccontrols The CControls manager object
+     * @param strParentId The path ID of the parent control to add fields to
+     * @return The CControls object for chaining, or null if parsing failed
+     */
+    public CControls renderFieldsIntoContainer(String strUiSchemaJson, CControls ccontrols, String strParentId) {
+        if (strUiSchemaJson == null || strUiSchemaJson.trim().equals("")) {
+            return null;
+        }
+
+        CHash uiSchema = CJSON.decode(strUiSchemaJson);
+        if (uiSchema == null) {
+            return null;
+        }
+
+        // If the schema itself is an object with a "fields" array, use that
+        // Otherwise, return null as fields are required
+        Object fieldsObj = uiSchema._("fields");
+        CArray fields = (fieldsObj instanceof CArray) ? (CArray) fieldsObj : null;
+
+        if (fields == null) {
+            return null;
+        }
+
+        // Push the parent control onto the container stack so nested controls are added as children
+        CControl parentControl = ccontrols.retrieve(strParentId);
+        if (parentControl != null) {
+            ccontrols.getContainers().push(parentControl);
+        }
+
+        // Render the fields into this container
+        this.renderFields(ccontrols, strParentId, fields);
+
+        // Pop the parent control from the stack
+        if (parentControl != null) {
+            ccontrols.getContainers().pop();
+        }
+
+        return ccontrols;
+    }
+
+    /**
+     * Renders a single field (from a JSON schema) into an existing container control.
+     * Used for adding individual fields dynamically.
+     * 
+     * @param fieldJson JSON object representing a single field
+     * @param ccontrols The CControls manager object
+     * @param strParentId The path ID of the parent control to add field to
+     * @return The CControls object for chaining, or null if parsing failed
+     */
+    public CControls renderFieldIntoContainer(String fieldJson, CControls ccontrols, String strParentId) {
+        if (fieldJson == null || fieldJson.trim().equals("")) {
+            return null;
+        }
+
+        CHash field = CJSON.decode(fieldJson);
+        if (field == null) {
+            return null;
+        }
+
+        // Push the parent control onto the container stack so nested controls are added as children
+        CControl parentControl = ccontrols.retrieve(strParentId);
+        if (parentControl != null) {
+            ccontrols.getContainers().push(parentControl);
+        }
+
+        // Render the single field into this container
+        this.renderField(ccontrols, strParentId, field, 0);
+
+        // Pop the parent control from the stack
+        if (parentControl != null) {
+            ccontrols.getContainers().pop();
+        }
+
+        return ccontrols;
     }
 }

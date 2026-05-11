@@ -1,0 +1,4 @@
+{
+	"label": "test environment",
+	"handler": "./handler.bat"
+}

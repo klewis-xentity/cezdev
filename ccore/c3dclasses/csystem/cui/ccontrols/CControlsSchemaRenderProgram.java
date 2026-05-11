@@ -8,13 +8,19 @@ public class CControlsSchemaRenderProgram {
     public static void main(String[] args) {
         String strUiSchemaJson = "{"
                 + "\"type\":\"form\"," 
+                + "\"id\":\"article-form\","
                 + "\"layout\":\"vertical\"," 
                 + "\"title\":\"Article Form\"," 
                 + "\"fields\":["
                     + "{\"name\":\"title\",\"label\":\"Title\",\"component\":\"text\"},"
                     + "{\"name\":\"description\",\"label\":\"Description\",\"component\":\"textarea\"},"
-                    + "{\"name\":\"status\",\"label\":\"Status\",\"component\":\"select\",\"options\":[\"Draft\",\"Published\",\"Archived\"]},"
-                    + "{\"name\":\"active\",\"label\":\"Active\",\"component\":\"checkbox\"}"
+                    + "{"
+                        + "\"name\":\"metadata\",\"label\":\"Metadata\",\"type\":\"panel\","
+                        + "\"fields\":["
+                            + "{\"name\":\"status\",\"label\":\"Status\",\"component\":\"select\",\"options\":[\"Draft\",\"Published\",\"Archived\"]},"
+                            + "{\"name\":\"active\",\"label\":\"Active\",\"component\":\"checkbox\"}"
+                        + "]"
+                    + "}"
                 + "]"
                 + "}";
 
@@ -26,21 +32,35 @@ public class CControlsSchemaRenderProgram {
             return;
         }
 
+        CControl formControl = ccontrols.retrieve("article-form"); // Get form control reference
+
+        // Add a new panel dynamically with fields
+        String panelFieldsJson = "{\"fields\":[" +
+            "{\"name\":\"author\",\"label\":\"Author\",\"component\":\"text\"}," +
+            "{\"name\":\"revision\",\"label\":\"Revision\",\"component\":\"text\"}" +
+        "]}";
+        CControls updatedControls = formControl.addNewPanel(panelFieldsJson, "metadata2", "Metadata2");
+
+        if (updatedControls == null) {
+            __.alert("Failed to add new panel");
+            return;
+        }
+
         // Optional field defaults
-        ccontrols.retrieve("schema-form title").setProp("text", "My Title");
-        ccontrols.retrieve("schema-form description").setProp("text", "Initial description");
-        ccontrols.retrieve("schema-form status").setProp("selected", "Draft");
-        ccontrols.retrieve("schema-form active").setProp("selected", Boolean.TRUE);
+        ccontrols.retrieve("article-form title").setProp("text", "My Title");
+        ccontrols.retrieve("article-form description").setProp("text", "Initial description");
+        ccontrols.retrieve("article-form metadata status").setProp("selected", "Draft");
+        ccontrols.retrieve("article-form metadata active").setProp("selected", Boolean.TRUE);
 
         // Show form
-        ccontrols.retrieve("schema-form").setProp("visible", "true");
-        ccontrols.retrieve("schema-form").setProp("pack", "true");
-        ccontrols.retrieve("schema-form").setProp("close", "true");
+        ccontrols.retrieve("article-form").setProp("visible", "true");
+        ccontrols.retrieve("article-form").setProp("pack", "true");
+        ccontrols.retrieve("article-form").setProp("close", "true");
 
         // Example: read values back
-        __.println("title=" + ccontrols.retrieve("schema-form title").getProp("text"));
-        __.println("description=" + ccontrols.retrieve("schema-form description").getProp("text"));
-        __.println("status=" + ccontrols.retrieve("schema-form status").getProp("selected"));
-        __.println("active=" + ccontrols.retrieve("schema-form active").getProp("selected"));
+        __.println("title=" + ccontrols.retrieve("article-form title").getProp("text"));
+        __.println("description=" + ccontrols.retrieve("article-form description").getProp("text"));
+        __.println("status=" + ccontrols.retrieve("article-form metadata status").getProp("selected"));
+        __.println("active=" + ccontrols.retrieve("article-form metadata active").getProp("selected"));
     }
 }
