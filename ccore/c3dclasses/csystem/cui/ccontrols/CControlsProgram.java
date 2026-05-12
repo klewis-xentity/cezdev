@@ -6,8 +6,17 @@ package c3dclasses;
 
 public class CControlsProgram {				
 	public static void main(String[] args) {
+		String directoryPath = System.getenv("CPANEL_DIRECTORY_PATH");
+		if ((directoryPath == null || directoryPath.trim().isEmpty()) && args != null && args.length > 0) {
+			directoryPath = args[0];
+		}
+		if (directoryPath == null || directoryPath.trim().isEmpty()) {
+			directoryPath = "C:\\Users\\oyole\\OneDrive\\Desktop\\cezdev\\cplatform";
+		}
+
 		CControls ccontrols = new CControls();
 		ccontrols.form("myform", "This is the form title", null);	
+		ccontrols.label("directory-path-label", "Directory Path: " + directoryPath, null);
 			
 			// create the menu items
 			ccontrols.menubar("menubar", "This is my menubar", null);

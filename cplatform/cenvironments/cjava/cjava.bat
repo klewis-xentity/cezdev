@@ -9,14 +9,22 @@ setlocal
 echo [CALLING] %~nx0
 set "CJAVAHOME=%CD%"
 
+if "%C3DCLASSES_NAME%"=="" set "C3DCLASSES_NAME=c3dclassessdk"
+if "%C3DCLASSES_VERSION%"=="" set "C3DCLASSES_VERSION=1.0"
+
 if "%C3DCLASSES_JAVA%"=="" (
-    echo [ERROR] C3DCLASSES_JAVA environment variable is not set.
-    endlocal
-    exit /b 1
+    set "C3DCLASSES_JAVA=%~dp0..\..\..\cdata\cmetadata\c3dclasses_java"
 )
 
 if "%C3DCLASSES_JAR%"=="" (
-    echo [ERROR] C3DCLASSES_JAR environment variable is not set.
+    set "C3DCLASSES_JAR=%C3DCLASSES_JAVA%\target\%C3DCLASSES_NAME%-%C3DCLASSES_VERSION%-jar-with-dependencies.jar"
+)
+
+echo [INFO] Using C3DCLASSES_JAVA: %C3DCLASSES_JAVA%
+echo [INFO] Using C3DCLASSES_JAR: %C3DCLASSES_JAR%
+
+if not exist "%C3DCLASSES_JAVA%\target" (
+    echo [ERROR] Java target directory does not exist: %C3DCLASSES_JAVA%\target
     endlocal
     exit /b 1
 )

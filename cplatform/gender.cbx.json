@@ -1,0 +1,8 @@
+{
+	"label": "gender",
+	"options": {
+		"Male": "m",
+		"Female": "f"
+	},
+	"handler": "./handler.bat"
+}

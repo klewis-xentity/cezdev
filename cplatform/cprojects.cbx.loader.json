@@ -1,0 +1,5 @@
+{
+	"label": "cprojects",
+	"optionsFromFolder": "./cprojects",
+	"handler": "./handler.bat"
+}
