@@ -334,3 +334,13 @@ control=cenvironments
 selected_label=cpy
 selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cpy
 
+[HANDLER] Tue 05/12/2026 16:39:40.39
+control=cenvironments
+selected_label=cjava
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjava
+
+[HANDLER] Tue 05/12/2026 16:39:55.53
+control=cenvironments
+selected_label=cjs
+selected_value=C:\Users\oyole\OneDrive\Desktop\cezdev\cplatform\.\cenvironments\cjs
+
