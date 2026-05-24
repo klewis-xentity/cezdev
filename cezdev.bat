@@ -7,36 +7,61 @@
 
 echo.
 echo ::---------------------------------------------------------------------------------------
-echo ::  (cezdev.bat) Starting EasyDeveloper (CEZDEV)...
+echo ::  (cezdev.bat - begin) Starting EasyDeveloper (CEZDEV)...
 echo ::---------------------------------------------------------------------------------------
 echo [CALLING] %~nx0
 
-::------------------------------------------------------
-:: Call the create script to initialize environment variables and directories
-::------------------------------------------------------
-call "%~dp0ccore\cezdev\cezdev.create.bat" "%~dp0"
+echo [SETTING] CEZDEV_HOME to %~dp0
+set CEZDEV_HOME=%~dp0
 
-::------------------------------------------------------
-:: Create initial metadata files if they don't exist
-::------------------------------------------------------
+::--------------------------------------------------------------------------------------------
+:: Call the create script to initialize environment variables and directories
+::--------------------------------------------------------------------------------------------
+echo.
+echo ::---------------------------------------------------------------------------------------
+echo :: (cezdev.create.bat - begin) Initializing environment variables and directories...
+echo ::---------------------------------------------------------------------------------------
+call "%CEZDEV_HOME%ccore\cezdev\cezdev.create.bat"
+echo ::---------------------------------------------------------------------------------------
+echo :: (cezdev.create.bat - end) Initializing environment variables and directories...
+echo ::---------------------------------------------------------------------------------------
+echo.
+
+echo.
+echo ::---------------------------------------------------------------------------------------
+echo :: (clibraries.*.create.bat - begin) Initializing libraries...
+echo ::---------------------------------------------------------------------------------------
 call scripts.call clibraries.*.create.bat
+echo ::---------------------------------------------------------------------------------------
+echo :: (clibraries.*.create.bat - end) Initializing libraries...
+echo ::---------------------------------------------------------------------------------------
+echo.
+
+echo.
+echo ::---------------------------------------------------------------------------------------
+echo :: (cenvironments.*.create.bat - begin) Initializing environments...
+echo ::---------------------------------------------------------------------------------------
 call scripts.call cenvironments.*.create.bat
-call scripts.call cprojects.*.create.bat
+echo ::---------------------------------------------------------------------------------------
+echo :: (cenvironments.*.create.bat - end) Initializing environments...
+echo ::---------------------------------------------------------------------------------------
+echo.
+::call scripts.call cprojects.*.create.bat
 
 ::------------------------------------------------------
 :: Optional: Start file monitoring (uncomment to enable)
 ::------------------------------------------------------
-set "MONITOR_CALLBACK=%CJAVA_MODIFIED_BAT%,%CENVIRONMENTS%\cjs\cjs.modified.bat,%CENVIRONMENTS%\cpy\cpy.modified.bat"
-call file.monitor.bat "%CCORE%,%CPLATFORM%" "%MONITOR_CALLBACK%"
+::set "MONITOR_CALLBACK=%CENVIRONMENTS%\cjava\cjava.modified.bat,%CENVIRONMENTS%\cjs\cjs.modified.bat,%CENVIRONMENTS%\cpy\cpy.modified.bat"
+::call "%CEZDEV%\file.monitor.bat" "%CCORE%,%CPLATFORM%" "%MONITOR_CALLBACK%"
 
 ::------------------------------------------------------
 :: Return to CEZDEV home
 ::------------------------------------------------------
 cd /d "%CEZDEV_HOME%"
-
+echo [INFO] Current directory: %CD%
 echo [ENDING] %~nx0
 echo ::---------------------------------------------------------------------------------------
-echo ::  System (cezdev.bat) ready
+echo ::  (cezdev.bat - end) System ready
 echo ::---------------------------------------------------------------------------------------
 echo.
 

@@ -27,8 +27,8 @@ if "%SCRIPTPATTERN%"=="" (
     goto :end
 )
 
-echo [INFO] Source path of scripts to call: %SRCPATH%
-echo [INFO] Pattern of scripts to call: %SCRIPTPATTERN%
+echo [ADDING] Source path of scripts to call: %SRCPATH%
+echo [ADDING] Pattern of scripts to call: %SCRIPTPATTERN%
 
 for /r "%SRCPATH%" %%F in (%SCRIPTPATTERN%) do (
     if exist "%%F" (

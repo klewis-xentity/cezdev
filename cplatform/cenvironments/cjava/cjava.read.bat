@@ -4,8 +4,15 @@
 ::------------------------------------------------------------------------------------------
 
 @echo off
+setlocal
 
 echo [CALLING] %~nx0
+
+if "%CMETADATA%"=="" (
+    echo [ERROR] CMETADATA environment variable is not set.
+    endlocal
+    exit /b 1
+)
 
 ::------------------------------------------------------
 :: Define C3DClasses SDK metadata
@@ -45,3 +52,5 @@ if exist "%C3DCLASSES_JAR%" (
 )
 
 echo [ENDING] %~nx0
+endlocal
+exit /b 0

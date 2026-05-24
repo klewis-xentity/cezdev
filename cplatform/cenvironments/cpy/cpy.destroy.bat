@@ -1,6 +1,6 @@
 ::------------------------------------------------------------------------------------------
-:: name: cjava.destroy.bat
-:: desc: Removes the Java environment from C3DClasses SDK
+:: name: cpy.destroy.bat
+:: desc: Removes the Python environment from C3DClasses SDK
 ::------------------------------------------------------------------------------------------
 
 @echo off
@@ -18,21 +18,21 @@ if "%CMETADATA%"=="" (
 )
 
 ::------------------------------------------------------
-:: Remove Java environment directory
+:: Remove Python environment directory
 ::------------------------------------------------------
-set "C3DCLASSES_JAVA=%CMETADATA%\c3dclasses_java"
+set "C3DCLASSES_PY=%CMETADATA%\c3dclasses_py"
 
-if exist "%C3DCLASSES_JAVA%" (
-    echo [REMOVING] %C3DCLASSES_JAVA%
-    rmdir /s /q "%C3DCLASSES_JAVA%"
-    if exist "%C3DCLASSES_JAVA%" (
-        echo [ERROR] Failed to remove Java environment: %C3DCLASSES_JAVA%
+if exist "%C3DCLASSES_PY%" (
+    echo [REMOVING] %C3DCLASSES_PY%
+    rmdir /s /q "%C3DCLASSES_PY%"
+    if exist "%C3DCLASSES_PY%" (
+        echo [ERROR] Failed to remove Python environment: %C3DCLASSES_PY%
         endlocal
         exit /b 1
     )
-    echo [OK] Java environment removed.
+    echo [OK] Python environment removed.
 ) else (
-    echo [INFO] Java environment directory does not exist.
+    echo [INFO] Python environment directory does not exist.
 )
 
 echo [ENDING] %~nx0

@@ -5,7 +5,6 @@
 ::------------------------------------------------------------------------------------------
 
 @echo off
-setlocal
 echo [CALLING] %~nx0
 set "CJAVAHOME=%CD%"
 
@@ -41,4 +40,3 @@ call java -cp "%CJAVAHOME%;%C3DCLASSES_JAR%" %*
 
 cd /d "%CJAVAHOME%"
 echo [ENDING] %~nx0
-endlocal

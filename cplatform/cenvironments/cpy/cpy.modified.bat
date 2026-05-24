@@ -13,7 +13,7 @@ echo [PARAM] filepath: %~2
 echo [PARAM] platform: %~3
 echo [PARAM] platform_name: %~4
 
-call "%~dp0cpy.update.bat"
+call cpy.update.bat
 
 :end
 echo [ENDING] %~nx0

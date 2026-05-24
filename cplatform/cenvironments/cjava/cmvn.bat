@@ -2,64 +2,41 @@
 :: name: cmvn.bat
 :: desc: runs Maven build and generates filenames JSON
 ::------------------------------------------------------------------------------------------
-
 @echo off
-setlocal enabledelayedexpansion
 
-:: Save the current directory
-set "CMVN_HOME=%CD%"
-echo [CALLING] %~nx0
-echo [STARTED] %date% %time%
-set "START_TIME=%time%"
+set "C3DCLASSES_NAME=c3dclassessdk"
+set "C3DCLASSES_VERSION=1.0"
+set "C3DCLASSES_JARFILE=%C3DCLASSES_JAVAPATH%\target\%C3DCLASSES_NAME%-%C3DCLASSES_VERSION%-jar-with-dependencies.jar"
+set "src=%C3DCLASSES%"
+set "dst=%C3DCLASSES_JAVAPATH%"
 
-:: Set defaults for required environment variables
-if "%CEZDEV_HOME%"=="" set "CEZDEV_HOME=%CD%"
-if "%CMETADATA%"=="" set "CMETADATA=%CEZDEV_HOME%\cdata\cmetadata"
-if "%CENVIRONMENTS%"=="" set "CENVIRONMENTS=%CEZDEV_HOME%\cplatform\cenvironments"
-if "%C3DCLASSES%"=="" set "C3DCLASSES=%CEZDEV_HOME%\ccore\c3dclasses"
-if "%C3DCLASSES_NAME%"=="" set "C3DCLASSES_NAME=c3dclassessdk"
-if "%C3DCLASSES_VERSION%"=="" set "C3DCLASSES_VERSION=1.0"
-if "%src%"=="" set "src=%C3DCLASSES%"
-if "%dst%"=="" set "dst=%CMETADATA%\c3dclasses_java"
-
-echo [INFO] CEZDEV_HOME: %CEZDEV_HOME%
-echo [INFO] CMETADATA: %CMETADATA%
-echo [INFO] C3DCLASSES_NAME: %C3DCLASSES_NAME%
-echo [INFO] C3DCLASSES_VERSION: %C3DCLASSES_VERSION%
-echo [INFO] Source directory: %src%
-echo [INFO] Destination directory: %dst%
-
-echo [STEP] Generating c3dclassessdk filenames JSON...
-call path.list.bat "%CMETADATA%\c3dclassessdk.filenames.json" "%src%"
-cd /d "%dst%"
-echo [STEP] Running Maven build...
-call mvn clean install test -e -Drelease.artifactId=%C3DCLASSES_NAME% -Drelease.version=%C3DCLASSES_VERSION% -Drelease.path=%CEZDEV_HOME%
-echo [STEP] Generating c3dclasses_java filenames JSON...
-call path.list.bat "%CMETADATA%\c3dclasses_java.filenames.json" "%dst%"
-echo [STEP] Generating c3dclasses filenames JSON...
-call path.list.bat "%CMETADATA%\c3dclasses.filenames.json" "%src%"
-
-set "END_TIME=%time%"
-echo [ENDED] %date% !END_TIME!
-
-for /f "tokens=1-4 delims=:.," %%a in ("!START_TIME!") do (
-   set /a start_seconds=%%a*3600+%%b*60+%%c
+if "%C3DCLASSES_JAVAPATH%"=="" (
+   echo [ERROR] C3DCLASSES_JAVAPATH is not set.
+   endlocal
+   exit /b 1
 )
 
-for /f "tokens=1-4 delims=:.," %%a in ("!END_TIME!") do (
-   set /a end_seconds=%%a*3600+%%b*60+%%c
+if not exist "%C3DCLASSES_JAVAPATH%\pom.xml" (
+   echo [ERROR] pom.xml not found in %C3DCLASSES_JAVAPATH%
+   endlocal
+   exit /b 1
 )
 
-if !end_seconds! lss !start_seconds! set /a end_seconds=!end_seconds!+86400
-set /a elapsed_seconds=!end_seconds!-!start_seconds!
-set /a hours=!elapsed_seconds!/3600
-set /a minutes=((!elapsed_seconds!%%3600))/60
-set /a seconds=!elapsed_seconds!%%60
+if exist "%C3DCLASSES_JARFILE%" (
+   echo [INFO] Found existing JAR file: %C3DCLASSES_JARFILE% skipping Maven build. Delete the JAR file to force a rebuild.
+) else (
+   echo [WARNING] JAR file not found: %C3DCLASSES_JARFILE%
+   echo [WARNING] Maven build may fail if the JAR file is required for compilation.
+   echo [BUILDING] Maven build...
+   pushd "%dst%"
+   call mvn clean install test -e -Drelease.artifactId=%C3DCLASSES_NAME% -Drelease.version=%C3DCLASSES_VERSION% -Drelease.path=%CEZDEV_HOME%
+   set "MVN_EXIT_CODE=%ERRORLEVEL%"
+   popd
+   if not "%MVN_EXIT_CODE%"=="0" (
+      echo [ERROR] Maven build failed with exit code %MVN_EXIT_CODE%.
+      endlocal
+      exit /b %MVN_EXIT_CODE%
+   )
+)
 
-echo [DURATION] started: !START_TIME! - ended: !END_TIME!
-echo [ELAPSED] !hours!h !minutes!m !seconds!s
-echo [ENDING] %~nx0
-cd /d "%CMVN_HOME%"
-endlocal
-pause
-exit
+

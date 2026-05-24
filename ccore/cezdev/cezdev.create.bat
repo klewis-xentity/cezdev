@@ -3,24 +3,23 @@ echo [CALLING] %~nx0
 ::------------------------------------------------------
 :: Save baseline environment variables
 ::------------------------------------------------------
+echo [SAVING] Baseline environment variables ...
 set CBASEENVVARS=%~1cdata\cmetadata\baseline_vars.txt
-echo [SAVE] %CBASEENVVARS%
+echo [SAVING] %CBASEENVVARS%
 set > "%CBASEENVVARS%"
 
 ::------------------------------------------------------
 :: Initialize CEZDEV variables
 ::------------------------------------------------------
-echo [INIT] CEZDEV variables...
+echo [SETTING] CEZDEV environment variables ...
 set CEZDEV_VERSION=1.0
 set CEZDEV_NAME=CEZDEV
 set CEZDEV_DEBUG=true
-set CEZDEV_HOME=%~1
 set CCORE=%CEZDEV_HOME%ccore
 set CPLATFORM=%CEZDEV_HOME%cplatform
 set CEZDEV=%CCORE%\cezdev
 set C3DCLASSES=%CCORE%\c3dclasses
 set CLIBRARIES=%CPLATFORM%\clibraries
-set _CLIBRARIES=%CPLATFORM%\clibraries
 set CBOOT=%_CLIBRARIES%\cboot
 set CVIDEOS=%CEZDEV_HOME%cdata\cvideo
 set CMETADATA=%CEZDEV_HOME%cdata\cmetadata
@@ -30,11 +29,14 @@ set CENVIRONMENTS=%CPLATFORM%\cenvironments
 set CMETADATA_CVARS=%CMETADATA%\cvars.json
 set CMEMORY_DRIVER=json
 set CWSL=\\wsl.localhost\Ubuntu\home\c3dclasses
-set PATH=%CEZDEV%;%CENVIRONMENTS%\cjava;%CENVIRONMENTS%\cjs;%CENVIRONMENTS%\cpy;%PATH%
+
+echo [ADDING] cezdev scripts directory to PATH ...
+set PATH=%CEZDEV%;%PATH%
 
 ::------------------------------------------------------
 :: Ensure required directories exist
 ::------------------------------------------------------
+echo [CHECKING] Required directories ...
 IF NOT EXIST "%CMETADATA%" (
     mkdir "%CMETADATA%"
     echo [MKDIR] %CMETADATA%
