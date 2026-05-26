@@ -1,0 +1,28 @@
+{
+	"_m_csv_header": {"Student ID":0, "Class":1, "Grade":2}, 
+	"_m_key_field" : "studentid",
+	"studentid": {
+		"_m_csv_field": "Student ID",
+		"_m_type": "str"	
+	},
+	"classes": {
+		"_m_type": [ {
+					"_m_type": {
+						"_m_key_field":"class",
+						"class" : {
+							"_m_csv_field":"Class",
+							"_m_type": "str"
+						},
+						"grade": {
+							"_m_csv_field":"[Grade]-[Class]",
+							"_m_type": "str"
+						}
+						"gpa": {
+							"_m_csv_field":"[Student ID]*900",
+							"_m_type": "num"
+						}
+					}
+				}
+			]
+	}
+}

@@ -1,0 +1,41 @@
+<html>
+<head>
+  <script type="text/javascript" src="http://use.typekit.com/mxh7kqd.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>  
+  <link rel="stylesheet" href="./css/styles.css" type="text/css" charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body id="arbor" ng-app="app" ng-controller="ctrl">
+
+  <section id="section-header">
+		<span id="title">Havil Hakini</span>
+		<span id="slogan">a graphical sequence validator</span>
+	</section><!-- end #section-header -->
+  
+  <section id="section-controls">
+		<div><textarea type="text" ng-model="inputSequences"></textarea></div>
+    <form id="uploader" action="upload.php" method="post" enctype="multipart/form-data">
+      <div><input type="file" name="fileToUpload" value="fileToUpload"></div>		
+      <div><input type="submit" name="submit" value="Upload Image"></div>		
+    </form>
+    <div><button ng-click="validate()">Validate</button></div>
+  </section><!-- end #section-controls -->			
+  
+  <section id="section-main">
+		<canvas id="sitemap" width="800" height="400"></canvas>
+	</section><!-- end #section-main-->
+
+  <!-- javascript -->
+  <script src="./js/jquery.min.js"></script>
+  <script src="./arbor-v0.92/lib/arbor.js"></script>
+  <script src="./arbor-v0.92/lib/arbor-tween.js"></script>
+  <script src="http://arborjs.org/js/lib/arbor-graphics.js"></script>
+  <!-- <script src="./site.js"></script> -->
+  <script src="./js/functions.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
+  <script src="./js/angular-ui.js"></script>
+  
+<script>
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "_m_csv_header": {
+    "Student ID": { "index": 0 },
+    "Class": 1,
+    "Grade": 2,
+    "Area": 3,
+    "Mentor": 4,
+    "StudentID-Class": {
+        "_m_index": 5,
+        "_m_combine_fields": {
+          "_m_indices": [ 0, 1 ],
+          "_m_token": "-"
+        }  
+      }
+    },
+    "_m_key_field": "studentid",
+    "studentid": {
+      "_m_csv_field": "Student ID",
+      "_m_type": "str"
+    },
+    "classes": {
+      "_m_type": [
+        {
+          "_m_type": {
+            "_m_key_field": "class",
+            "class": {
+              "_m_csv_field": "Class",
+              "_m_type": "str"
+            },
+            "grade": {
+              "_m_csv_field": "Grade",
+              "_m_type": "str"
+            }
+          }
+        }
+      ]
+    },
+    "research": {
+      "_m_type": [
+        {
+          "_m_type": {
+            "area": {
+              "_m_type": "str",
+              "_m_csv_field": "Area"
+            },
+            "mentor": {
+              "_m_type": "str",
+              "_m_csv_field": "Mentor"
+            }
+          }
+        }
+      ]
+    }
+  }

@@ -1,0 +1,54 @@
+{
+  "items": [
+    {
+      "studentid": "001",
+      "classes": [
+        {
+          "grade": "A",
+          "class": "Biology"
+        },
+        {
+          "grade": "B",
+          "class": "Chemistry"
+        },
+        {
+          "grade": "C",
+          "class": "Programming"
+        }
+      ],
+      "research": [
+        {
+          "area": "Neural Models",
+          "mentor": "Markov"
+        },
+        {
+          "area": "Compiler",
+          "mentor": "Joe"
+        }
+      ]
+    },
+    {
+      "studentid": "002",
+      "classes": [
+        {
+          "grade": "A",
+          "class": "English"
+        },
+        {
+          "grade": "B",
+          "class": "Philosophy"
+        }
+      ],
+      "research": [
+        {
+          "area": "Trees",
+          "mentor": "Amotz"
+        },
+        {
+          "area": "Software Transformation",
+          "mentor": "Zeplin"
+        }
+      ]
+    }
+  ]
+}

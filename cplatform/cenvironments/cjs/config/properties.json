@@ -1,0 +1,15 @@
+{
+	"[entry-js-file]": "./node_app/index.js",
+	"[entry-html-file]":"./node_app/index.html",
+	"[output-path]": "node_app/dist",
+	"[output-file]": "index-bundle.js",
+	"[files-to-test]":"/\.js$/" ,
+	"[files-to-exclude]":"/(node_modules|java|boot)/",
+	
+	"[entry-html-div-id]": "app",
+	
+	"[presets]": "[\"env\", \"react\"]"
+	
+	"[component-file]": "../c3dclassessdk/App"
+	"[component-class]": "App"
+}

@@ -13,7 +13,18 @@ echo [PARAM] filepath: %~2
 echo [PARAM] platform: %~3
 echo [PARAM] platform_name: %~4
 
-call cpy.update.bat
+if /I "%~3"=="clibraries" (
+	echo [SKIP] Ignoring library change to avoid callback loops.
+	goto end
+)
+
+echo %~2 | findstr /I /C:"\\site-packages\\" /C:"\\__pycache__\\" >nul
+if not errorlevel 1 (
+	echo [SKIP] Ignoring Python cache/site-packages change.
+	goto end
+)
+
+call "%~dp0cpy.update.bat"
 
 :end
 echo [ENDING] %~nx0

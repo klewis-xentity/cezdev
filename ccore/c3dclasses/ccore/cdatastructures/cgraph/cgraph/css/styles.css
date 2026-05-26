@@ -1,0 +1,77 @@
+body {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+section {
+  display: inline;  
+}
+
+#section-controls {
+    padding: 10px;
+    display: inline;
+    position: absolute;
+    right:0;
+    top:0;
+    opacity: 0.5;
+}
+
+#section-controls:hover {
+    opacity: 1.0;
+}
+
+
+
+#section-header {
+    display: inline;
+    position: absolute;
+    top:0;
+    left: 0;
+}
+
+#title {
+    display: inline;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 30px;
+    line-height: 1.42857143;
+    color: rgb(90, 90, 90);
+    margin-left: 20px;
+
+}
+
+#slogan {
+    display: inline;
+    font-family: "athelas-1","athelas-2",serif;
+    font-size: 15px;
+    line-height: 1.42857143;
+    font-style: italic;
+    color: #887;
+    margin-left: 20px;
+}
+/*
+#nav {
+    background: transparent url(logo.png) 40px 0 no-repeat;
+    font-style: italic;
+    color: #887;
+    padding: 17px 0 0 160px;
+    height: 30px;
+    margin: 0px 0px 0 0px;
+    border-bottom: 1px solid #bbb;
+    padding: 0
+}
+*/
+section-main {
+    height: 100vh;
+    width: 100vw;
+}
+
+textarea {
+    width: 200px;
+    height: 200px;
+}
+
+input, button {
+    padding: 5px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+}
