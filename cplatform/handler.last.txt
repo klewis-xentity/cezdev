@@ -489,3 +489,28 @@ control=gender
 selected_label=Female
 selected_value=f
 
+[HANDLER] Sat 05/30/2026 22:43:40.76
+control=cenvironments
+selected_label=cjs
+selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cenvironments\cjs
+
+[HANDLER] Sat 05/30/2026 22:43:53.49
+control=cenvironments
+selected_label=cjava
+selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cenvironments\cjava
+
+[HANDLER] Sat 05/30/2026 22:43:58.66
+control=cenvironments
+selected_label=cjs
+selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cenvironments\cjs
+
+[HANDLER] Sat 05/30/2026 22:44:13.35
+control=cprojects-select-loader
+selected_label=llmautograder
+selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cprojects\llmautograder
+
+[HANDLER] Sun 05/31/2026  7:54:48.34
+control=cenvironments
+selected_label=cjava
+selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cenvironments\cjava
+

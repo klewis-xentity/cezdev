@@ -47,14 +47,21 @@ echo :: (cenvironments.*.create.bat - end) Initializing environments...
 echo ::---------------------------------------------------------------------------------------
 echo.
 
-
-::call scripts.call cprojects.*.create.bat
+echo.
+echo ::---------------------------------------------------------------------------------------  
+echo :: (cprojects.*.create.bat - begin) Initializing projects...
+echo ::---------------------------------------------------------------------------------------
+call scripts.call cprojects.*.create.bat
+echo ::---------------------------------------------------------------------------------------
+echo :: (cprojects.*.create.bat - end) Initializing projects...
+echo ::---------------------------------------------------------------------------------------
+echo.
 
 ::------------------------------------------------------
 :: Optional: Start file monitoring (uncomment to enable)
 ::------------------------------------------------------
 set "MONITOR_CALLBACK=%CENVIRONMENTS%\cjava\cjava.modified.bat,%CENVIRONMENTS%\cjs\cjs.modified.bat,%CENVIRONMENTS%\cpy\cpy.modified.bat"
-start "%CEZDEV%\file.monitor.bat" "%CCORE%,%CPLATFORM%" "%MONITOR_CALLBACK%"
+start file.monitor.bat "%CCORE%,%CPLATFORM%" "%MONITOR_CALLBACK%"
 
 ::------------------------------------------------------
 :: Return to CEZDEV home
