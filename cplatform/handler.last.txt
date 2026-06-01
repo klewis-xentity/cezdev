@@ -514,3 +514,28 @@ control=cenvironments
 selected_label=cjava
 selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cenvironments\cjava
 
+[HANDLER] Sun 05/31/2026 15:01:21.43
+control=cenvironments
+selected_label=cjava
+selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cenvironments\cjava
+
+[HANDLER] Sun 05/31/2026 15:01:33.09
+control=cprojects
+selected_label=
+selected_value=
+
+[HANDLER] Sun 05/31/2026 15:01:38.07
+control=cprojects-select-loader
+selected_label=voyager
+selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cprojects\voyager
+
+[HANDLER] Sun 05/31/2026 15:01:42.86
+control=gender
+selected_label=Female
+selected_value=f
+
+[HANDLER] Sun 05/31/2026 15:01:47.79
+control=test
+selected_label=
+selected_value=
+
