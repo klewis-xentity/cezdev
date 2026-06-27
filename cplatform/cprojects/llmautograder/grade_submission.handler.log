@@ -1,0 +1,257 @@
+Select a submission id before clicking Grade Submission. 
+[Tue 06/16/2026  2:47:39.28] grading submission 10000000 
+[Tue 06/16/2026  2:59:05.05] grading submission 10000000 
+[Tue 06/16/2026  2:59:05.07] Running grade_submission.bat for submission 10000000
+
+[CALLING] alert.bat
+[ENDING] alert.bat
+
+============================================================
+  GRADING SUBMISSION: "10000000"
+============================================================
+
+Mode: Full Submission Grading
+
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+
+============================================================
+  GRADING COMPLETE
+============================================================
+[Tue 06/16/2026  2:59:25.48] grading submission 10000000 
+[Tue 06/16/2026  2:59:25.49] Running grade_submission.bat for submission 10000000
+
+[CALLING] alert.bat
+[ENDING] alert.bat
+
+============================================================
+  GRADING SUBMISSION: "10000000"
+============================================================
+
+Mode: Full Submission Grading
+
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+
+============================================================
+  GRADING COMPLETE
+============================================================
+[Thu 06/18/2026  2:17:07.98] grading submission 10000000 
+[Thu 06/18/2026  2:17:08.03] Running grade_submission.bat for submission 10000000
+
+[CALLING] alert.bat
+[ENDING] alert.bat
+
+============================================================
+  GRADING SUBMISSION: "10000000"
+============================================================
+
+Mode: Full Submission Grading
+
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+
+============================================================
+  GRADING COMPLETE
+============================================================
+[Thu 06/18/2026  2:50:59.20] grading submission 10000000 
+[Thu 06/18/2026  2:50:59.21] Running grade_submission.bat for submission 10000000
+
+[CALLING] alert.bat
+[ENDING] alert.bat
+
+============================================================
+  GRADING SUBMISSION: "10000000"
+============================================================
+
+Mode: Full Submission Grading
+
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+
+============================================================
+  GRADING COMPLETE
+============================================================
+[Thu 06/18/2026  2:57:41.45] grading submission 1 
+[Thu 06/18/2026  2:57:41.46] Running grade_submission.bat for submission 1
+
+[CALLING] alert.bat
+[ENDING] alert.bat
+
+============================================================
+  GRADING SUBMISSION: "1"
+============================================================
+
+Mode: Full Submission Grading
+
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+
+============================================================
+  GRADING COMPLETE
+============================================================
+[Thu 06/18/2026  3:49:40.21] grading submission 1 
+[Thu 06/18/2026  3:49:40.22] Running grade_submission.bat for submission 1
+
+[CALLING] alert.bat
+[ENDING] alert.bat
+
+============================================================
+  GRADING SUBMISSION: "1"
+============================================================
+
+Mode: Full Submission Grading
+
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+
+============================================================
+  GRADING COMPLETE
+============================================================
+[Thu 06/18/2026  3:50:11.30] grading submission 2 
+[Thu 06/18/2026  3:50:11.31] Running grade_submission.bat for submission 2
+
+[CALLING] alert.bat
+[ENDING] alert.bat
+
+============================================================
+  GRADING SUBMISSION: "2"
+============================================================
+
+Mode: Full Submission Grading
+
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+
+============================================================
+  GRADING COMPLETE
+============================================================
+[Thu 06/18/2026  4:06:21.02] grading submission 2 
+[Thu 06/18/2026  4:06:21.07] Running grade_submission.bat for submission 2
+
+[CALLING] alert.bat
+[ENDING] alert.bat
+
+============================================================
+  GRADING SUBMISSION: "2"
+============================================================
+
+Mode: Full Submission Grading
+
+Traceback (most recent call last):
+  File "C:\Users\oyole\Desktop\cezdev\cplatform\cprojects\llmautograder\llmautograder\src\grade_submission.py", line 10, in <module>
+    import fire
+ModuleNotFoundError: No module named 'fire'
+[Thu 06/18/2026  4:09:54.47] grading submission 2 
+[Thu 06/18/2026  4:09:54.52] Running grade_submission.bat for submission 2
+
+[CALLING] alert.bat
+[ENDING] alert.bat
+
+============================================================
+  GRADING SUBMISSION: "2"
+============================================================
+
+Mode: Full Submission Grading
+
+Traceback (most recent call last):
+  File "C:\Users\oyole\Desktop\cezdev\cplatform\cprojects\llmautograder\llmautograder\src\grade_submission.py", line 13, in <module>
+    from c3dclasses.csystem.cai.cllm.cllm import CLLM
+ModuleNotFoundError: No module named 'c3dclasses'
+[Thu 06/18/2026  4:10:10.09] grading submission 2 
+[Thu 06/18/2026  4:10:10.10] Running grade_submission.bat for submission 2
+
+[CALLING] alert.bat
+[ENDING] alert.bat
+
+============================================================
+  GRADING SUBMISSION: "2"
+============================================================
+
+Mode: Full Submission Grading
+
+Traceback (most recent call last):
+  File "C:\Users\oyole\Desktop\cezdev\cplatform\cprojects\llmautograder\llmautograder\src\grade_submission.py", line 13, in <module>
+    from c3dclasses.csystem.cai.cllm.cllm import CLLM
+ModuleNotFoundError: No module named 'c3dclasses'
+[Thu 06/18/2026  4:19:02.97] grading submission 2 
+[Thu 06/18/2026  4:19:02.98] Running grade_submission.bat for submission 2
+
+
+============================================================
+  GRADING SUBMISSION: "2"
+============================================================
+
+Mode: Full Submission Grading
+
+Traceback (most recent call last):
+  File "C:\Users\oyole\Desktop\cezdev\cplatform\cprojects\llmautograder\llmautograder\src\grade_submission.py", line 13, in <module>
+    from c3dclasses.csystem.cai.cllm.cllm import CLLM
+ModuleNotFoundError: No module named 'c3dclasses'
+[Thu 06/18/2026  4:19:35.21] grading submission 2 
+[Thu 06/18/2026  4:19:35.23] Running grade_submission.bat for submission 2
+
+
+============================================================
+  GRADING SUBMISSION: "2"
+============================================================
+
+Mode: Full Submission Grading
+
+Traceback (most recent call last):
+  File "C:\Users\oyole\Desktop\cezdev\cplatform\cprojects\llmautograder\llmautograder\src\grade_submission.py", line 13, in <module>
+    from c3dclasses.csystem.cai.cllm.cllm import CLLM
+ModuleNotFoundError: No module named 'c3dclasses'
+[Thu 06/18/2026  4:22:02.05] grading submission 2 
+[Thu 06/18/2026  4:22:02.13] Running grade_submission.bat for submission 2
+
+
+============================================================
+  GRADING SUBMISSION: 2
+============================================================
+
+Mode: Full Submission Grading
+
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+
+============================================================
+  GRADING COMPLETE
+============================================================
+[Thu 06/18/2026  4:22:12.23] grading submission 2 
+[Thu 06/18/2026  4:22:12.42] Running grade_submission.bat for submission 2
+
+
+============================================================
+  GRADING SUBMISSION: 2
+============================================================
+
+Mode: Full Submission Grading
+
+Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.
+'cmdcautograderdirpathsubmissionspathrubricpathtemplatecodepath"' is not recognized as an internal or external command,
+operable program or batch file.
+
+============================================================
+  GRADING COMPLETE
+============================================================
+[Thu 06/18/2026  4:22:29.41] grading submission 2 
+[Thu 06/18/2026  4:22:29.45] Running grade_submission.bat for submission 2
+
+
+============================================================
+  GRADING SUBMISSION: 2
+============================================================
+
+Mode: Full Submission Grading
+
+Traceback (most recent call last):
+  File "C:\Users\oyole\Desktop\cezdev\cplatform\cprojects\llmautograder\llmautograder\src\grade_submission.py", line 13, in <module>
+    from c3dclasses.csystem.cai.cllm.cllm import CLLM
+ModuleNotFoundError: No module named 'c3dclasses'
+[Thu 06/18/2026  4:24:01.13] grading submission 2 
+[Thu 06/18/2026  4:24:01.13] Running grade_submission.bat for submission 2
+
+
+============================================================
+  GRADING SUBMISSION: 2
+============================================================
+
+Mode: Full Submission Grading
+
+Traceback (most recent call last):
+  File "C:\Users\oyole\Desktop\cezdev\cplatform\cprojects\llmautograder\llmautograder\src\grade_submission.py", line 13, in <module>
+    from c3dclasses.csystem.cai.cllm.cllm import CLLM
+ModuleNotFoundError: No module named 'c3dclasses'

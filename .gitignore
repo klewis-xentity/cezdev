@@ -1,4 +1,4 @@
-clibraries
-cprojects
 cdata
 node_modules
+*.class
+*.exe

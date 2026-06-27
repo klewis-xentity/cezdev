@@ -1,0 +1,5 @@
+{
+	"label": "cenvironments",
+	"optionsFromFolder": "./cenvironments",
+	"handler": "./handler.bat"
+}

@@ -1,0 +1,13 @@
+[Thu 06/18/2026  4:24:01.13] Running grade_submission.bat for submission 2
+
+
+============================================================
+  GRADING SUBMISSION: 2
+============================================================
+
+Mode: Full Submission Grading
+
+Traceback (most recent call last):
+  File "C:\Users\oyole\Desktop\cezdev\cplatform\cprojects\llmautograder\llmautograder\src\grade_submission.py", line 13, in <module>
+    from c3dclasses.csystem.cai.cllm.cllm import CLLM
+ModuleNotFoundError: No module named 'c3dclasses'

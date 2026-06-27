@@ -1,0 +1,4 @@
+{
+	"label": "Grade Submission",
+	"handler": "./grade_submission_handler.bat"
+}

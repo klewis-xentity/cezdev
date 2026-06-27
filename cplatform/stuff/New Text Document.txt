@@ -1,0 +1,1 @@
+call alert "inside the handler"

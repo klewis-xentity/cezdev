@@ -1,0 +1,4 @@
+{
+	"label": "Open Log",
+	"handler": "./open_log_handler.bat"
+}

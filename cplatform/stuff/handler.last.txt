@@ -1,0 +1,20 @@
+[HANDLER] Thu 06/18/2026  2:56:16.80
+control=cprojects-select-loader
+selected_label=stream-messages
+selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cprojects\stream-messages
+
+[HANDLER] Thu 06/18/2026  2:56:32.05
+control=cprojects-select-loader
+selected_label=llmautograder
+selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cprojects\llmautograder
+
+[HANDLER] Thu 06/18/2026  3:43:34.68
+control=cprojects-select-loader
+selected_label=stream-messages
+selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cprojects\stream-messages
+
+[HANDLER] Thu 06/18/2026  3:43:43.12
+control=cprojects-select-loader
+selected_label=llmautograder
+selected_value=C:\Users\oyole\Desktop\cezdev\cplatform\.\cprojects\llmautograder
+
