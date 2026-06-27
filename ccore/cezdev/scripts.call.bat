@@ -32,7 +32,6 @@ echo [ADDING] Pattern of scripts to call: %SCRIPTPATTERN%
 
 for /r "%SRCPATH%" %%F in (%SCRIPTPATTERN%) do (
     if exist "%%F" (
-        echo.
         echo [EXECUTING] %%~nxF
         call "%%F"
     )

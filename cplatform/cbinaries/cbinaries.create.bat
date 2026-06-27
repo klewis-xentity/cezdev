@@ -1,24 +1,40 @@
-set 7zip.home=%~dp07zip
-set 7zip.bin=%~dp07zip
-set apache-maven.home=%~dp0apache-maven
-set apache-maven.bin=%~dp0apache-maven\apache-maven-3.9.10\bin
-set comfyui.home=%~dp0comfyui
-set comfyui.bin=%~dp0comfyui
-set docker.home=%~dp0docker
-set docker.bin=%~dp0docker
-set git.home=%~dp0git
-set git.bin=%~dp0git
-set java.home=%~dp0java
-set java.bin=%~dp0java\jdk-24.0.1\bin
-set make.home=%~dp0make
-set make.bin=%~dp0make\make-3.81-bin\bin
-set ngrok.home=%~dp0ngrok
-set ngrok.bin=%~dp0ngrok
-set node.home=%~dp0node
-set node.bin=%~dp0node\node-v22.17.1-win-x64\bin
-set notepad++.home=%~dp0notepad++
-set notepad++.bin=%~dp0notepad++\npp.7.6.2.bin.x64
-set other.home=%~dp0other
-set other.bin=%~dp0other
-set python.home=%~dp0python
-set python.bin=%~dp0python\Scripts
+@echo off
+
+:: Root directory for all binaries
+set "CBINARIES_HOME=D:\cbinaries"
+
+set "7zip.home=%CBINARIES_HOME%\7zip"
+set "7zip.bin=%CBINARIES_HOME%\7zip"
+
+set "apache-maven.home=%CBINARIES_HOME%\apache-maven"
+set "apache-maven.bin=%CBINARIES_HOME%\apache-maven\apache-maven-3.9.10\bin"
+
+set "comfyui.home=%CBINARIES_HOME%\comfyui"
+set "comfyui.bin=%CBINARIES_HOME%\comfyui"
+
+set "docker.home=%CBINARIES_HOME%\docker"
+set "docker.bin=%CBINARIES_HOME%\docker"
+
+set "git.home=%CBINARIES_HOME%\git"
+set "git.bin=%CBINARIES_HOME%\git"
+
+set "java.home=%CBINARIES_HOME%\java"
+set "java.bin=%CBINARIES_HOME%\java\jdk-24.0.1\bin"
+
+set "make.home=%CBINARIES_HOME%\make"
+set "make.bin=%CBINARIES_HOME%\make\make-3.81-bin\bin"
+
+set "ngrok.home=%CBINARIES_HOME%\ngrok"
+set "ngrok.bin=%CBINARIES_HOME%\ngrok"
+
+set "node.home=%CBINARIES_HOME%\node"
+set "node.bin=%CBINARIES_HOME%\node\node-v22.17.1-win-x64"
+
+set "notepad++.home=%CBINARIES_HOME%\notepad++"
+set "notepad++.bin=%CBINARIES_HOME%\notepad++\npp.7.6.2.bin.x64"
+
+set "other.home=%CBINARIES_HOME%\other"
+set "other.bin=%CBINARIES_HOME%\other"
+
+set "python.home=%CBINARIES_HOME%\python"
+set "python.bin=%CBINARIES_HOME%\python\python-3.13.13-embed-amd64"

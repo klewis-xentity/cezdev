@@ -1,12 +1,5 @@
 @echo off
 echo [CALLING] %~nx0
-::------------------------------------------------------
-:: Save baseline environment variables
-::------------------------------------------------------
-echo [SAVING] Baseline environment variables ...
-set CBASEENVVARS=%~1cdata\cmetadata\baseline_vars.txt
-echo [SAVING] %CBASEENVVARS%
-set > "%CBASEENVVARS%"
 
 ::------------------------------------------------------
 :: Initialize CEZDEV variables
@@ -19,6 +12,7 @@ set CCORE=%CEZDEV_HOME%ccore
 set CPLATFORM=%CEZDEV_HOME%cplatform
 set CEZDEV=%CCORE%\cezdev
 set C3DCLASSES=%CCORE%\c3dclasses
+set CBINARIES=%CPLATFORM%\cbinaries
 set CLIBRARIES=%CPLATFORM%\clibraries
 set CBOOT=%_CLIBRARIES%\cboot
 set CVIDEOS=%CEZDEV_HOME%cdata\cvideo
@@ -32,6 +26,14 @@ set CWSL=\\wsl.localhost\Ubuntu\home\c3dclasses
 
 echo [ADDING] cezdev scripts directory to PATH ...
 set PATH=%CEZDEV%;%PATH%
+
+::------------------------------------------------------
+:: Initialize cbinaries environment variables
+::------------------------------------------------------
+echo [SETTING] cbinaries environment variables %CBINARIES%\cbinaries.create.bat
+call "%CBINARIES%\cbinaries.create.bat"
+echo [ADDING] cbinaries scripts directory to PATH ...
+set PATH=%CBINARIES%;%PATH%
 
 ::------------------------------------------------------
 :: Ensure required directories exist
@@ -49,6 +51,14 @@ IF NOT EXIST "%CVIDEOS%" (
     mkdir "%CVIDEOS%"
     echo [MKDIR] %CVIDEOS%
 )
+
+::------------------------------------------------------
+:: Save baseline environment variables
+::------------------------------------------------------
+echo [SAVING] Baseline environment variables ...
+set CBASEENVVARS=%~1cdata\cmetadata\baseline_vars.txt
+echo [SAVING] %CBASEENVVARS%
+set > "%CBASEENVVARS%"
 
 scripts.copy.bat "%C3DCLASSES%" "%CMETADATA%\c3dclasses_bat"
 

@@ -37,31 +37,31 @@ echo :: (clibraries.*.create.bat - end) Initializing libraries...
 echo ::---------------------------------------------------------------------------------------
 echo.
 
-echo.
-echo ::---------------------------------------------------------------------------------------
-echo :: (cenvironments.*.create.bat - begin) Initializing environments...
-echo ::---------------------------------------------------------------------------------------
-call scripts.call cenvironments.*.create.bat
-echo ::---------------------------------------------------------------------------------------
-echo :: (cenvironments.*.create.bat - end) Initializing environments...
-echo ::---------------------------------------------------------------------------------------
-echo.
+::echo.
+::echo ::---------------------------------------------------------------------------------------
+::echo :: (cenvironments.*.create.bat - begin) Initializing environments...
+::echo ::---------------------------------------------------------------------------------------
+::call scripts.call cenvironments.*.create.bat
+::echo ::---------------------------------------------------------------------------------------
+::echo :: (cenvironments.*.create.bat - end) Initializing environments...
+::echo ::---------------------------------------------------------------------------------------
+::echo.
 
-echo.
-echo ::---------------------------------------------------------------------------------------  
-echo :: (cprojects.*.create.bat - begin) Initializing projects...
-echo ::---------------------------------------------------------------------------------------
-call scripts.call cprojects.*.create.bat
-echo ::---------------------------------------------------------------------------------------
-echo :: (cprojects.*.create.bat - end) Initializing projects...
-echo ::---------------------------------------------------------------------------------------
-echo.
+::echo.
+::echo ::---------------------------------------------------------------------------------------  
+::echo :: (cprojects.*.create.bat - begin) Initializing projects...
+::echo ::---------------------------------------------------------------------------------------
+::call scripts.call cprojects.*.create.bat
+::echo ::---------------------------------------------------------------------------------------
+::echo :: (cprojects.*.create.bat - end) Initializing projects...
+::echo ::---------------------------------------------------------------------------------------
+::echo.
 
 ::------------------------------------------------------
 :: Optional: Start file monitoring (uncomment to enable)
 ::------------------------------------------------------
-set "MONITOR_CALLBACK=%CENVIRONMENTS%\cjava\cjava.modified.bat,%CENVIRONMENTS%\cjs\cjs.modified.bat,%CENVIRONMENTS%\cpy\cpy.modified.bat"
-start file.monitor.bat "%CCORE%,%CPLATFORM%" "%MONITOR_CALLBACK%"
+::set "MONITOR_CALLBACK=%CENVIRONMENTS%\cjava\cjava.modified.bat,%CENVIRONMENTS%\cjs\cjs.modified.bat,%CENVIRONMENTS%\cpy\cpy.modified.bat"
+::start file.monitor.bat "%CCORE%,%CPLATFORM%" "%MONITOR_CALLBACK%"
 
 ::------------------------------------------------------
 :: Return to CEZDEV home
