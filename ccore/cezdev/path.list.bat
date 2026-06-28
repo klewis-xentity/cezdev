@@ -20,7 +20,7 @@ if "%~1"=="" (
 )
 
 cd /d "%SCRIPT_DIR%"
-cpy PathListCommand.py %*
+call pythonx PathListCommand.py %*
 cd /d "%PATHLISTHOME%"
 
 echo [ENDING] %~nx0

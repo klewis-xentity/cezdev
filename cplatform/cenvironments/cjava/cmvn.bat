@@ -29,7 +29,7 @@ if exist "%C3DCLASSES_JARFILE%" (
    echo [WARNING] Maven build may fail if the JAR file is required for compilation.
    echo [BUILDING] Maven build...
    pushd "%dst%"
-   call mvn clean install test -e -Drelease.artifactId=%C3DCLASSES_NAME% -Drelease.version=%C3DCLASSES_VERSION% -Drelease.path=%CEZDEV_HOME%
+   call mvn clean install test -e -Drelease.artifactId=%C3DCLASSES_NAME% -Drelease.version=%C3DCLASSES_VERSION% -Drelease.path=%CEZDEV_HOME% -Dother.home=%other.home%
    set "MVN_EXIT_CODE=%ERRORLEVEL%"
    popd
    if not "%MVN_EXIT_CODE%"=="0" (

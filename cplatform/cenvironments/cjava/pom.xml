@@ -35,14 +35,14 @@
         <artifactId>weka</artifactId>
         <scope>system</scope>
         <version>1</version>
-    <systemPath>${release.path}\cplatform\clibraries\other\weka-3-7-12\weka.jar</systemPath>
+    <systemPath>${other.home}\weka-3-7-12\weka.jar</systemPath>
     </dependency>
 	<dependency>
         <groupId>Jama</groupId>
         <artifactId>jama</artifactId>
         <scope>system</scope>
         <version>1</version>
-    <systemPath>${release.path}\cplatform\clibraries\other\Jama-1.0.3\Jama-1.0.3.jar</systemPath>
+    <systemPath>${other.home}\Jama-1.0.3\Jama-1.0.3.jar</systemPath>
     </dependency>
 	<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
 	<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->

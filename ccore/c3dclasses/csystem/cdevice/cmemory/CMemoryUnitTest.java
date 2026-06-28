@@ -23,7 +23,7 @@ public class CMemoryUnitTest extends CUnitTest {
 		CMemory cmemory3 = CMemory.use("cmemory-test3");
 		this.assertTrue(cmemory != null);
 		this.assertTrue(cmemory == cmemory2);
-		this.assertTrue(cmemory == cmemory3);
+		this.assertTrue(cmemory != cmemory3);
 		
 		// create
 		CReturn creturn = cmemory.create("kevin", "is here", "string", null);
