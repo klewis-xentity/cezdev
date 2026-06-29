@@ -1,0 +1,14 @@
+Installing collected packages: zstandard, xxhash, websockets, uuid-utils, urllib3, typing-extensions, tenacity, sniffio, pyyaml, python-dotenv, propcache, orjson, numpy, multidict, jsonpointer, idna, httpx-sse, h11, greenlet, frozenlist, distro, charset_normalizer, certifi, attrs, annotated-types, aiohappyeyeballs, yarl, typing-inspection, sqlalchemy, requests, pydantic-core, langchain-protocol, jsonpatch, httpcore, anyio, aiosignal, requests-toolbelt, pydantic, httpx, aiohttp, pydantic-settings, langsmith, langchain-core, langchain-text-splitters, langchain-classic, langchain_community
+   ━╸━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  2/46 [websockets]  WARNING: The script websockets.exe is installed in 'D:\cbinaries\python\python-3.13.13-embed-amd64\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+   ━━━━━━━╸━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  9/46 [python-dotenv]  WARNING: The script dotenv.exe is installed in 'D:\cbinaries\python\python-3.13.13-embed-amd64\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+   ━━━━━━━━━━╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12/46 [numpy]  WARNING: The scripts f2py.exe and numpy-config.exe are installed in 'D:\cbinaries\python\python-3.13.13-embed-amd64\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+   ━━━━━━━━━━━━━╺━━━━━━━━━━━━━━━━━━━━━━━━━━ 15/46 [idna]  WARNING: The script idna.exe is installed in 'D:\cbinaries\python\python-3.13.13-embed-amd64\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+   ━━━━━━━━━━━━━━━━━╺━━━━━━━━━━━━━━━━━━━━━━ 20/46 [distro]  WARNING: The script distro.exe is installed in 'D:\cbinaries\python\python-3.13.13-embed-amd64\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+   ━━━━━━━━━━━━━━━━━━╺━━━━━━━━━━━━━━━━━━━━━ 21/46 [charset_normalizer]  WARNING: The script normalizer.exe is installed in 'D:\cbinaries\python\python-3.13.13-embed-amd64\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+   ━━━━━━━━━━━━━━━━━━━━━━━━╺━━━━━━━━━━━━━━━ 28/46 [sqlalchemy]

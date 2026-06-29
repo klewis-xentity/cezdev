@@ -11,6 +11,13 @@ set "dst=%C3DCLASSES_PYPATH%"
 echo [INSTALLING] Python package (editable)...
 cd /d "%dst%"
 call pythonx.bat -m pip install --upgrade setuptools wheel
+if exist "%dst%\requirements.txt" (
+	echo [INSTALLING] Python requirements from %dst%\requirements.txt...
+	call pythonx.bat -m pip install -r "%dst%\requirements.txt"
+	if errorlevel 1 (
+		echo [ERROR] Failed to install Python requirements from %dst%\requirements.txt.
+	)
+)
 call pythonx.bat -m pip install --no-build-isolation -e .
 if errorlevel 1 (
 	echo [ERROR] Failed to install Python package from %dst%.

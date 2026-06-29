@@ -6,20 +6,51 @@ import json
 import re
 import os
 import logging
+import urllib.error
+import urllib.request
 from c3dclasses.ccore.cutility.cutility import extractTextFromFilename, writeTextToFilename
-from langchain_community.llms.ollama import Ollama
-from langchain_community.llms.openai import OpenAI
-from langchain.chains.question_answering import load_qa_chain
-from langchain_community.callbacks.manager import get_openai_callback
-from langchain.output_parsers import RetryWithErrorOutputParser
-from langchain_community.chat_models.openai import ChatOpenAI
-from langchain.schema import HumanMessage, SystemMessage
 
 #-----------------------------------------------
 # Initialize logging
 #-----------------------------------------------
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
+
+
+class CSimpleOllama:
+    def __init__(self, model="llama3.1", temperature=0.4, top_p=0.40, stop=None, api_base="http://localhost:11434"):
+        self.model = model
+        self.temperature = temperature
+        self.top_p = top_p
+        self.stop = stop
+        self.api_base = api_base.rstrip("/")
+
+    def invoke(self, prompt):
+        payload = {
+            "model": self.model,
+            "prompt": prompt,
+            "stream": False,
+            "options": {
+                "temperature": self.temperature,
+                "top_p": self.top_p
+            }
+        }
+        if self.stop:
+            payload["options"]["stop"] = self.stop
+
+        data = json.dumps(payload).encode("utf-8")
+        request = urllib.request.Request(
+            self.api_base + "/api/generate",
+            data=data,
+            headers={"Content-Type": "application/json"},
+            method="POST"
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=300) as response:
+                result = json.loads(response.read().decode("utf-8"))
+                return result.get("response", "")
+        except urllib.error.URLError as e:
+            raise RuntimeError("Unable to reach Ollama at " + self.api_base + ". Start Ollama and pull model " + self.model + ".") from e
 
 #------------------------------------------------------
 # name: CLLMSettings
@@ -175,6 +206,9 @@ class CLLMSettings:
     # end prompt()
         
     def _chain(self, strquestion, docs):
+        from langchain.chains.question_answering import load_qa_chain
+        from langchain_community.callbacks.manager import get_openai_callback
+
         llm = self._getLLM()
         chain = load_qa_chain(llm, chain_type=self.chain_type)
         with get_openai_callback() as cb:    
@@ -201,6 +235,8 @@ class CLLMSettings:
     # end getLLM()  
     
     def _get_chat_openai_platform(self):
+        from langchain_community.chat_models import ChatOpenAI
+
         return ChatOpenAI (
             model=self.model,  
             temperature=self.temperature,  
@@ -209,6 +245,8 @@ class CLLMSettings:
     # end _init_chat_openai_platform()
     
     def _get_openai_platform(self):
+        from langchain_community.llms.openai import OpenAI
+
         return OpenAI (
             model=self.model,   # Specify the non-chat model
             temperature=self.temperature,  
@@ -217,16 +255,30 @@ class CLLMSettings:
     # end _init_openai_platform()
     
     def _get_ollama_platform(self):
-        return Ollama (
-            model=self.model,
-            temperature=self.temperature,
-            #max_tokens=self.max_tokens,
-            top_p=self.top_p,
-            #top_k=self.top_k,
-            #frequency_penalty=self.frequency_penalty,
-            #presence_penalty=self.presence_penalty,
-            stop=self.stop
-        )      
+        try:
+            from langchain_community.llms.ollama import Ollama
+
+            return Ollama (
+                model=self.model,
+                temperature=self.temperature,
+                #max_tokens=self.max_tokens,
+                top_p=self.top_p,
+                #top_k=self.top_k,
+                #frequency_penalty=self.frequency_penalty,
+                #presence_penalty=self.presence_penalty,
+                stop=self.stop
+            )
+        except ModuleNotFoundError as e:
+            if e.name != "langchain_community":
+                raise
+            api_base = self.api_base.replace("/v1", "")
+            return CSimpleOllama(
+                model=self.model,
+                temperature=self.temperature,
+                top_p=self.top_p,
+                stop=self.stop,
+                api_base=api_base
+            )
     # end _init_chat_ollama_plafrom()
     
 # end CLLSettings
@@ -384,5 +436,4 @@ class CLLM (CLLMSettings):
         return final_summary
     # end summarize_large_text()    
 # end CLLM
-
 

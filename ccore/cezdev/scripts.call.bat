@@ -29,11 +29,13 @@ if "%SCRIPTPATTERN%"=="" (
 
 echo [ADDING] Source path of scripts to call: %SRCPATH%
 echo [ADDING] Pattern of scripts to call: %SCRIPTPATTERN%
-
+echo(
+    
 for /r "%SRCPATH%" %%F in (%SCRIPTPATTERN%) do (
     if exist "%%F" (
         echo [EXECUTING] %%~nxF from %%~dpF
         call "%%F"
+        echo(
     )
 )
 

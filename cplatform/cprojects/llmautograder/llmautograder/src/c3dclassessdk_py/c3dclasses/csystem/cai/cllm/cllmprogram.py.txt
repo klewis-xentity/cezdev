@@ -1,0 +1,4 @@
+form c3dclassessdk.csystem.cai.cllm import CLLM
+
+if __name__ == "__main__":
+    print("Running CLI")

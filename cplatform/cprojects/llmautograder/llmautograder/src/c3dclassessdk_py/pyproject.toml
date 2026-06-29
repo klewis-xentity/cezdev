@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "c3dclasses"                      # what users `pip install`
+version = "0.1.0"
+description = "C3D Classes SDK for Python"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+
+authors = [
+  { name="Your Name", email="you@example.com" }
+]
+
+dependencies = [
+  # add runtime dependencies here
+  # "requests>=2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourname/c3dclasses"

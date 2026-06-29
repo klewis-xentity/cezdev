@@ -56,8 +56,9 @@ if exist "%PYPROJECT_SRC%" (
 )
 
 :: Copying additional project files if they exist
-echo [COPYING] Additional project files if they exist including setup.cfg, README.md, LICENSE...
+echo [COPYING] Additional project files if they exist including setup.cfg, requirements.txt, README.md, LICENSE...
 if exist "%CPY_ENVPATH%\setup.cfg" copy /Y "%CPY_ENVPATH%\setup.cfg" "%dst%" >nul
+if exist "%CPY_ENVPATH%\requirements.txt" copy /Y "%CPY_ENVPATH%\requirements.txt" "%dst%" >nul
 if exist "%CPY_ENVPATH%\README.md" copy /Y "%CPY_ENVPATH%\README.md" "%dst%" >nul
 if exist "%CPY_ENVPATH%\LICENSE" copy /Y "%CPY_ENVPATH%\LICENSE" "%dst%" >nul
 

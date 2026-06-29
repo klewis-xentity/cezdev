@@ -1,0 +1,1 @@
+print("Hello, world from within C3DClassesSDK python environment..................")
