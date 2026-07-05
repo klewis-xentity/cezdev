@@ -1,5 +1,2 @@
-@echo off
-
-scripts.copy.bat %~dp0 %CMETADATA%/cprojects/cezdev_ui
-
-pause
+set "SCRIPT_DIR=%~dp0"
+call path.set.bat %SCRIPT_DIR%

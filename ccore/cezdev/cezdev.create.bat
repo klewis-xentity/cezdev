@@ -60,6 +60,7 @@ set CBASEENVVARS=%~1cdata\cmetadata\baseline_vars.txt
 echo [SAVING] %CBASEENVVARS%
 set > "%CBASEENVVARS%"
 
+echo [MOVING] C3DClasses Commands (.bat) - moving commands from core source to projects...
 scripts.copy.bat "%C3DCLASSES%" "%CMETADATA%\c3dclasses_bat"
 
 echo [ENDING] %~nx0

@@ -21,12 +21,23 @@ echo [SYNCING] JavaScript environment scripts to metadata PATH ...
 set PATH=%C3DCLASSES_JS_ENV_PATH%;%PATH%
 echo [SETTING] CJS environment scripts added to PATH: %C3DCLASSES_JS_ENV_PATH%
 
+set "CJS_ENV_READY=0"
+if exist "%C3DCLASSES_JS%\package.json" if exist "%C3DCLASSES_JS%\node_modules" if exist "%C3DCLASSES_JS%\dist" (
+    set "CJS_ENV_READY=1"
+)
+
+if "%CJS_ENV_READY%"=="1" (
+    echo [OK] JavaScript environment already moved and built at %C3DCLASSES_JS%. Skipping move/build.
+    goto cjs_create_done
+)
+
 :: move the JavaScript environment files to the metadata directory and generate the source metadata for the JavaScript environment
 call cjs.move.bat
 
 :: build the JavaScript environment in metadata and generate the source metadata for the JavaScript environment
 call cjs.build.bat
 
+:cjs_create_done
 :: Restore original directory
 cd /d "%CJSCREATEHOME%"
 echo [ENDING] %~nx0

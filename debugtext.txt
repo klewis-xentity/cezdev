@@ -1,12 +1,12 @@
 compilable: yes - all - excellent
 complete: yes - all - excellent
-animal.java
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
+animal.java.0
+yes - all - excellent - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
+no - none - poor - Does two predator species must compete for the same food source?
+yes - some - satisfactory - Are some species should differentiate between male and female individuals? 
+no - none - poor - Does the code implement a day-night cycle where for the species
+no - none - poor - Does the code simulate plant growth at a defined rate?
+no - none - poor - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
 yes - some - satisfactory - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
 yes - some - satisfactory - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
 yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
@@ -18,6 +18,27 @@ yes - some - satisfactory - Are the comments and documentation helpful in explai
 yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
 yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
 yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
+
+
+compilable: yes - all - excellent
+complete: yes - all - excellent
+animal.java.1
+no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
+no - none - fail - Does two predator species must compete for the same food source?
+no - none - fail - Are some species should differentiate between male and female individuals? 
+no - none - fail - Does the code implement a day-night cycle where for the species
+no - none - fail - Does the code simulate plant growth at a defined rate?
+no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
+no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
+yes - some - satisfactory - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
+yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
+yes - some - satisfactory - Is the code extensible, allowing for future additions or modifications with minimal effort?
+yes - some - satisfactory - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
+yes - some - satisfactory - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
+yes - some - satisfactory - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
+yes - some - satisfactory - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
+yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
+yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
 
 
 compilable: yes - all - excellent
@@ -43,7 +64,30 @@ no - none - fail - Are the variable, function, and class names meaningful and de
 
 compilable: yes - all - excellent
 complete: yes - all - excellent
-deer.java.0
+crab.java.0
+yes - all - excellent - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
+no - none - poor - Does two predator species must compete for the same food source?
+no - none - poor - Are some species should differentiate between male and female individuals? 
+no - none - poor - Does the code implement a day-night cycle where for the species
+no - none - poor - Does the code simulate plant growth at a defined rate?
+no - none - poor - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
+no - none - poor - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
+no - none - poor - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
+yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
+no - none - poor - Is the code extensible, allowing for future additions or modifications with minimal effort?
+yes - some - satisfactory - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
+yes - all - excellent - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
+yes - all - excellent - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
+yes - all - excellent - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
+yes - all - excellent - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
+yes - all - excellent - Are the variable, function, and class names meaningful and descriptive of their purpose?
+yes - all - excellent - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
+yes - all - excellent - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
+
+
+compilable: yes - all - excellent
+complete: yes - all - excellent
+crab.java.1
 no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
 no - none - fail - Does two predator species must compete for the same food source?
 no - none - fail - Are some species should differentiate between male and female individuals? 
@@ -52,36 +96,16 @@ no - none - fail - Does the code simulate plant growth at a defined rate?
 no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
 no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
 no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-no - none - fail - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
+yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
 no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
 no - none - fail - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
 no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
 no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-yes - some - satisfactory - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-no - none - fail - Are the variable, function, and class names meaningful and descriptive of their purpose?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-deer.java.1
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-yes - some - satisfactory - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-yes - some - satisfactory - Is the code extensible, allowing for future additions or modifications with minimal effort?
-yes - some - satisfactory - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-yes - some - satisfactory - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-yes - some - satisfactory - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-yes - some - satisfactory - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
+no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
+no - none - fail - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
 yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
 yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
+no - none - fail - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
 
 
 compilable: yes - all - excellent
@@ -153,139 +177,6 @@ yes - some - satisfactory - Does the code demonstrate clear separation of concer
 
 compilable: yes - all - excellent
 complete: yes - all - excellent
-fox.java.0
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
-no - none - fail - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-no - none - fail - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
-no - none - fail - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-fox.java.1
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-no - none - fail - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
-no - none - fail - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-yes - some - satisfactory - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-no - none - fail - Are the variable, function, and class names meaningful and descriptive of their purpose?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-gender.java
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-yes - all - excellent - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-yes - all - excellent - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-yes - all - excellent - Is the code extensible, allowing for future additions or modifications with minimal effort?
-yes - all - excellent - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-yes - all - excellent - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-yes - all - excellent - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-yes - all - excellent - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-yes - all - excellent - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-yes - all - excellent - Are the variable, function, and class names meaningful and descriptive of their purpose?
-yes - all - excellent - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-grass.java
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-yes - some - satisfactory - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
-yes - some - satisfactory - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
-yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-hawk.java.0
-yes - all - excellent - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - poor - Does two predator species must compete for the same food source?
-no - none - poor - Are some species should differentiate between male and female individuals? 
-no - none - poor - Does the code implement a day-night cycle where for the species
-no - none - poor - Does the code simulate plant growth at a defined rate?
-no - none - poor - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - poor - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - poor - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-yes - some - satisfactory - Is the code extensible, allowing for future additions or modifications with minimal effort?
-yes - some - satisfactory - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-yes - some - satisfactory - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-yes - some - satisfactory - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-yes - some - satisfactory - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
-yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
-yes - some - satisfactory - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-hawk.java.1
-yes - all - excellent - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
-no - none - fail - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-no - none - fail - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-no - none - fail - Are the variable, function, and class names meaningful and descriptive of their purpose?
-no - none - fail - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
-no - none - fail - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
 location.java
 no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
 no - none - fail - Does two predator species must compete for the same food source?
@@ -305,95 +196,6 @@ no - none - fail - Does the documentation adhere to professional coding standard
 yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
 yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
 yes - some - satisfactory - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-mouse.java.0
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
-no - none - fail - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-no - none - fail - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
-no - none - fail - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-mouse.java.1
-yes - all - excellent - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
-no - none - fail - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-no - none - fail - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-no - none - fail - Are the variable, function, and class names meaningful and descriptive of their purpose?
-no - none - fail - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
-no - none - fail - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-plant.java
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-yes - some - satisfactory - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
-yes - some - satisfactory - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
-yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-rabbit.java
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
-no - none - fail - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-no - none - fail - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
-no - none - fail - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
 
 
 compilable: yes - all - excellent
@@ -421,11 +223,57 @@ no - none - fail - Does the code demonstrate clear separation of concerns, encap
 
 compilable: yes - all - excellent
 complete: yes - all - excellent
-simulator.java.0
+seaweed.java
+no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
+no - none - fail - Does two predator species must compete for the same food source?
+no - none - fail - Are some species should differentiate between male and female individuals? 
+no - none - fail - Does the code implement a day-night cycle where for the species
+no - none - fail - Does the code simulate plant growth at a defined rate?
+no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
+no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
+no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
+yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
+no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
+no - none - fail - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
+no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
+no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
+no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
+no - none - fail - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
+yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
+yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
+no - none - fail - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
+
+
+compilable: yes - all - excellent
+complete: yes - all - excellent
+shark.java.0
 yes - all - excellent - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
 no - none - poor - Does two predator species must compete for the same food source?
 no - none - poor - Are some species should differentiate between male and female individuals? 
-yes - some - satisfactory - Does the code implement a day-night cycle where for the species
+no - none - poor - Does the code implement a day-night cycle where for the species
+no - none - poor - Does the code simulate plant growth at a defined rate?
+no - none - poor - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
+no - none - poor - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
+no - none - poor - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
+yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
+no - none - poor - Is the code extensible, allowing for future additions or modifications with minimal effort?
+yes - some - satisfactory - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
+yes - some - satisfactory - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
+yes - some - satisfactory - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
+yes - some - satisfactory - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
+yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
+yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
+yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
+yes - some - satisfactory - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
+
+
+compilable: yes - all - excellent
+complete: yes - all - excellent
+shark.java.1
+yes - all - excellent - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
+no - none - poor - Does two predator species must compete for the same food source?
+no - none - poor - Are some species should differentiate between male and female individuals? 
+no - none - poor - Does the code implement a day-night cycle where for the species
 no - none - poor - Does the code simulate plant growth at a defined rate?
 no - none - poor - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
 no - none - poor - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
@@ -440,6 +288,26 @@ yes - some - satisfactory - Does the documentation adhere to professional coding
 yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
 yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
 yes - some - satisfactory - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
+
+
+compilable: yes - all - excellent
+complete: yes - all - excellent
+simulator.java.0
+yes - all - excellent - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
+no - none - poor - Does two predator species must compete for the same food source?
+no - none - poor - Are some species should differentiate between male and female individuals? 
+no - none - poor - Does the code implement a day-night cycle where for the species
+no - none - poor - Does the code simulate plant growth at a defined rate?
+no - none - poor - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
+no - none - poor - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
+no - none - poor - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
+yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
+no - none - poor - Is the code extensible, allowing for future additions or modifications with minimal effort?
+yes - some - satisfactory - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
+yes - some - satisfactory - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
+yes - some - satisfactory - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
+yes - some - satisfactory - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
+yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
 
 
 compilable: yes - all - excellent
@@ -484,7 +352,7 @@ no - none - fail - Does the documentation cover all key aspects of the code, inc
 no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
 no - none - fail - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
 yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
-no - none - fail - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
+yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
 
 
 compilable: yes - all - excellent
@@ -504,13 +372,15 @@ no - none - fail - Does the code use concise, focused methods and appropriate ab
 no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
 no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
 no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
+no - none - fail - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
 no - none - fail - Are the variable, function, and class names meaningful and descriptive of their purpose?
+no - none - fail - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
+no - none - fail - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
 
 
 compilable: yes - all - excellent
 complete: yes - all - excellent
-snake.java.0
+starfish.java.0
 yes - all - excellent - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
 no - none - poor - Does two predator species must compete for the same food source?
 no - none - poor - Are some species should differentiate between male and female individuals? 
@@ -520,7 +390,7 @@ no - none - poor - Does the code implement dynamic weather conditions that affec
 no - none - poor - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
 no - none - poor - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
 yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-yes - some - satisfactory - Is the code extensible, allowing for future additions or modifications with minimal effort?
+no - none - poor - Is the code extensible, allowing for future additions or modifications with minimal effort?
 yes - some - satisfactory - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
 yes - some - satisfactory - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
 yes - some - satisfactory - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
@@ -533,52 +403,7 @@ yes - some - satisfactory - Does the code demonstrate clear separation of concer
 
 compilable: yes - all - excellent
 complete: yes - all - excellent
-snake.java.1
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-no - none - fail - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
-no - none - fail - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
-yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-specialplant.java
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
-no - none - fail - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
-no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-no - none - fail - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
-yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
-yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
-no - none - fail - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
-
-
-compilable: yes - all - excellent
-complete: yes - all - excellent
-state.java
+starfish.java.1
 no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
 no - none - fail - Does two predator species must compete for the same food source?
 no - none - fail - Are some species should differentiate between male and female individuals? 
@@ -599,13 +424,13 @@ yes - some - satisfactory - Are the variable, function, and class names meaningf
 
 compilable: yes - all - excellent
 complete: yes - all - excellent
-value.java
+weather.java
 no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
 no - none - fail - Does two predator species must compete for the same food source?
 no - none - fail - Are some species should differentiate between male and female individuals? 
 no - none - fail - Does the code implement a day-night cycle where for the species
 no - none - fail - Does the code simulate plant growth at a defined rate?
-yes - some - good - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
+yes - some - satisfactory - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
 no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
 no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
 no - none - fail - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
@@ -614,34 +439,36 @@ no - none - fail - Does the code use concise, focused methods and appropriate ab
 no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
 no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
 no - none - fail - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
-yes - some - good - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
+yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
 no - none - fail - Are the variable, function, and class names meaningful and descriptive of their purpose?
 
 
 compilable: yes - all - excellent
 complete: yes - all - excellent
-wolf.java.0
-no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
-no - none - fail - Does two predator species must compete for the same food source?
-no - none - fail - Are some species should differentiate between male and female individuals? 
-no - none - fail - Does the code implement a day-night cycle where for the species
-no - none - fail - Does the code simulate plant growth at a defined rate?
-no - none - fail - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
-no - none - fail - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
-no - none - fail - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
-no - none - fail - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
-no - none - fail - Is the code extensible, allowing for future additions or modifications with minimal effort?
-no - none - fail - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
-no - none - fail - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
-no - none - fail - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
+whale.java.0
+yes - all - excellent - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
+no - none - poor - Does two predator species must compete for the same food source?
+no - none - poor - Are some species should differentiate between male and female individuals? 
+no - none - poor - Does the code implement a day-night cycle where for the species
+no - none - poor - Does the code simulate plant growth at a defined rate?
+no - none - poor - Does the code implement dynamic weather conditions that affect the simulation. For example, grass may not grow without rain, or predators might struggle in fog?
+no - none - poor - Does the code Implement a disease mechanic where animals can become infected, and the infection spreads when animals meet?
+no - none - poor - Are shared functionalities encapsulated in superclasses or interfaces to enable reuse and modularity?
+yes - some - satisfactory - Does the implementation balance simplicity with functionality, avoiding unnecessary complexity or repetition?
+no - none - poor - Is the code extensible, allowing for future additions or modifications with minimal effort?
+yes - some - satisfactory - Does the code use concise, focused methods and appropriate abstractions to ensure it is easy to follow and maintain?
+yes - some - satisfactory - Are the comments and documentation clear, concise, and well-organized, making the code easy to understand and follow?  
+yes - some - satisfactory - Does the documentation cover all key aspects of the code, including classes, methods, parameters, and return values?  
 yes - some - satisfactory - Are the comments and documentation helpful in explaining the purpose, functionality, and behavior of the code?  
 yes - some - satisfactory - Does the documentation adhere to professional coding standards, such as including header information, versioning details, and meaningful descriptions for classes and methods?  
 yes - some - satisfactory - Are the variable, function, and class names meaningful and descriptive of their purpose?
+yes - some - satisfactory - Is the code consistently indented and formatted, with appropriate use of whitespace to separate logical blocks?
+yes - some - satisfactory - Does the code demonstrate clear separation of concerns, encapsulation, and logical grouping of related functionality?
 
 
 compilable: yes - all - excellent
 complete: yes - all - excellent
-wolf.java.1
+whale.java.1
 no - none - fail - Does your code describe at least five different species of predators and prey. At least two of these species should be predators (species that consume others), and at least two species should be non-predators (e.g., herbivores)? Plants may either always be available or simulated?
 no - none - fail - Does two predator species must compete for the same food source?
 no - none - fail - Are some species should differentiate between male and female individuals? 

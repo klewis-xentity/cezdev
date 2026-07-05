@@ -1,0 +1,113 @@
+connect to the ollama server:
+
+step 1 - ssh into node 4
+c3dclasses@onthegopal:~$ ssh bc_cs_cluster_node4
+Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-141-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+Expanded Security Maintenance for Applications is not enabled.
+
+130 updates can be applied immediately.
+2 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+28 additional security updates can be applied with ESM Apps.
+Learn more about enabling ESM Apps service at https://ubuntu.com/esm
+
+New release '24.04.4 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+*** System restart required ***
+Last login: Sun Jun 28 16:40:32 2026 from 10.42.0.1
+kevin@node4:~$ 
+
+step 2 - run ollama serve
+kevin@node4:~$ ollama serve
+Error: listen tcp 127.0.0.1:11434: bind: address already in use
+
+step3 - use ssh tunnel to establish localhost connection
+
+c3dclasses@onthegopal:~$ ssh bc_cs_cluster_node4_ollama
+bind [127.0.0.1]:11434: Address already in use
+Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-141-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+Expanded Security Maintenance for Applications is not enabled.
+
+130 updates can be applied immediately.
+2 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+28 additional security updates can be applied with ESM Apps.
+Learn more about enabling ESM Apps service at https://ubuntu.com/esm
+
+New release '24.04.4 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+*** System restart required ***
+Last login: Sun Jul  5 16:09:36 2026 from 10.42.0.1
+kevin@node4:~$ 
+
+
+step 4 - run the grade_subission
+D:\cezdev>grade_submission 1
+
+============================================================
+  GRADING SUBMISSION: 1
+============================================================
+
+Mode: Full Submission Grading
+
+  Submission path: D:\cezdev\cplatform\cprojects\llmautograder\llmautograder\data\assignment_3\submissions\1
+  Rubric path:     D:\cezdev\cplatform\cprojects\llmautograder\llmautograder\data\rubric_questions.txt
+  Template path:   D:\cezdev\cplatform\cprojects\llmautograder\llmautograder\data\assignment_3\template_code
+
+  Submission: 1
+  Rubric:     rubric_questions.txt
+  Template:   template_code
+
+Starting grading process...
+  LLM model: qwen2.5-coder:7b (Ollama)
+  Testing LLM connection...
+D:\cezdev\cdata\cmetadata\c3dclasses_py\c3dclasses\csystem\cai\cllm\cllm.py:220: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  return Ollama (
+
+  [ERROR] LLM could not be reached
+
+  Details: Ollama call failed with status code 404. Maybe your model is not found and you should pull the model...
+
+
+D:\cezdev>grade_submission 1
+
+============================================================
+  GRADING SUBMISSION: 1
+============================================================
+
+Mode: Full Submission Grading
+
+  Submission path: D:\cezdev\cplatform\cprojects\llmautograder\llmautograder\data\assignment_3\submissions\1
+  Rubric path:     D:\cezdev\cplatform\cprojects\llmautograder\llmautograder\data\rubric_questions.txt
+  Template path:   D:\cezdev\cplatform\cprojects\llmautograder\llmautograder\data\assignment_3\template_code
+
+  Submission: 1
+  Rubric:     rubric_questions.txt
+  Template:   template_code
+
+Starting grading process...
+  LLM model: qwen2.5-coder:7b (Ollama)
+  Testing LLM connection...
+D:\cezdev\cdata\cmetadata\c3dclasses_py\c3dclasses\csystem\cai\cllm\cllm.py:220: LangChainDeprecationWarning: The class `Ollama` was deprecated in LangChain 0.3.1 and will be removed in 1.0.0. An updated version of the class exists in the :class:`~langchain-ollama package and should be used instead. To use it run `pip install -U :class:`~langchain-ollama` and import as `from :class:`~langchain_ollama import OllamaLLM``.
+  return Ollama (
+  LLM connection: OK
+
+Compilation was successfull!
+  Compilable: Yes
+  Complete:   Yes
+  Files found: 14
+

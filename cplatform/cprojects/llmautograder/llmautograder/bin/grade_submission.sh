@@ -8,8 +8,7 @@
 #          grade_submission.sh 2 meta
 # -------------------------------------------------------------------------------------------------------
 
-# Ensure submission ID is provided
-if [ -z "$1" ]; then
+if [ -z "${1:-}" ]; then
   echo "Usage: $0 <submission_id> [meta]"
   exit 1
 fi
@@ -17,23 +16,27 @@ fi
 submission_id="$1"
 meta="$2"
 
-# Get the directory where this script is located
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 AUTOGRADER_DIR="$(cd "$BASEDIR/.." && pwd)"
 SDK_PATH="$AUTOGRADER_DIR/src/c3dclassessdk_py"
 
-if command -v python3 >/dev/null 2>&1; then
+if [ -n "${PYTHONPATH:-}" ]; then
+  export PYTHONPATH="$SDK_PATH${PYTHONPATH:+:$PYTHONPATH}"
+else
+  export PYTHONPATH="$SDK_PATH"
+fi
+
+if command -v pythonx >/dev/null 2>&1 || command -v pythonx.bat >/dev/null 2>&1; then
+  PYTHON_CMD="pythonx"
+elif command -v python3 >/dev/null 2>&1; then
   PYTHON_CMD="python3"
 elif command -v python >/dev/null 2>&1; then
   PYTHON_CMD="python"
 else
-  echo "[ERROR] Python was not found. Install python3 or add it to PATH."
+  echo "[ERROR] Python was not found. Install pythonx, python3, or add python to PATH."
   exit 127
 fi
 
-export PYTHONPATH="$SDK_PATH${PYTHONPATH:+:$PYTHONPATH}"
-
-# Define paths relative to the script's location
 submissions_path="$AUTOGRADER_DIR/data/assignment_3/submissions/$submission_id"
 rubric_path="$AUTOGRADER_DIR/data/rubric_questions.txt"
 template_code_path="$AUTOGRADER_DIR/data/assignment_3/template_code"
@@ -60,7 +63,6 @@ echo "  GRADING SUBMISSION: $submission_id"
 echo "============================================================"
 echo
 
-# Determine whether to use meta grading
 if [ "$meta" = "meta" ]; then
   echo "Mode: Meta Data Grading"
   echo
