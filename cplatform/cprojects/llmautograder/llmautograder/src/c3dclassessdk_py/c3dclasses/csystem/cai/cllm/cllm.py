@@ -25,7 +25,7 @@ class CSimpleOllama:
         self.stop = stop
         self.api_base = api_base.rstrip("/")
 
-    def invoke(self, prompt):
+    def _invoke_at_base(self, prompt, api_base):
         payload = {
             "model": self.model,
             "prompt": prompt,
@@ -40,15 +40,34 @@ class CSimpleOllama:
 
         data = json.dumps(payload).encode("utf-8")
         request = urllib.request.Request(
-            self.api_base + "/api/generate",
+            api_base + "/api/generate",
             data=data,
             headers={"Content-Type": "application/json"},
             method="POST"
         )
+        with urllib.request.urlopen(request, timeout=300) as response:
+            result = json.loads(response.read().decode("utf-8"))
+            return result.get("response", "")
+
+    def _alternate_api_bases(self):
+        if self.api_base in ("http://localhost:11434", "http://127.0.0.1:11434"):
+            return ["http://[::1]:11434"]
+        return []
+
+    def invoke(self, prompt):
         try:
-            with urllib.request.urlopen(request, timeout=300) as response:
-                result = json.loads(response.read().decode("utf-8"))
-                return result.get("response", "")
+            return self._invoke_at_base(prompt, self.api_base)
+        except urllib.error.HTTPError as e:
+            error_body = e.read().decode("utf-8", errors="replace")
+            if e.code == 404 and "model" in error_body and "not found" in error_body:
+                for api_base in self._alternate_api_bases():
+                    try:
+                        return self._invoke_at_base(prompt, api_base)
+                    except urllib.error.URLError:
+                        pass
+                # end for
+            # end if
+            raise RuntimeError("Unable to reach Ollama at " + self.api_base + ". Start Ollama and pull model " + self.model + ".") from e
         except urllib.error.URLError as e:
             raise RuntimeError("Unable to reach Ollama at " + self.api_base + ". Start Ollama and pull model " + self.model + ".") from e
 
@@ -436,4 +455,3 @@ class CLLM (CLLMSettings):
         return final_summary
     # end summarize_large_text()    
 # end CLLM
-

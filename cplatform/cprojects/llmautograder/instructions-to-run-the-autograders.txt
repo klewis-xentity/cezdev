@@ -111,3 +111,10 @@ Compilation was successfull!
   Complete:   Yes
   Files found: 14
 
+
+
+strp 5: mounting a dive 
+sudo mkdir -p /mnt/d
+sudo mount -t drvfs D: /mnt/d
+ls /mnt/d
+cd /mnt/d

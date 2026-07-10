@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # -------------------------------------------------------------------------------------------------------
 # Name: grade_submission.sh
@@ -16,8 +16,8 @@ fi
 submission_id="$1"
 meta="$2"
 
-BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-AUTOGRADER_DIR="$(cd "$BASEDIR/.." && pwd)"
+BASEDIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+AUTOGRADER_DIR="$(CDPATH= cd -- "$BASEDIR/.." && pwd)"
 SDK_PATH="$AUTOGRADER_DIR/src/c3dclassessdk_py"
 
 if [ -n "${PYTHONPATH:-}" ]; then
@@ -26,14 +26,14 @@ else
   export PYTHONPATH="$SDK_PATH"
 fi
 
-if command -v pythonx >/dev/null 2>&1 || command -v pythonx.bat >/dev/null 2>&1; then
+if command -v pythonx >/dev/null 2>&1; then
   PYTHON_CMD="pythonx"
-elif command -v python3 >/dev/null 2>&1; then
-  PYTHON_CMD="python3"
 elif command -v python >/dev/null 2>&1; then
   PYTHON_CMD="python"
+elif command -v python3 >/dev/null 2>&1; then
+  PYTHON_CMD="python3"
 else
-  echo "[ERROR] Python was not found. Install pythonx, python3, or add python to PATH."
+  echo "[ERROR] Python was not found. Install pythonx, python, or add python3 to PATH."
   exit 127
 fi
 
