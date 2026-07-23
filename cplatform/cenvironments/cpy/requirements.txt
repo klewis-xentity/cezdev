@@ -8,3 +8,8 @@ pywinauto
 pywin32
 opencv-python-headless
 mss
+fire
+tabulate
+pandas 
+matplotlib 
+scipy

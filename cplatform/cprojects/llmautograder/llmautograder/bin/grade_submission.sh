@@ -57,12 +57,6 @@ if [ ! -d "$template_code_path" ]; then
   exit 2
 fi
 
-echo
-echo "============================================================"
-echo "  GRADING SUBMISSION: $submission_id"
-echo "============================================================"
-echo
-
 if [ "$meta" = "meta" ]; then
   echo "Mode: Meta Data Grading"
   echo

@@ -56,12 +56,6 @@ if not exist "%templatecodepath%\" (
 :: Construct the command parameters
 set "commonparams=%submissionspath% %rubricpath% %templatecodepath%"
 
-echo.
-echo ============================================================
-echo   GRADING SUBMISSION: %submissionid%
-echo ============================================================
-echo.
-
 :: Check if the 'meta' parameter is provided
 if "%meta%"=="meta" (
     echo Mode: Meta Data Grading

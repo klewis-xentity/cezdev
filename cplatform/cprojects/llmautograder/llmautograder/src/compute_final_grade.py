@@ -25,26 +25,6 @@ def get_letter_grade(num_grade):
     return "F"
 
 
-def get_numeric_grade(submission, attribute="avg_num_grade"):
-    weight = 0.25
-    return sum(criteria[attribute] * weight for criteria in submission.values())
-
-
-def get_numeric_grade_per_grader(submission):
-    weight = 0.25
-    graders_total_grade = {}
-    for criteria in submission.values():
-        for grader, grade in criteria["num_grades"].items():
-            if grader not in graders_total_grade:
-                graders_total_grade[grader] = 0
-            graders_total_grade[grader] += weight * grade
-    return graders_total_grade
-
-
-def get_letter_grade_per_grader(num_grades):
-    return [get_letter_grade(num_grade) for num_grade in num_grades]
-
-
 def format_table(rows, headers):
     values = [headers] + [[str(value) for value in row] for row in rows]
     widths = [max(len(row[index]) for row in values) for index in range(len(headers))]
@@ -71,7 +51,7 @@ class CFinalSubmissionGrader:
         self.m_strdatapath = f"{self.m_stroutputpathfile}/data" 
         os.makedirs(f"{self.m_strdatapath}/compute_final_grade", exist_ok=True)
         self.m_stroutputpathfile = f"{self.m_strdatapath}/compute_final_grade/m_grades.json"
-        print(f"CFinalSubmissionGrader :: __init__() - Success")
+        print(f"[Setup] Output grades file: {self.m_stroutputpathfile}")
     # end __init__()   
         
     def create(self, strgradedsubmissionfilename, strrubicfilname):   
@@ -81,9 +61,9 @@ class CFinalSubmissionGrader:
         strfilename = os.path.basename(strgradedsubmissionfilename)         # Extracts '0.json'
         self.m_submissionnumber = int(strfilename.split('.')[0])
         # initailize the data to be ready to evaluate
-        print(f"CFinalSubmissionGrader :: create() - {strgradedsubmissionfilename}")
-        print(f"CFinalSubmissionGrader :: create() - {strrubicfilname}")
-        print(f"CFinalSubmissionGrader :: create() - Success")
+        print(f"[Setup] Loaded graded submission: {strgradedsubmissionfilename}")
+        print(f"[Setup] Loaded rubric:            {strrubicfilname}")
+        print(f"[Setup] Submission #{self.m_submissionnumber} is ready for grading")
         return True    
     # end create()
     
@@ -94,12 +74,15 @@ class CFinalSubmissionGrader:
     #---------------------------------------------------------------------------------------
     def computeMetaScoreFactor(self):
         # check if the 
-        print('CFinalSubmissionGrader :: computeMetaScoreFactor() - self.m_jsonsubmission["metadata"]["complete"] = ', self.m_jsonsubmission["metadata"]["complete"])
-        print('CFinalSubmissionGrader :: computeMetaScoreFactor() - self.m_jsonsubmission["metadata"]["compilable"] = ', self.m_jsonsubmission["metadata"]["compilable"])
-        Dfactor = 0.49 if(self.m_jsonsubmission["metadata"]["compilable"] == 0.0) else 1.0
-        print(f"CFinalSubmissionGrader :: computeMetaScoreFactor() - DFactor = {Dfactor}")
-        metascore = 0.30 + (self.m_jsonsubmission["metadata"]["compilable"] + self.m_jsonsubmission["metadata"]["complete"] * Dfactor)
-        print(f"CFinalSubmissionGrader :: computeMetaScoreFactor() = {metascore}")
+        complete = self.m_jsonsubmission["metadata"]["complete"]
+        compilable = self.m_jsonsubmission["metadata"]["compilable"]
+        print("[Meta Score] Evaluating submission metadata factors:")
+        print(f"[Meta Score]   complete   = {complete}  (1.0 = full submission, 0.0 = template copy)")
+        print(f"[Meta Score]   compilable = {compilable}  (1.0 = compiles, 0.0 = does not compile)")
+        Dfactor = 0.49 if(compilable == 0.0) else 1.0
+        print(f"[Meta Score]   completeness weight (Dfactor) = {Dfactor}")
+        metascore = 0.30 + (compilable + complete * Dfactor)
+        print(f"[Meta Score]   => meta score factor = {metascore:.3f}")
         return metascore
     # end computeMetaScoreFactor()
     
@@ -127,7 +110,7 @@ class CFinalSubmissionGrader:
             # end for
         # end for
         sumCriteria = (score / count) if(count > 0) else 0 
-        print(f"CFinalSubmissionGrader :: computeScoreForCriteria_Sum() = {sumCriteria}")
+        print(f"[Criteria]   '{criteria_name}' (sum/average) score = {sumCriteria:.4f}")
         return sum 
     # end computeScoreForCriteria()
 
@@ -160,7 +143,7 @@ class CFinalSubmissionGrader:
             # end if
         # end for
         orCriteria = (score / nquestions) if(nquestions > 0) else 0
-        print(f"CFinalSubmissionGrader :: computeScoreForCriteria_Or() = {orCriteria}")
+        print(f"[Criteria]   '{criteria_name}' (or) score = {orCriteria:.4f}")
         return orCriteria
     # end computeScoreForCriteria_Or()
     
@@ -210,7 +193,7 @@ class CFinalSubmissionGrader:
             
         # Return the maximum score from the most common grade
         maxCriteria = max(grades[max_let_grade]) if max_let_grade and grades[max_let_grade] else 0.0
-        print(f"CFinalSubmissionGrader :: computeScoreForCriteria_MaxGrade() = {maxCriteria}")
+        print(f"[Criteria]   '{criteria_name}' (max grade) score = {maxCriteria:.4f}")
         return maxCriteria
     # end computeScoreForCriteria_MaxGrade()
 
@@ -267,7 +250,7 @@ class CFinalSubmissionGrader:
         
         # Compute the average of the majority scores
         majority_average = sum(majority_scores) / len(majority_scores) if majority_scores else 0.0 
-        print(f"CFinalSubmissionGrader :: computeScoreForCriteria_Majority() = {majority_average}") 
+        print(f"[Criteria]   '{criteria_name}' (majority) score = {majority_average:.4f}") 
         return majority_average
     # end computeScoreForCriteria_MaxGrade()
 
@@ -318,12 +301,13 @@ class CFinalSubmissionGrader:
          
         # Return the maximum score from the most common grade
         maxgrade = max(grades[max_let_grade]) if max_let_grade and grades[max_let_grade] else 0.0
-        print(f"CFinalSubmissionGrader :: computeScoreForCriteria_Majority() = {maxgrade}") 
+        print(f"[Criteria]   '{criteria_name}' (max grade) score = {maxgrade:.4f}") 
         return maxgrade
     # end computeScoreForCriteria_MaxGrade()
 
     def computeScoreForCriteria(self, arrquestionindex=None, criteria_name="", op=""):
-        print(f"CFinalSubmissionGrader :: computeScoreForCriteria()") 
+        method = op if op else "sum"
+        print(f"[Criteria] Scoring '{criteria_name}' using '{method}' method on questions {arrquestionindex}")
         if(op == "max_grade"):
             return self.computeScoreForCriteria_MaxGrade(arrquestionindex, criteria_name)
         # end if
@@ -343,8 +327,10 @@ class CFinalSubmissionGrader:
         if(self.m_jsonrubric is None):
             return 0.0
         # end if
+        print()
         metascorefactor = self.computeMetaScoreFactor()
         jsonrubic = self.m_jsonrubric
+        print()
         for criteria_name, criteria in jsonrubic.items():
             question_indices = criteria["questions"] 
             evaluation_op = criteria["op"]
@@ -362,6 +348,7 @@ class CFinalSubmissionGrader:
             criteria["percentage_of_nontemplate_files"] = self.m_jsonsubmission["metadata"]["percentage_of_nontemplate_files"] 
             criteria["percentage_of_template_files"] = self.m_jsonsubmission["metadata"]["percentage_of_template_files"]    
             # end else 
+            print()
         # end for
         # generate the table 
         total_score = self.generate_table(jsonrubic)   
@@ -392,15 +379,35 @@ class CFinalSubmissionGrader:
         # Calculate the total score
         total_score = sum(row[3] for row in rows)  # Sum the weighted scores
         
-        print("=" * 80)
-        print(f"Table for Submission ({self.m_submissionnumber})")
-        print("=" * 80)
-
         # Print the formatted table
         print(format_table(rows, headers))
         
-        # Print the total score separately
-        print(f"Total Score (Machine): {total_score:.2f}")
+        # Show the formula and the step-by-step computation of the final grade
+        print()
+        print("Final Grade Formula:")
+        print("  Total Score = Sum of ( weight x grade ) for each criteria")
+        print()
+        print("Computation:")
+        terms = []
+        for name, weight, grade, weighted in rows:
+            print(f"  {name:<20} : {weight:.2f} x {grade:6.2f} = {weighted:6.2f}")
+            terms.append(f"{weighted:.2f}")
+        print("  " + "-" * 44)
+        print(f"  Total Score (Machine) = {' + '.join(terms)} = {total_score:.2f}")
+        print()
+
+        # Show the numeric-to-letter grade reference table
+        print("Numeric to Letter Grade Reference:")
+        print("  +-------------------+--------+")
+        print("  | Numeric Range     | Letter |")
+        print("  +-------------------+--------+")
+        print("  | 80 - 100          |   A    |")
+        print("  | 70 - 79           |   B    |")
+        print("  | 60 - 69           |   C    |")
+        print("  | 50 - 59           |   D    |")
+        print("  |  0 - 49           |   F    |")
+        print("  +-------------------+--------+")
+        print("=" * 80)
          
         return total_score
     # end generate_table()
@@ -465,22 +472,8 @@ def main(strsubmissionfilename, strrubicfilename, params=None):
         num_grade = cfsg.doEvaluation()
         let_grade = get_letter_grade(int(num_grade))
         
+        print()
         print(f"Machine Grade: {num_grade} - {let_grade}" )
-
-        hjsongrades = readJSONFromFilename(f"{cfsg.m_strdatapath}/convert_grade_file_from_csv_to_json/grades.json")  # Get the human grade
-        hsubmission_key = f"{cfsg.m_submissionnumber}"
-        if hsubmission_key not in hjsongrades:
-            print(f"[WARNING] No human grade found for submission {hsubmission_key}. Skipping human grade comparison.")
-            return let_grade
-
-        hsubmission_grade = hjsongrades[hsubmission_key]
-        total_hscore = get_numeric_grade(hsubmission_grade)
-        total_hscore_per_grader = get_numeric_grade_per_grader(hsubmission_grade)
-        letter_hscore_per_grader = get_letter_grade_per_grader(total_hscore_per_grader.values())
-        print(total_hscore_per_grader)
-        print(f"Human Average Grade: {total_hscore:.2f}")
-        print("Human graders numeric scores: ", total_hscore_per_grader)
-        print("Human graders letter scores: ", letter_hscore_per_grader)
         return let_grade
     # end if
     return None

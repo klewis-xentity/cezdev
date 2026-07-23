@@ -1,14 +1,25 @@
 ::-------------------------------------------------------------------------------------------------------
-:: Name: compute_final_grade.bat
-:: Usage: compute_final_grade <submission_id>
-:: Output: Outputs the grading results to a JSON file in the data/compute_final_grade/m_grades.json file.
-:: Example: compute_final_grade 2
-:: usage: python.exe ./src/compute_final_grade.py main \
-::   "C:/Users/klewi/Desktop/cautograder/data/grade_submission/0.json" 
-::   "C:/Users/klewi/Desktop/cautograder/data/rubic/markingRubric/rubric.json"
-:: example: compare_graders submission_ids_test.txt
+:: Name: compare_graders.bat
+:: Usage: compare_graders <submission_ids_filename>
+:: Output: Compares human and machine grades and writes results to data/compare_graders/.
+:: Example: compare_graders submission_ids_test.txt
 ::-------------------------------------------------------------------------------------------------------
 @echo off
-set cautograderdirpath=C:/Users/kevle/Desktop/cezdev/cprojects/autograder
-set submissionidsfilename=%1
-python %cautograderdirpath%\src\compare_graders.py main %1
+setlocal EnableExtensions
+
+set "submissionidsfilename=%~1"
+for %%i in ("%~dp0..") do set "cautograderdirpath=%%~fi"
+set "sdkpath=%cautograderdirpath%\src\c3dclassessdk_py"
+
+if "%submissionidsfilename%"=="" (
+    echo Usage: %~nx0 ^<submission_ids_filename^>
+    exit /b 1
+)
+
+if defined PYTHONPATH (
+    set "PYTHONPATH=%sdkpath%;%PYTHONPATH%"
+) else (
+    set "PYTHONPATH=%sdkpath%"
+)
+
+python "%cautograderdirpath%\src\compare_graders.py" main "%submissionidsfilename%"

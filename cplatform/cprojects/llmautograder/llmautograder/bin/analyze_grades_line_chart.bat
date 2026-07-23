@@ -1,9 +1,10 @@
 ::-------------------------------------------------------------------------------------------------------
-:: name: analyze_grades.bat
+:: name: analyze_grades_line_chart.bat
 :: desc: analyzes the grades by comparing the machine generated grades with 
-:: 	 the human grades producing correlations matrices and histograms
-:: usage: analyze_grades 
+:: 	 the human grades producing a line chart
+:: usage: analyze_grades_line_chart 
 ::-------------------------------------------------------------------------------------------------------
-echo @off
-set cautograderdirpath=C:/Users/kevle/Desktop/cezdev/cprojects/autograder
-python %cautograderdirpath%/src/analyze_grades_with_line_graph.py %cautograderdirpath%/data/compare_graders/grades_evaluation_with_letters.csv
+@echo off
+setlocal EnableExtensions
+for %%i in ("%~dp0..") do set "cautograderdirpath=%%~fi"
+python "%cautograderdirpath%\src\analyze_grades_with_line_graph.py" "%cautograderdirpath%\data\compare_graders\grades_evaluation_with_letters.csv"

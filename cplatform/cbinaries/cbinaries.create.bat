@@ -1,7 +1,20 @@
 @echo off
 
+:: Detect binaries drive (prefer D:, fallback to E:)
+if exist "D:\cbinaries" (
+    set "CBINARIES_DRIVE=D:"
+) else if exist "E:\cbinaries" (
+    set "CBINARIES_DRIVE=E:"
+) else (
+    echo ERROR: Neither D: nor E: drive is available.
+    exit /b 1
+)
+
 :: Root directory for all binaries
-set "CBINARIES_HOME=D:\cbinaries"
+set "CBINARIES_HOME=%CBINARIES_DRIVE%\cbinaries"
+
+set "code.home=%CBINARIES_HOME%\code\VSCode-win32-x64-1.119.1"
+set "code.bin=%CBINARIES_HOME%\code\VSCode-win32-x64-1.119.1\bin"
 
 set "7zip.home=%CBINARIES_HOME%\7zip"
 set "7zip.bin=%CBINARIES_HOME%\7zip"

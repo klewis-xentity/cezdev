@@ -9,8 +9,8 @@ import fire
 import os
 import csv
 from difflib import SequenceMatcher
-from c3dclassessdk.ccore.cutility.cutility import readJSONFromFilename, writeJSONToFilename, readTextFromFilename
-from c3dclassessdk.ccore.cutility.cgrade import (
+from c3dclasses.ccore.cutility.cutility import readJSONFromFilename, writeJSONToFilename, readTextFromFilename
+from c3dclasses.ccore.cutility.cgrade import (
     compute_submission_numeric_grade,
     compute_submission_numeric_grade_per_grader,
     get_let_grade,
@@ -101,7 +101,45 @@ def main(strsubmissionidfilename):
         print("No submission IDs found.")
         return
 
-    # Determine number of graders from the first submission
+    # Keep only IDs that exist in BOTH the human and machine grade data.
+    # Collect any missing IDs so we can report them in a concise summary.
+    valid_submissionids = []
+    missing_from_human = []
+    missing_from_machine = []
+    for sid in submissionids:
+        sid = sid.strip()
+        is_missing = False
+        if sid not in hjsondata:
+            missing_from_human.append(sid)
+            is_missing = True
+        if sid not in mjsondata:
+            missing_from_machine.append(sid)
+            is_missing = True
+        if not is_missing:
+            valid_submissionids.append(sid)
+
+    if missing_from_human or missing_from_machine:
+        print("=" * 70)
+        print("  SKIPPED SUBMISSIONS")
+        print("=" * 70)
+        if missing_from_human:
+            print(f"  Missing from human grades ({len(missing_from_human)}): "
+                  f"{', '.join(missing_from_human)}")
+        if missing_from_machine:
+            print(f"  Missing from machine grades ({len(missing_from_machine)}): "
+                  f"{', '.join(missing_from_machine)}")
+        print(f"  Human grades file:   {os.path.relpath(strhmjsonfilename, stroutputpathfile)}")
+        print(f"  Machine grades file: {os.path.relpath(straijsonfilename, stroutputpathfile)}")
+        print()
+
+    if not valid_submissionids:
+        print("[ERROR] None of the provided submission IDs were found in both the "
+              "human and machine grade data. Nothing to compare.")
+        return
+
+    submissionids = valid_submissionids
+
+    # Determine number of graders from the first (valid) submission
     first_submission_id = submissionids[0]
     first_hgrades = compute_submission_numeric_grade_per_grader(hjsondata[first_submission_id])
     num_graders = len(first_hgrades)
@@ -196,22 +234,28 @@ def main(strsubmissionidfilename):
         ])
 
     # Print a nicely formatted table
+    print("=" * 70)
+    print(f"  GRADER COMPARISON  ({len(submissionids)} submissions)")
+    print("=" * 70)
     print(tabulate(table, headers=headers, tablefmt="grid"))
 
     # Print some summary stats
     total_submissions = len(submissionids)
-    print(f"\nPercentage of submissions within human grades: "
-          f"{count_within_hgrades / total_submissions * 100:.2f}%")
-    print(f"Percentage of submissions with any D grade: "
-          f"{count_d_grades / total_submissions * 100:.2f}%")       
-    
+    print()
+    print("=" * 70)
+    print("  SUMMARY")
+    print("=" * 70)
+    print(f"  Submissions compared:            {total_submissions}")
+    print(f"  Within human grade range:        {count_within_hgrades} "
+          f"({count_within_hgrades / total_submissions * 100:.2f}%)")
+    print(f"  With any D grade (40-49):        {count_d_grades} "
+          f"({count_d_grades / total_submissions * 100:.2f}%)")
+
     output_csv_filename = f"{strdatapath}/compare_graders/grades_evaluation_with_letters.csv"
     with open(output_csv_filename, mode="w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerow(headers)
         writer.writerows(table)
-
-    print(f"\nTable data (with letter grades) saved to {output_csv_filename}")
 
     feedback_csv_filename = f"{strdatapath}/compare_graders/feedback_comparison.csv"
     with open(feedback_csv_filename, mode="w", newline="", encoding="utf-8") as file:
@@ -220,7 +264,11 @@ def main(strsubmissionidfilename):
         writer.writerows(feedback_table)
     # end with
 
-    print(f"Feedback comparison saved to {feedback_csv_filename}")
+    print()
+    print("  Output files:")
+    print(f"    - {os.path.relpath(output_csv_filename, stroutputpathfile)}")
+    print(f"    - {os.path.relpath(feedback_csv_filename, stroutputpathfile)}")
+    print("=" * 70)
 
 
 #----------------------------------------------

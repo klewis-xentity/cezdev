@@ -88,12 +88,6 @@ if not exist "%rubricfile%" (
 :: Construct the command parameters
 set "commonparams=%gradedsubmissionfile% %rubricfile%"
 
-echo.
-echo ============================================================
-echo   COMPUTING FINAL GRADE: %submissionid%
-echo ============================================================
-echo.
-
 :: execute the command
 %pythoncmd% "%cautograderdirpath%\src\compute_final_grade.py" main "%gradedsubmissionfile%" "%rubricfile%"
 
