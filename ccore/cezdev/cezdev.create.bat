@@ -23,6 +23,11 @@ set CENVIRONMENTS=%CPLATFORM%\cenvironments
 set CMETADATA_CVARS=%CMETADATA%\cvars.json
 set CMEMORY_DRIVER=json
 set CWSL=\\wsl.localhost\Ubuntu\home\c3dclasses
+set OPENAI_MODEL=gpt-5.6
+set PORT=3001
+
+echo [LOADING] Local secrets (untracked) ...
+if exist "%CEZDEV%\cezdev.secrets.bat" call "%CEZDEV%\cezdev.secrets.bat"
 
 echo [ADDING] cezdev scripts directory to PATH ...
 set PATH=%CEZDEV%;%PATH%

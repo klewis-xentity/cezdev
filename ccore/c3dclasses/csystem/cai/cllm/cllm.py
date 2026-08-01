@@ -6,6 +6,9 @@ import json
 import re
 import os
 import logging
+import requests
+from pathlib import Path
+import ollama
 from c3dclasses.ccore.cutility.cutility import extractTextFromFilename, writeTextToFilename
 from langchain_community.llms.ollama import Ollama
 from langchain_community.llms.openai import OpenAI
@@ -241,8 +244,129 @@ class CLLM (CLLMSettings):
         self.m_strpromptresponse = ""
         self.m_promptresponse = None
         self.m_repromptresponse = None
+        self.m_memoryon = False          # when True, past turns are remembered
+        self.m_systemprompt = ""         # optional persistent system instruction
+        self.m_history = []              # list of (role, text) conversation turns
         super().__init__() 
     # end __init__()    
+
+    #-----------------------------------------------------
+    # conversation memory methods
+    #-----------------------------------------------------
+    def enableMemory(self, systemprompt=""):
+        # turn on conversation memory so the model remembers prior turns
+        self.m_memoryon = True
+        self.m_systemprompt = systemprompt
+        # stop the model from hallucinating the user's next turn
+        self.setStop(["\nUser:", "\nSystem:"])
+        return self
+    # end enableMemory()
+
+    def disableMemory(self):
+        self.m_memoryon = False
+        return self
+    # end disableMemory()
+
+    def clearMemory(self):
+        # forget all prior turns but keep the system prompt
+        self.m_history = []
+        return self
+    # end clearMemory()
+
+    def getHistory(self):
+        return self.m_history
+    # end getHistory()
+
+    def getHistorySize(self):
+        # total token size of the conversation history context
+        size = 0
+        for role, text in self.m_history:
+            size += self.countTokens(f"{role}: {text}")
+        return size
+    # end getHistorySize()
+
+    def getSystemPromptSize(self):
+        # total token size of the system prompt context
+        if self.m_systemprompt:
+            return self.countTokens(f"System: {self.m_systemprompt}")
+        return 0
+    # end getSystemPromptSize()
+
+    def getContextSize(self):
+        # total token size of the full conversation context
+        return self.getSystemPromptSize() + self.getHistorySize()
+    # end getContextSize()
+
+    def getRemainingContextSize(self):
+        # remaining input token budget: the model's window minus the current
+        # context and minus the tokens reserved for the generated response
+        return self.getModelContextWindow() - self.getContextSize() - self.getMaxTokens()
+    # end getRemainingContextSize()
+
+    def countTokens(self, text):
+        # count the number of tokens in text using the Ollama tokenizer
+        if not text:
+            return 0
+        # Ollama has no /api/tokenize endpoint; ask /api/generate to evaluate the
+        # prompt without generating (num_predict=0) and read prompt_eval_count.
+        # Disable further attempts once the server proves it can't provide counts.
+        if self.model_platform == "Ollama" and getattr(self, "m_cantokenize", True):
+            try:
+                host = self.api_base.rsplit("/v1", 1)[0] if self.api_base else "http://localhost:11434"
+                response = requests.post(
+                    f"{host}/api/generate",
+                    json={
+                        "model": self.model,
+                        "prompt": text,
+                        "stream": False,
+                        "options": {"num_predict": 0},
+                    },
+                    timeout=30
+                )
+                response.raise_for_status()
+                count = response.json().get("prompt_eval_count")
+                if count is not None:
+                    return int(count)
+            except Exception as e:
+                # remember the failure so we stop hitting the server every call
+                self.m_cantokenize = False
+                logger.warning(f"Failure: CLLM :: countTokens() - falling back to estimate ({e}).")
+        # fallback: rough estimate of ~4 characters per token
+        return (len(text) + 3) // 4
+    # end countTokens()
+
+    def getModelContextWindow(self, default=8192):
+        # query the running Ollama server for the model's real context length (in tokens)
+        if self.model_platform != "Ollama":
+            logger.warning("Failure: CLLM :: getModelContextWindow() - only supported for the Ollama platform.")
+            return default
+        try:
+            # derive the server host from the configured api_base (strip the /v1 suffix)
+            host = self.api_base.rsplit("/v1", 1)[0] if self.api_base else "http://localhost:11434"
+            response = requests.post(f"{host}/api/show", json={"name": self.model}, timeout=10)
+            response.raise_for_status()
+            info = response.json().get("model_info", {})
+            # the key is architecture-specific, e.g. "llama.context_length"
+            for key, value in info.items():
+                if key.endswith("context_length"):
+                    return int(value)
+            logger.warning("Failure: CLLM :: getModelContextWindow() - context_length not found in model info.")
+        except Exception as e:
+            logger.error(f"Failure: CLLM :: getModelContextWindow() - Error querying Ollama: {e}")
+        return default
+    # end getModelContextWindow()
+
+    def _buildConversation(self, strprompt):
+        # assemble the full conversation transcript for a memory-enabled prompt
+        parts = []
+        if self.m_systemprompt:
+            parts.append(f"System: {self.m_systemprompt}")
+        for role, text in self.m_history:
+            parts.append(f"{role}: {text}")
+        parts.append(f"User: {strprompt}")
+        parts.append("Assistant:")
+        return "\n".join(parts)
+    # end _buildConversation()
     
     #-----------------------------------------------------
     # generating methods of prompts or text from prompts
@@ -287,11 +411,88 @@ class CLLM (CLLMSettings):
     def getPromptResponse(self):
         return self.m_strpromptresponse
     # end getPromptResponse()
+
+    def _promptWithImages(self, strprompt, strpathimages):
+        if self.model_platform != "Ollama":
+            raise ValueError("Image prompts are only supported on the Ollama platform.")
+
+        if isinstance(strpathimages, (str, Path)):
+            image_paths = [strpathimages]
+        elif isinstance(strpathimages, (list, tuple)):
+            image_paths = list(strpathimages)
+        else:
+            raise TypeError("strpathimages must be a path string, Path, or list/tuple of paths.")
+
+        normalized_paths = []
+        for image_path in image_paths:
+            path = Path(image_path)
+            if not path.exists():
+                raise FileNotFoundError(f"Image not found: {path}")
+            normalized_paths.append(str(path))
+
+        host = self.api_base.rsplit("/v1", 1)[0] if self.api_base else "http://localhost:11434"
+        client = ollama.Client(host=host)
+
+        messages = []
+        if self.m_memoryon and self.m_systemprompt:
+            messages.append({"role": "system", "content": self.m_systemprompt})
+        if self.m_memoryon:
+            for role, text in self.m_history:
+                role_name = role.lower()
+                if role_name not in ("user", "assistant", "system"):
+                    role_name = "user"
+                messages.append({"role": role_name, "content": text})
+
+        messages.append(
+            {
+                "role": "user",
+                "content": strprompt,
+                "images": normalized_paths,
+            }
+        )
+
+        options = {
+            "temperature": self.temperature,
+            "top_p": self.top_p,
+            "top_k": self.top_k,
+            "num_ctx": self.getModelContextWindow(),
+        }
+        if self.stop:
+            options["stop"] = self.stop
+
+        response = client.chat(
+            model=self.model,
+            messages=messages,
+            options=options,
+        )
+
+        return response.get("message", {}).get("content", "")
+    # end _promptWithImages()
     
-    def prompt(self, strprompt): 
-        self.m_strpromptresponse = self._prompt(strprompt)
-        return self.m_promptresponse
+    def prompt(self, strprompt, strpathimages=None): 
+        self.m_strprompt = strprompt
+        if strpathimages:
+            strresponse = self._promptWithImages(strprompt, strpathimages)
+            strresponse = strresponse.strip() if strresponse else strresponse
+            if self.m_memoryon:
+                self.m_history.append(("User", strprompt))
+                self.m_history.append(("Assistant", strresponse))
+            self.m_strpromptresponse = strresponse
+        else:
+            if self.m_memoryon:
+                # send the full transcript so the model remembers the conversation
+                strresponse = self._prompt(self._buildConversation(strprompt))
+                strresponse = strresponse.strip() if strresponse else strresponse
+                # record this turn so it is remembered on the next call
+                self.m_history.append(("User", strprompt))
+                self.m_history.append(("Assistant", strresponse))
+                self.m_strpromptresponse = strresponse
+            else:
+                self.m_strpromptresponse = self._prompt(strprompt)
+        return self.m_strpromptresponse
     # end prompt()
+
+
     
     def chain(self,  strquestion, docs):
         self.m_strpromptresponse = super().chain(strquestion, docs)

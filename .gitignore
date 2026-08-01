@@ -2,3 +2,5 @@ cdata
 node_modules
 *.class
 *.exe
+*.pyc
+*.secrets.bat

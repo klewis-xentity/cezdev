@@ -1,0 +1,11 @@
+2026-07-28 02:43:31,879 - CUtility - ERROR - Error reading PDF document.pdf: PyCryptodome is required for AES algorithm
+2026-07-28 02:44:17,002 - CUtility - ERROR - Error reading PDF document.pdf: PyCryptodome is required for AES algorithm
+2026-07-28 02:45:22,563 - CUtility - INFO - Text extracted from PDF: document.pdf
+2026-07-28 21:42:31,064 - CUtility - INFO - Text extracted from PDF: document.pdf
+2026-07-29 00:27:40,909 - CUtility - INFO - Text extracted from PDF: D:\cezdev\cplatform\cprojects\cresearch\document.pdf
+2026-07-29 00:33:29,644 - CUtility - INFO - Text extracted from PDF: D:\cezdev\cplatform\cprojects\cresearch\article.pdf
+2026-07-29 00:34:55,829 - CUtility - INFO - Text extracted from PDF: D:\cezdev\cplatform\cprojects\cresearch\article.pdf
+2026-07-29 01:10:57,525 - CUtility - INFO - Text extracted from PDF: D:\cezdev\cplatform\cprojects\cresearch\article.pdf
+2026-07-29 01:12:12,537 - CUtility - INFO - Text extracted from PDF: D:\cezdev\cplatform\cprojects\cresearch\article2.pdf
+2026-07-29 13:05:54,355 - CUtility - INFO - Text extracted from PDF: D:\cezdev\cplatform\cprojects\cresearch\article3.pdf
+2026-07-29 13:53:34,774 - CUtility - INFO - Text extracted from PDF: D:\cezdev\cplatform\cprojects\cresearch\article.pdf

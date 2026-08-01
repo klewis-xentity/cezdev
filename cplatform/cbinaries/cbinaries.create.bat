@@ -51,3 +51,6 @@ set "other.bin=%CBINARIES_HOME%\other"
 
 set "python.home=%CBINARIES_HOME%\python\python-3.13.13-embed-amd64"
 set "python.bin=%CBINARIES_HOME%\python\python-3.13.13-embed-amd64"
+
+set "ssh.home=%CBINARIES_HOME%\ssh"
+set "ssh.bin=%CBINARIES_HOME%\ssh"

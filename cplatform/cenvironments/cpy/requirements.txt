@@ -13,3 +13,5 @@ tabulate
 pandas 
 matplotlib 
 scipy
+openai
+ollama

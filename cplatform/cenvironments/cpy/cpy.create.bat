@@ -22,7 +22,7 @@ set PATH=%PATH%;%CPY_HOME%
 
 set "CPY_ENV_READY=0"
 if exist "%C3DCLASSES_PYPATH%\pyproject.toml" if exist "%C3DCLASSES_PYPATH%\c3dclasses" (
-	call pythonx.bat -c "import c3dclasses, PyPDF2" >nul 2>nul
+	call python.bat -c "import c3dclasses, PyPDF2" >nul 2>nul
 	if not errorlevel 1 set "CPY_ENV_READY=1"
 )
 
