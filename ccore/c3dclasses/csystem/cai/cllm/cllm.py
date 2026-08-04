@@ -32,6 +32,7 @@ class CLLMSettings:
     def __init__(self, 
                  cllm=None,
                  max_tokens=8500, 
+                 num_ctx=None,
                  temperature=0.4, 
                  top_p=0.40,
                  top_k=50,
@@ -51,6 +52,7 @@ class CLLMSettings:
                  stop=None
                  ):
         self.max_tokens = max_tokens
+        self.num_ctx = num_ctx
         self.temperature = temperature
         self.top_p = top_p
         self.top_k = top_k
@@ -105,6 +107,20 @@ class CLLMSettings:
     def getMaxTokens(self):
         return self.max_tokens
     # end getMaxTokens()
+
+    # setNumCtxByK() sets the context size in thousands of tokens (e.g., 4 = 4000 tokens)
+    def setNumCtxByK(self, num_ctx_k):
+        self.num_ctx = num_ctx_k * 1000
+        return self
+
+    def setNumCtx(self, num_ctx):
+        self.num_ctx = num_ctx
+        return self
+    # end setNumCtx()
+
+    def getNumCtx(self):
+        return self.num_ctx
+    # end getNumCtx()
 
     def setTemperature(self, temperature):
         self.temperature = temperature
@@ -186,50 +202,56 @@ class CLLMSettings:
         # end with
     # end _chain()
 
-    
     #--------------------------------------------------------------------------
     # helper functions for initializing the llm chat/non chat platforms
     #--------------------------------------------------------------------------
-    def _getLLM(self, params=None):   
-        if(self.model_platform == "ChatOpenAI"):
-            return self._get_chat_openai_platform()
-        # end if
-        elif(self.model_platform == "OpenAI"):
-            return self._get_openai_platform()
-        # end if
-        elif(self.model_platform == "Ollama"):
-            return self._get_ollama_platform()
-        # end if
-        return None          
+    def _getLLM(self, params=None):
+        builders = {
+            "ChatOpenAI": self._get_chat_openai_platform,
+            "OpenAI": self._get_openai_platform,
+            "Ollama": self._get_ollama_platform,
+        }
+        builder = builders.get(self.model_platform)
+        if builder is None:
+            logger.warning(f"Failure: CLLMSettings :: _getLLM() - Unsupported platform: {self.model_platform}")
+            return None
+        return builder(params=params)
     # end getLLM()  
+
+    def _merge_params(self, base_params, params=None):
+        merged = dict(base_params)
+        if params:
+            merged.update(params)
+        return merged
+    # end _merge_params()
+
+    def _get_common_platform_params(self):
+        return {
+            "model": self.model,
+            "temperature": self.temperature,
+        }
+    # end _get_common_platform_params()
     
-    def _get_chat_openai_platform(self):
-        return ChatOpenAI (
-            model=self.model,  
-            temperature=self.temperature,  
-            max_tokens=self.max_tokens
-        )
+    def _get_chat_openai_platform(self, params=None):
+        base_params = self._get_common_platform_params()
+        base_params["max_tokens"] = self.max_tokens
+        return ChatOpenAI(**self._merge_params(base_params, params))
     # end _init_chat_openai_platform()
     
-    def _get_openai_platform(self):
-        return OpenAI (
-            model=self.model,   # Specify the non-chat model
-            temperature=self.temperature,  
-            max_tokens=self.max_tokens
-        )
+    def _get_openai_platform(self, params=None):
+        base_params = self._get_common_platform_params()
+        # Specify the non-chat model
+        base_params["max_tokens"] = self.max_tokens
+        return OpenAI(**self._merge_params(base_params, params))
     # end _init_openai_platform()
     
-    def _get_ollama_platform(self):
-        return Ollama (
-            model=self.model,
-            temperature=self.temperature,
-            #max_tokens=self.max_tokens,
-            top_p=self.top_p,
-            #top_k=self.top_k,
-            #frequency_penalty=self.frequency_penalty,
-            #presence_penalty=self.presence_penalty,
-            stop=self.stop
-        )      
+    def _get_ollama_platform(self, params=None):
+        base_params = self._get_common_platform_params()
+        base_params["top_p"] = self.top_p
+        base_params["stop"] = self.stop
+        if self.num_ctx is not None:
+            base_params["num_ctx"] = self.num_ctx
+        return Ollama(**self._merge_params(base_params, params))
     # end _init_chat_ollama_plafrom()
     
 # end CLLSettings
@@ -413,9 +435,11 @@ class CLLM (CLLMSettings):
     # end getPromptResponse()
 
     def _promptWithImages(self, strprompt, strpathimages):
+        logger.warning("DEBUG: _promptWithImages() - START")
         if self.model_platform != "Ollama":
             raise ValueError("Image prompts are only supported on the Ollama platform.")
 
+        logger.warning(f"DEBUG: _promptWithImages() - strpathimages type={type(strpathimages)}")
         if isinstance(strpathimages, (str, Path)):
             image_paths = [strpathimages]
         elif isinstance(strpathimages, (list, tuple)):
@@ -423,15 +447,22 @@ class CLLM (CLLMSettings):
         else:
             raise TypeError("strpathimages must be a path string, Path, or list/tuple of paths.")
 
+        logger.warning(f"DEBUG: _promptWithImages() - resolving {len(image_paths)} image path(s)")
         normalized_paths = []
         for image_path in image_paths:
             path = Path(image_path)
             if not path.exists():
                 raise FileNotFoundError(f"Image not found: {path}")
+            logger.warning(f"DEBUG: _promptWithImages() - image exists: {path} ({path.stat().st_size} bytes)")
             normalized_paths.append(str(path))
 
         host = self.api_base.rsplit("/v1", 1)[0] if self.api_base else "http://localhost:11434"
-        client = ollama.Client(host=host)
+        logger.warning(f"DEBUG: _promptWithImages() - host={host}, model={self.model}")
+        # timeout (seconds): fail fast instead of hanging forever if the server
+        # is unresponsive or the model is stuck loading. None = wait indefinitely.
+        chat_timeout = getattr(self, "m_imagechattimeout", 300)
+        logger.warning(f"DEBUG: _promptWithImages() - creating ollama.Client (timeout={chat_timeout}s)")
+        client = ollama.Client(host=host, timeout=chat_timeout)
 
         messages = []
         if self.m_memoryon and self.m_systemprompt:
@@ -450,23 +481,54 @@ class CLLM (CLLMSettings):
                 "images": normalized_paths,
             }
         )
+        logger.warning(f"DEBUG: _promptWithImages() - built {len(messages)} message(s); memoryon={self.m_memoryon}")
 
+        logger.warning("DEBUG: _promptWithImages() - calling getModelContextWindow() [network call to /api/show]")
+        model_ctx = self.getModelContextWindow()
+        # Do NOT request the model's theoretical max context (e.g. 128000). Allocating
+        # a KV cache that large exhausts VRAM and makes cudaMalloc fail / Ollama hang.
+        # 4096 keeps the KV cache small enough to fit a vision model on a typical GPU.
+        # Override via CLLMSettings.num_ctx if you have more VRAM to spare.
+        num_ctx = self.getNumCtx()
+        if num_ctx is None:
+            num_ctx = min(model_ctx, 4096)
+        logger.warning(f"DEBUG: _promptWithImages() - model_ctx={model_ctx}, using num_ctx={num_ctx}")
         options = {
             "temperature": self.temperature,
             "top_p": self.top_p,
             "top_k": self.top_k,
-            "num_ctx": self.getModelContextWindow(),
+            "num_ctx": num_ctx,
         }
+        # Optional: cap how many model layers go on the GPU. Set m_imagenumgpu to a
+        # small integer (e.g. 20) to offload the rest to CPU if VRAM is exhausted.
+        num_gpu = getattr(self, "m_imagenumgpu", None)
+        if num_gpu is not None:
+            options["num_gpu"] = num_gpu
         if self.stop:
             options["stop"] = self.stop
+        logger.warning(f"DEBUG: _promptWithImages() - options={options}")
 
-        response = client.chat(
-            model=self.model,
-            messages=messages,
-            options=options,
-        )
+        logger.warning("DEBUG: _promptWithImages() - calling client.chat() [network call, likely hang point]")
+        import time as _dbg_time
+        _dbg_start = _dbg_time.time()
+        try:
+            response = client.chat(
+                model=self.model,
+                messages=messages,
+                options=options,
+            )
+        except Exception as e:
+            elapsed = _dbg_time.time() - _dbg_start
+            logger.error(
+                f"Failure: CLLM :: _promptWithImages() - client.chat() failed after "
+                f"{elapsed:.2f}s (timeout={chat_timeout}s): {type(e).__name__}: {e}"
+            )
+            raise
+        logger.warning(f"DEBUG: _promptWithImages() - client.chat() returned after {_dbg_time.time() - _dbg_start:.2f}s")
 
-        return response.get("message", {}).get("content", "")
+        result = response.get("message", {}).get("content", "")
+        logger.warning(f"DEBUG: _promptWithImages() - END, response length={len(result)}")
+        return result
     # end _promptWithImages()
     
     def prompt(self, strprompt, strpathimages=None): 
@@ -491,8 +553,6 @@ class CLLM (CLLMSettings):
                 self.m_strpromptresponse = self._prompt(strprompt)
         return self.m_strpromptresponse
     # end prompt()
-
-
     
     def chain(self,  strquestion, docs):
         self.m_strpromptresponse = super().chain(strquestion, docs)
