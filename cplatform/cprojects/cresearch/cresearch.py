@@ -14,13 +14,16 @@ class CResearch:
             "You are a helpful assistant. Remember details the user shares "
             "and use them to answer later questions in the conversation."
         )
-        print("Context window:", self.m_cllm.getModelContextWindow())
+        print("Context window:", self.m_cllm.getModelContextSize())
 
     def setMethod(self, strmethodid, strmethod):
         self.m_method[strmethodid] = strmethod
 
     def getCLLM(self):
         return self.m_cllm
+
+    def getRemainingContextSize(self):
+        return self.m_cllm.getRemainingContextSize()
    
     def addImage(self, strimagepath):
         if isinstance(strimagepath, str):

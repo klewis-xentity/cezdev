@@ -1,4 +1,4 @@
-"""
+r"""
 name: file.monitor.py
 desc: Monitors directories for file changes using watchdog library.
 usage: python file.monitor.py <directories> [callbacks] [exclude-patterns]
@@ -66,10 +66,24 @@ class FileChangeHandler(FileSystemEventHandler):
             return
         platform, platform_name = self._extract_platform_info(filepath)
         for callback in self.callbacks:
-            if Path(callback).exists():
-                print(f"  callback: {Path(callback).name}")
+            callback_path = Path(callback)
+            if callback_path.exists():
+                print(f"  callback: {callback_path.name}")
                 try:
-                    subprocess.run([callback, modified_type, filepath, platform or "", platform_name or ""], shell=True, check=False)
+                    cb_args = [modified_type, filepath, platform or "", platform_name or ""]
+                    if callback_path.suffix.lower() in {".bat", ".cmd"}:
+                        cmd = ["cmd", "/c", str(callback_path), *cb_args]
+                    else:
+                        cmd = [str(callback_path), *cb_args]
+
+                    # Capture callback output so failures are visible in monitor logs.
+                    result = subprocess.run(cmd, shell=False, check=False, capture_output=True, text=True)
+                    if result.stdout:
+                        print(result.stdout, end="" if result.stdout.endswith("\n") else "\n")
+                    if result.stderr:
+                        print(result.stderr, end="" if result.stderr.endswith("\n") else "\n")
+                    if result.returncode != 0:
+                        print(f"  [ERROR] Callback exited with code {result.returncode}: {callback}")
                 except Exception as e:
                     print(f"  [ERROR] {e}")
             else:

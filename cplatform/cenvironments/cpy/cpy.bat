@@ -70,36 +70,36 @@ goto FIND_PACKAGE
 echo [MODE] Package-based Python project detected
 echo [INFO] Using package config: %SETUP_CFG%
 echo [INSTALL] pip install -e "%PROJECT_DIR%"
-pip install -e "%PROJECT_DIR%" --quiet
+call pip install -e "%PROJECT_DIR%" --quiet
 if errorlevel 1 (
     echo [ERROR] Package install failed.
     goto DONE
 )
 echo [CHECK] "%PYTHON_CMD%" %PYTHON_ARGS% -m py_compile "%TARGET%"
-"%PYTHON_CMD%" %PYTHON_ARGS% -m py_compile "%TARGET%"
+call "%PYTHON_CMD%" %PYTHON_ARGS% -m py_compile "%TARGET%"
 if errorlevel 1 (
     echo [ERROR] Syntax check failed.
     goto DONE
 )
 echo [RUN] "%PYTHON_CMD%" %PYTHON_ARGS% "%TARGET%"%RUN_ARGS%
-"%PYTHON_CMD%" %PYTHON_ARGS% "%TARGET%"%RUN_ARGS%
+call "%PYTHON_CMD%" %PYTHON_ARGS% "%TARGET%"%RUN_ARGS%
 goto DONE
 
 :NO_PROJECT
 echo [MODE] Plain Python script - syntax check and run
 echo [CHECK] "%PYTHON_CMD%" %PYTHON_ARGS% -m py_compile "%TARGET%"
-"%PYTHON_CMD%" %PYTHON_ARGS% -m py_compile "%TARGET%"
+call "%PYTHON_CMD%" %PYTHON_ARGS% -m py_compile "%TARGET%"
 if errorlevel 1 (
     echo [ERROR] Syntax check failed.
     goto DONE
 )
 echo [RUN] "%PYTHON_CMD%" %PYTHON_ARGS% "%TARGET%"%RUN_ARGS%
-"%PYTHON_CMD%" %PYTHON_ARGS% "%TARGET%"%RUN_ARGS%
+call "%PYTHON_CMD%" %PYTHON_ARGS% "%TARGET%"%RUN_ARGS%
 goto DONE
 
 :NOPARAM
 echo [MODE] No script provided - launching Python REPL
-"%PYTHON_CMD%" %PYTHON_ARGS%
+call "%PYTHON_CMD%" %PYTHON_ARGS%
 
 :DONE
 cd /d "%CPYHOME%"

@@ -49,8 +49,11 @@ set "notepad++.bin=%CBINARIES_HOME%\notepad++\npp.7.6.2.bin.x64"
 set "other.home=%CBINARIES_HOME%\other"
 set "other.bin=%CBINARIES_HOME%\other"
 
-set "python.home=%CBINARIES_HOME%\python\python-3.13.13-embed-amd64"
-set "python.bin=%CBINARIES_HOME%\python\python-3.13.13-embed-amd64"
+::set "python.home=%CBINARIES_HOME%\python\python-3.13.13-embed-amd64"
+::set "python.bin=%CBINARIES_HOME%\python\python-3.13.13-embed-amd64"
+
+set "python.home=%CBINARIES_HOME%\python\python-3.14.7-amd64"
+set "python.bin=%CBINARIES_HOME%\python\python-3.14.7-amd64"
 
 set "ssh.home=%CBINARIES_HOME%\ssh"
 set "ssh.bin=%CBINARIES_HOME%\ssh"

@@ -7,6 +7,20 @@
 @echo off
 setlocal
 
+set "SCRIPT_DIR=%~dp0"
+set "SCRIPT_DIR=%SCRIPT_DIR:~0,-1%"
+
+set "CORE_ROOT=%C3DCLASSES%"
+if "%CORE_ROOT%"=="" set "CORE_ROOT=%SCRIPT_DIR%\..\..\..\ccore\c3dclasses"
+for %%I in ("%CORE_ROOT%") do set "CORE_ROOT=%%~fI"
+
+set "CMETA_ROOT=%CMETADATA%"
+if "%CMETA_ROOT%"=="" set "CMETA_ROOT=%SCRIPT_DIR%\..\..\..\cdata\cmetadata"
+for %%I in ("%CMETA_ROOT%") do set "CMETA_ROOT=%%~fI"
+
+set "META_PY_SRC=%CMETA_ROOT%\c3dclasses_py\c3dclasses"
+for %%I in ("%META_PY_SRC%") do set "META_PY_SRC=%%~fI"
+
 echo [CALLING] %~nx0
 echo [PARAM] modified_type: %~1
 echo [PARAM] filepath: %~2
@@ -24,6 +38,41 @@ if not errorlevel 1 (
 	goto end
 )
 
+set "SRC_FILE=%~2"
+for %%I in ("%SRC_FILE%") do set "SRC_FILE=%%~fI"
+for %%I in ("%SRC_FILE%") do set "SRC_EXT=%%~xI"
+
+if /I not "%SRC_EXT%"==".py" (
+	echo [SKIP] Non-Python file change.
+	goto update
+)
+
+if not exist "%SRC_FILE%" (
+	echo [SKIP] Source file does not exist: %SRC_FILE%
+	goto update
+)
+
+set "REL_PATH=%SRC_FILE%"
+call set "REL_PATH=%%REL_PATH:%CORE_ROOT%\=%%"
+if /I "%REL_PATH%"=="%SRC_FILE%" (
+	echo [SKIP] File not under core Python source root: %CORE_ROOT%
+	goto update
+)
+
+set "DST_FILE=%META_PY_SRC%\%REL_PATH%"
+for %%I in ("%DST_FILE%") do set "DST_DIR=%%~dpI"
+if not exist "%DST_DIR%" mkdir "%DST_DIR%" >nul 2>&1
+
+copy /Y "%SRC_FILE%" "%DST_FILE%" >nul
+if errorlevel 1 (
+	echo [ERROR] Failed to mirror file: %SRC_FILE%
+	echo [ERROR] Destination: %DST_FILE%
+) else (
+	echo [MIRROR] %SRC_FILE%
+	echo [TO]     %DST_FILE%
+)
+
+:update
 call "%~dp0cpy.update.bat"
 
 :end

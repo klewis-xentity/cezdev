@@ -11,11 +11,14 @@
 @echo off
 setlocal EnableExtensions
 
+rem Capture the submission ID and rubric name or path from the command line.
 set "submissionid=%~1"
 set "rubricfilename=%~2"
+rem Resolve the repository root from the batch file location so the script works from any working directory.
 for %%i in ("%~dp0..") do set "cautograderdirpath=%%~fi"
 set "sdkpath=%cautograderdirpath%\src\c3dclassessdk_py"
 
+rem Both arguments are required: the graded submission JSON and the rubric JSON.
 if "%submissionid%"=="" (
     echo Usage: %~nx0 ^<submission_id^> ^<rubric_filename^>
     exit /b 1
@@ -26,12 +29,14 @@ if "%rubricfilename%"=="" (
     exit /b 1
 )
 
+rem Prefer a project-local SDK path if the process already has PYTHONPATH set.
 if defined PYTHONPATH (
     set "PYTHONPATH=%sdkpath%;%PYTHONPATH%"
 ) else (
     set "PYTHONPATH=%sdkpath%"
 )
 
+rem Find a usable Python launcher in priority order: pythonx, py, python, then the bundled runtime.
 where pythonx >nul 2>nul
 if "%ERRORLEVEL%"=="0" (
     set "pythoncmd=pythonx"
@@ -58,13 +63,14 @@ if not defined pythoncmd (
     exit /b 127
 )
 
+rem Normalize the launcher so the final command works whether we found py or a full python.exe path.
 if "%pythoncmd%"=="py" (
     set "pythoncmd=py -3"
 ) else (
     set "pythoncmd="%pythoncmd%""
 )
 
-:: Define each parameter separately for better readability and maintainability
+rem Build the input paths for the graded submission and rubric file.
 set "gradedsubmissionfile=%cautograderdirpath%\data\grade_submission\%submissionid%.json"
 if exist "%rubricfilename%" (
     for %%i in ("%rubricfilename%") do set "rubricfile=%%~fi"
@@ -72,6 +78,7 @@ if exist "%rubricfilename%" (
     set "rubricfile=%cautograderdirpath%\data\rubic\markingRubric\%rubricfilename%"
 )
 
+rem Fail fast if either input file is missing so the Python script only runs with valid inputs.
 if not exist "%gradedsubmissionfile%" (
     echo [ERROR] Graded submission file not found: "%gradedsubmissionfile%"
     echo [INFO] Choose an existing JSON file under "%cautograderdirpath%\data\grade_submission"
@@ -85,10 +92,10 @@ if not exist "%rubricfile%" (
     exit /b 2
 )
 
-:: Construct the command parameters
+rem Run the Python grader with the resolved submission and rubric paths.
 set "commonparams=%gradedsubmissionfile% %rubricfile%"
 
-:: execute the command
+rem Capture the Python exit code and echo a short status block for the caller.
 %pythoncmd% "%cautograderdirpath%\src\compute_final_grade.py" main "%gradedsubmissionfile%" "%rubricfile%"
 
 set "GRADE_EXIT_CODE=%ERRORLEVEL%"

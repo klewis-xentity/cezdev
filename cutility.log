@@ -1,2 +1,12 @@
 2026-07-22 20:27:53,234 - CUtility - ERROR - Error reading from D:\cezdev\cplatform\cprojects\llmautograder\llmautograder/data/submission_ids/1: [Errno 2] No such file or directory: 'D:\\cezdev\\cplatform\\cprojects\\llmautograder\\llmautograder/data/submission_ids/1'
 2026-07-22 20:29:37,990 - CUtility - ERROR - Error reading from D:\cezdev\cplatform\cprojects\llmautograder\llmautograder/data/submission_ids/submission_ids_test2: [Errno 2] No such file or directory: 'D:\\cezdev\\cplatform\\cprojects\\llmautograder\\llmautograder/data/submission_ids/submission_ids_test2'
+2026-08-16 16:29:17,272 - CUtility - ERROR - Error reading PDF ./test.pdf: [Errno 2] No such file or directory: './test.pdf'
+2026-08-16 16:29:46,515 - CUtility - ERROR - Error reading PDF E:\cezdev\ccore\c3dclasses\csystem\cai\cllm	est.pdf: [Errno 22] Invalid argument: 'E:\\cezdev\\ccore\\c3dclasses\\csystem\\cai\\cllm\test.pdf'
+2026-08-16 16:30:26,228 - CUtility - ERROR - Error reading PDF E:\cezdev\ccore\c3dclasses\csystem\cai\cllm	est.pdf: [Errno 22] Invalid argument: 'E:\\cezdev\\ccore\\c3dclasses\\csystem\\cai\\cllm\test.pdf'
+2026-08-16 16:33:19,445 - CUtility - INFO - Text extracted from PDF: E://cezdev//ccore//c3dclasses//csystem//cai//cllm//test.pdf
+2026-08-16 16:33:49,828 - CUtility - INFO - Text extracted from PDF: E://cezdev//ccore//c3dclasses//csystem//cai//cllm//test.pdf
+2026-08-16 16:37:01,852 - CUtility - INFO - Text extracted from PDF: E://cezdev//ccore//c3dclasses//csystem//cai//cllm//test.pdf
+2026-08-16 16:48:27,002 - CUtility - INFO - Text extracted from PDF: E://cezdev//ccore//c3dclasses//csystem//cai//cllm//test.pdf
+2026-08-16 16:49:56,212 - CUtility - INFO - Text extracted from PDF: E://cezdev//ccore//c3dclasses//csystem//cai//cllm//test.pdf
+2026-08-16 16:50:47,220 - CUtility - INFO - Text extracted from PDF: E://cezdev//ccore//c3dclasses//csystem//cai//cllm//test.pdf
+2026-08-16 16:54:37,632 - CUtility - INFO - Text extracted from PDF: E://cezdev//ccore//c3dclasses//csystem//cai//cllm//test.pdf

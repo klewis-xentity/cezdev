@@ -25,7 +25,11 @@ if not defined PYTHON_CMD (
 
 ::start "cezdev-file-monitor" /B cmd /c ""cpy" "%~dp0file.monitor.py" %* >> "%LOG_FILE%" 2>&1"
 
-cpy "%~dp0file.monitor.py" %*
+if "%~1"=="" (
+	call cpy "%~dp0file.monitor.py" "%CD%"
+) else (
+	call cpy "%~dp0file.monitor.py" %*
+)
 
 if errorlevel 1 (
 	echo [ERROR] Failed to start file monitor process.
