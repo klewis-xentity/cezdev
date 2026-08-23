@@ -13,8 +13,14 @@ from c3dclasses.ccore.cutility.cutility import extractTextFromFilename, writeTex
 #-----------------------------------------------
 # Initialize logging
 #-----------------------------------------------
-logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+if not logger.handlers:
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.INFO)
+    handler.setFormatter(logging.Formatter("%(levelname)s:%(name)s:%(message)s"))
+    logger.addHandler(handler)
+logger.propagate = False
 
 
 class CSimpleOllama:

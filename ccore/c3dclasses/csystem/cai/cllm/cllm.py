@@ -15,8 +15,14 @@ from c3dclasses.ccore.cutility.cutility import extractTextFromFilename, writeTex
 #-----------------------------------------------
 # Initialize logging
 #-----------------------------------------------
-logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+if not logger.handlers:
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.INFO)
+    handler.setFormatter(logging.Formatter("%(levelname)s:%(name)s:%(message)s"))
+    logger.addHandler(handler)
+logger.propagate = False
 
 DEFAULT_SUMMARIZE_PROMPT = """
 You are a high-fidelity summarizer. Your job is to preserve the original meaning, intent, and important details of the source content while making it concise and readable.
@@ -753,32 +759,31 @@ class CLLM (CLLMSettings):
         return self.m_strpromptresponse
     # end getPromptResponse()
 
-    def _promptWithImages(self, strprompt, strpathimages):
-        return super()._promptWithImages(strprompt, strpathimages)
-    # end _promptWithImages()
-    
-    def prompt(self, strprompt, strpathimages=None): 
+    def prompt(self, strprompt): 
         self.m_strprompt = strprompt
-        if strpathimages:
-            strresponse = self._promptWithImages(strprompt, strpathimages)
+        if self.m_memoryon:
+            # send the full transcript so the model remembers the conversation
+            strresponse = self._prompt(self._buildConversation(strprompt))
             strresponse = strresponse.strip() if strresponse else strresponse
-            if self.m_memoryon:
-                self.m_history.append(("User", strprompt))
-                self.m_history.append(("Assistant", strresponse))
+            # record this turn so it is remembered on the next call
+            self.m_history.append(("User", strprompt))
+            self.m_history.append(("Assistant", strresponse))
             self.m_strpromptresponse = strresponse
         else:
-            if self.m_memoryon:
-                # send the full transcript so the model remembers the conversation
-                strresponse = self._prompt(self._buildConversation(strprompt))
-                strresponse = strresponse.strip() if strresponse else strresponse
-                # record this turn so it is remembered on the next call
-                self.m_history.append(("User", strprompt))
-                self.m_history.append(("Assistant", strresponse))
-                self.m_strpromptresponse = strresponse
-            else:
-                self.m_strpromptresponse = self._prompt(strprompt)
+            self.m_strpromptresponse = self._prompt(strprompt)
         return self.m_strpromptresponse
     # end prompt()
+
+    def promptImage(self, strprompt, strpathimages): 
+        self.m_strprompt = strprompt
+        strresponse = self._promptWithImages(strprompt, strpathimages)
+        strresponse = strresponse.strip() if strresponse else strresponse
+        if self.m_memoryon:
+            self.m_history.append(("User", strprompt))
+            self.m_history.append(("Assistant", strresponse))
+        self.m_strpromptresponse = strresponse
+        return self.m_strpromptresponse
+    # end promptImage()
     
     def chain(self, strprompt, docs):
         self.m_strpromptresponse = self._chain(strprompt, docs)
@@ -786,6 +791,8 @@ class CLLM (CLLMSettings):
     # end chain()
 
     def compressPrompt(self, strprompt, itokensizetocompress): 
+        strprompt_length = len(str(strprompt)) if strprompt is not None else 0
+
         def _fit_segments(segments):
             fitted_prompt = ""
             for segment in segments:
@@ -875,7 +882,7 @@ class CLLM (CLLMSettings):
             return current_prompt
 
         # Iteratively compress toward the requested token budget.
-        for _ in range(3):
+        for pass_index in range(3):
             current_tokens = self._estimate_tokens(current_prompt)
             if current_tokens <= target_tokens:
                 break
@@ -959,6 +966,8 @@ class CLLM (CLLMSettings):
                 target_tokens,
             )
 
+        print(f"  compressPrompt: {strprompt_length} chars -> {final_tokens}/{target_tokens} tokens ({len(current_prompt)} chars)")
+
         self.m_strpromptresponse = current_prompt
         return current_prompt
     # end compressPrompt()
@@ -971,13 +980,7 @@ class CLLM (CLLMSettings):
         icontenttosummarize = len(strcontenttosummarize)
         icurrentsummary = len(strcurrentsummary)
         ihowtosummarizeprompt = len(strhowtosummarizeprompt)
-        logger.info(
-            "CLLM :: compressContent() start content_len=%s current_summary_len=%s summarize_prompt_len=%s max_size=%s",
-            icontenttosummarize,
-            icurrentsummary,
-            ihowtosummarizeprompt,
-            isummarymaxsize,
-        )
+        print(f"compressContent: content={icontenttosummarize} chars, max={isummarymaxsize}")
     
         # compress the current summary and how-to-summarize prompt if they exceed the maximum summary size
         if(icurrentsummary >= isummarymaxsize * 0.3):
@@ -994,32 +997,15 @@ class CLLM (CLLMSettings):
         # compute the content size that can be summarized based on the maximum summary size
         # compute how much space is available for the content to summarize in the prompt 
         icontenttosummarizepagesize = isummarymaxsize - (ihowtosummarizeprompt + icurrentsummary)       
-        logger.info(
-            "CLLM :: compressContent() computed page_size=%s after prompt compression",
-            icontenttosummarizepagesize,
-        )
-    
         # compute the number of pages of content to summarize based on the available space
         inumofpagesofcontenttosummarize = math.ceil(icontenttosummarize / icontenttosummarizepagesize)
-        logger.info(
-            "CLLM :: compressContent() total_pages=%s",
-            inumofpagesofcontenttosummarize,
-        )
+        print(f"  pages={inumofpagesofcontenttosummarize}, page_size={icontenttosummarizepagesize} chars")
 
         for i in range(inumofpagesofcontenttosummarize):
             # compute the start and end indices for the current page of content to summarize
             istartindex = i * icontenttosummarizepagesize
             iendindex = min((i + 1) * icontenttosummarizepagesize, icontenttosummarize)
             strcontenttoprocess = strcontenttosummarize[istartindex:iendindex]
-            logger.info(
-                "CLLM :: compressContent() processing page=%s/%s start=%s end=%s chunk_len=%s",
-                i + 1,
-                inumofpagesofcontenttosummarize,
-                istartindex,
-                iendindex,
-                len(strcontenttoprocess),
-            )
-        
             # build the prompt for summarization it includes the how-to-summarize prompt, the current summary, and the content to summarize
             strprompt = f"{strhowtosummarizeprompt}\n\nCurrent Summary:\n{strcurrentsummary}\n\nContent to Summarize:\n{strcontenttoprocess}"
         
@@ -1029,11 +1015,7 @@ class CLLM (CLLMSettings):
             # update the current summary with the new summary response
             if strsummaryresponse:
                 strcurrentsummary = f"{strsummaryresponse.strip()}"
-                logger.info(
-                    "CLLM :: compressContent() updated_summary_len=%s after page=%s",
-                    len(strcurrentsummary),
-                    i + 1,
-                )
+            print(f"  [{i + 1}/{inumofpagesofcontenttosummarize}] chunk={len(strcontenttoprocess)} chars, prompt={len(strprompt)} chars, summary={len(strcurrentsummary)} chars")
         # end for
         return strcurrentsummary  
     # end compressContent()

@@ -8,6 +8,7 @@ import glob
 import os
 import logging
 import json
+import hashlib
 from PyPDF2 import PdfReader
 
 #--------------------------------------------------------
@@ -314,3 +315,39 @@ def print_block(strprefix, strsuffix, datatoprint, strlinechar="-"):
     print(f"{datatoprint}")
     print(f"{strprefix}-end-{strsuffix}{strlinechar*50}")
 # end print_block()
+
+def text2id(strtext, length=12):
+    """
+    Converts text into a deterministic uppercase alphanumeric identifier.
+
+    Args:
+        strtext (str): The text to convert.
+        length (int): Result length. Defaults to 12.
+
+    Returns:
+        str: A fixed-length uppercase alphanumeric string.
+    """
+    if strtext is None:
+        strtext = ""
+
+    text_bytes = str(strtext).strip().encode("utf-8")
+    digest = hashlib.sha256(text_bytes).hexdigest()
+
+    alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    value = int(digest, 16)
+
+    if value == 0:
+        result = "0" * length
+    else:
+        chars = []
+        temp = value
+        while temp > 0:
+            temp, remainder = divmod(temp, len(alphabet))
+            chars.append(alphabet[remainder])
+        result = "".join(reversed(chars))
+
+    if len(result) < length:
+        result = result.rjust(length, "0")
+
+    return result[:length].upper()
+# end text2id()

@@ -297,7 +297,7 @@ class CSubmissionGrader:
         i = 0
         count = len(strfiles)
         print(f"  Files found: {count}")
-        print(f"")
+        print("")
         for strfile in strfiles:
             strfilepath = f"{self.m_strsubmissionpath}/{strfile}"
             try:
@@ -318,16 +318,8 @@ class CSubmissionGrader:
             # end except
         # end for
         
-        try: 
-            print(f"")
-            print(f"  Files processed: {len(self.m_jsonsubmission['filenames'])}")
-        except Exception as e:
-            print(f"[WARNING] Could not count processed files: {e}")
-        # end try
-        
-        writeJSONToFilename(self.m_strjsonsubmissionfilename, self.m_jsonsubmission)  
-        print(f"  Output saved: {os.path.basename(self.m_strjsonsubmissionfilename)}") 
-        writeTextToFilename("./debugtext.txt", self.m_strdebug) 
+        writeJSONToFilename(self.m_strjsonsubmissionfilename, self.m_jsonsubmission)
+        writeTextToFilename("./debugtext.txt", self.m_strdebug)
         return True
     # end gradeSubmissionSummary()
 
@@ -354,7 +346,7 @@ class CSubmissionGrader:
         if(codefilesize > codefilesizelimit):
             print(f"    -> Splitting large file into chunks...")
             strtextchunks = split_text_into_chunks(strfilecode, codefilesizelimit, "}")
-            for index, strtextchunk in enumerate(strtextchunks):           
+            for index, strtextchunk in enumerate(strtextchunks):
                 print(f"    -> Processing chunk {index + 1}/{len(strtextchunks)}")
                 self.gradeSubmissionSummaryOfAFile(f"{strfilename}.{index}", strtextchunk, strquestiontoask)
             # end for

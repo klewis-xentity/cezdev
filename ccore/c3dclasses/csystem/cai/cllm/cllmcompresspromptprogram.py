@@ -1,3 +1,9 @@
+#-----------------------------------------------------------------
+# file: cllmcompresspromptprogram.py
+# desc: program that compresses a prompt to a target token budget
+#       using a local Ollama LLM
+#-----------------------------------------------------------------
+
 from c3dclasses.csystem.cai.cllm.cllm import CLLM
 
 def main():
