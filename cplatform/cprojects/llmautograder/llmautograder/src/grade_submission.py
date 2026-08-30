@@ -113,6 +113,7 @@ def should_show_cloudflare_reauth_link(error_msg):
 class CSubmissionGrader: 
     def __init__(self):  
         self.m_cllm = None      
+        self.m_strmodel = "llama3.1"
         self.m_strspecfilename = ""
         self.m_strspec = ""
         self.m_strtemplatepath = ""
@@ -129,7 +130,7 @@ class CSubmissionGrader:
         self.m_strprogramname = os.path.basename(__file__).replace(".py", "")
     # end __init__()
     
-    def create(self, strsubmissionpath, strspecfilename, strtemplatepath=""):  
+    def create(self, strsubmissionpath, strspecfilename, strtemplatepath="", strmodel="llama3.1"):  
         try:     
             # make some directories to store the rubic input artifacts in
             strhomepath = os.path.dirname(strspecfilename) 
@@ -150,7 +151,8 @@ class CSubmissionGrader:
             self.m_strjsonsubmissionfilename = f"{self.m_strjsonsubmissioncachepath}/{strdirname}.json" 
             self.m_strspecfilename = strspecfilename    
             self.m_cllm = CLLM()
-            self.m_cllm.useOllama("qwen2.5-coder:7b")
+            self.m_strmodel = (strmodel or "llama3.1").strip() or "llama3.1"
+            self.m_cllm.useOllama(self.m_strmodel)
             self.m_strspec = readTextFromFilename(self.m_strspecfilename)
             # Try to load existing submission data (may not exist on first run)
             if os.path.exists(self.m_strjsonsubmissionfilename):
@@ -162,6 +164,7 @@ class CSubmissionGrader:
             print(f"  Submission: {os.path.basename(strsubmissionpath)}")
             print(f"  Rubric:     {os.path.basename(strspecfilename)}")
             print(f"  Template:   {os.path.basename(strtemplatepath)}")
+            print(f"  Model:      {self.m_strmodel}")
             return True
         # end try
         except Exception as e:
@@ -534,13 +537,14 @@ class CSubmissionGrader:
 # desc: grade summaries for a submission file
 # usage: python.exe .\CSubmissionGrader\CSubmissionGrader.py grade submissionspath specification.txt templatecodepath
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def grade_submission(strsubmissionpath, strspecfilename, strtemplatecodepath):
+def grade_submission(strsubmissionpath, strspecfilename, strtemplatecodepath, strmodel="llama3.1"):
     print(f"  Submission path: {strsubmissionpath}")
     print(f"  Rubric path:     {strspecfilename}")
     print(f"  Template path:   {strtemplatecodepath}")
+    print(f"  Model:           {strmodel}")
     print(f"")
     css = CSubmissionGrader()
-    if css.create(strsubmissionpath, strspecfilename, strtemplatecodepath):
+    if css.create(strsubmissionpath, strspecfilename, strtemplatecodepath, strmodel):
         success = css.grade()
         if success:
             print(f"")
@@ -562,13 +566,14 @@ def grade_submission(strsubmissionpath, strspecfilename, strtemplatecodepath):
 # desc: grade summaries for a submission file
 # usage: python.exe .\CSubmissionGrader\CSubmissionGrader.py grade submissionspath specification.txt templatecodepath
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def grade_submission_meta_data(strsubmissionpath, strspecfilename, strtemplatecodepath):
+def grade_submission_meta_data(strsubmissionpath, strspecfilename, strtemplatecodepath, strmodel="llama3.1"):
     print(f"  Submission path: {strsubmissionpath}")
     print(f"  Rubric path:     {strspecfilename}")
     print(f"  Template path:   {strtemplatecodepath}")
+    print(f"  Model:           {strmodel}")
     print(f"")
     css = CSubmissionGrader()
-    if css.create(strsubmissionpath, strspecfilename, strtemplatecodepath):
+    if css.create(strsubmissionpath, strspecfilename, strtemplatecodepath, strmodel):
         css.gradeMetaData(0.90)
         print(f"")
         print(f"[OK] Meta data grading completed successfully")
@@ -598,7 +603,7 @@ if __name__ == "__main__":
             print(
                 "Usage: grade_submission.py "
                 "<grade_submission|grade_submission_meta_data> "
-                "<submission_path> <rubric_path> <template_code_path>"
+                "<submission_path> <rubric_path> <template_code_path> [model]"
             )
             sys.exit(1)
         commands[sys.argv[1]](*sys.argv[2:])

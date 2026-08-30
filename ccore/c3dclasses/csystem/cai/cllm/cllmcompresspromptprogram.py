@@ -12,11 +12,11 @@ def main():
     cllm.setTemperature(0.4)
 
     original_prompt = (
-        "Please review the following meeting notes and create a concise action plan. "
-        "Preserve all deadlines, owner names, priorities, dependencies, and any blockers. "
-        "Format the response as a numbered list with one item per action and include a brief risk summary at the end. "
-        "Meeting notes: John owns API update by Friday, Sara owns UI polish by next Tuesday, "
-        "DevOps must provision staging before UI testing can begin, and security review is required before release."
+        f"Please review the following meeting notes and create a concise action plan. "
+        f"Preserve all deadlines, owner names, priorities, dependencies, and any blockers. "
+        f"Format the response as a numbered list with one item per action and include a brief risk summary at the end. "
+        "Meeting notes: John owns API update by Friday, {article-goes-here} Sara owns UI polish by next Tuesday, "
+        f"DevOps must provision staging before UI testing can begin, and security review is required before release."
     )
     target_tokens = 100
 

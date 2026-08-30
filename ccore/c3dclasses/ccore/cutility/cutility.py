@@ -115,11 +115,25 @@ def readTextFromPDFFilename(strpdffilename):
 # desc: reads json from a filename
 #--------------------------------------------------------------------
 def readJSONFromFilename(strjsonfilename):
-    # Open the JSON file for reading
-    with open(strjsonfilename, 'r') as file:
-        # Load the contents of the file into a Python dictionary
-        return json.load(file)
-    return None
+    empty_review = {
+        "articles": {},
+        "researchquestions": {},
+        "reviews": {}
+    }
+    try:
+        with open(strjsonfilename, 'r', encoding='utf-8-sig') as file:
+            data = json.load(file)
+        if isinstance(data, dict):
+            return {
+                "articles": data.get("articles", {}),
+                "researchquestions": data.get("researchquestions", {}),
+                "reviews": data.get("reviews", {})
+            }
+        return empty_review
+    except (UnicodeDecodeError, json.JSONDecodeError, OSError):
+        logger.warning(f"JSON file could not be read as UTF-8: {strjsonfilename}. Using empty review.")
+        return empty_review
+    return empty_review
 # end readJSONFromFilename()
 
 #--------------------------------------------------------------------
@@ -128,8 +142,8 @@ def readJSONFromFilename(strjsonfilename):
 #--------------------------------------------------------------------
 def writeJSONToFilename(strjsonfilename, data):    
     # Write the dictionary to a JSON file
-    with open(strjsonfilename, 'w') as file:
-        json.dump(data, file, indent=4)  # indent=4 is for p
+    with open(strjsonfilename, 'w', encoding='utf-8') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)  # indent=4 is for p
 # end writeJSONToFilename()
 
 #---------------------------------------------------------------------------------------------------
