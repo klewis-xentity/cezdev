@@ -57,3 +57,7 @@ set "python.bin=%CBINARIES_HOME%\python\python-3.14.7-amd64"
 
 set "ssh.home=%CBINARIES_HOME%\ssh"
 set "ssh.bin=%CBINARIES_HOME%\ssh"
+
+set "yt-dlp.home=%CBINARIES_HOME%\yt-dlp"
+set "yt-dlp.bin=%CBINARIES_HOME%\yt-dlp"
+

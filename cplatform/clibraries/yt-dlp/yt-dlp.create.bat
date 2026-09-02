@@ -1,0 +1,1 @@
+call path.set.bat %yt-dlp.bin%
