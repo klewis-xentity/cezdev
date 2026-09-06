@@ -6,8 +6,12 @@
 
 @echo off
 
+set "CJAVAHOME=%CD%"
+
 echo [CALLING] %~nx0
 
-::call "%~dp0cjava.create.bat" %1 %2
+call cjava.build.bat
+
+cd /d "%CJAVAHOME%"
 
 echo [ENDING] %~nx0

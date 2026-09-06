@@ -22,21 +22,20 @@ if not exist "%C3DCLASSES_JAVAPATH%\pom.xml" (
    exit /b 1
 )
 
-if exist "%C3DCLASSES_JARFILE%" (
-   echo [INFO] Found existing JAR file: %C3DCLASSES_JARFILE% skipping Maven build. Delete the JAR file to force a rebuild.
-) else (
-   echo [WARNING] JAR file not found: %C3DCLASSES_JARFILE%
-   echo [WARNING] Maven build may fail if the JAR file is required for compilation.
-   echo [BUILDING] Maven build...
-   pushd "%dst%"
-   call mvn clean install test -e -Drelease.artifactId=%C3DCLASSES_NAME% -Drelease.version=%C3DCLASSES_VERSION% -Drelease.path=%CEZDEV_HOME% -Dother.home=%other.home%
+echo [BUILDING] Maven build...
+pushd "%dst%"
+call mvn clean install test -e -Drelease.artifactId=%C3DCLASSES_NAME% -Drelease.version=%C3DCLASSES_VERSION% -Drelease.path=%CEZDEV_HOME% -Dother.home=%other.home%
+set "MVN_EXIT_CODE=%ERRORLEVEL%"
+if not "%MVN_EXIT_CODE%"=="0" (
+   echo [WARNING] Maven clean/install/test failed. Retrying without clean (target may be locked).
+   call mvn install test -e -Drelease.artifactId=%C3DCLASSES_NAME% -Drelease.version=%C3DCLASSES_VERSION% -Drelease.path=%CEZDEV_HOME% -Dother.home=%other.home%
    set "MVN_EXIT_CODE=%ERRORLEVEL%"
-   popd
-   if not "%MVN_EXIT_CODE%"=="0" (
-      echo [ERROR] Maven build failed with exit code %MVN_EXIT_CODE%.
-      endlocal
-      exit /b %MVN_EXIT_CODE%
-   )
+)
+popd
+if not "%MVN_EXIT_CODE%"=="0" (
+   echo [ERROR] Maven build failed with exit code %MVN_EXIT_CODE%.
+   endlocal
+   exit /b %MVN_EXIT_CODE%
 )
 
 

@@ -17,9 +17,13 @@ public class CControlsDriver extends CProcessor {
 		this.addCInstructions("CButtonInstructions", new CButtonInstructions(this)); 
 		//this.addCInstructions("CLabelInstructions", new CLabelInstructions(this)); 
 		this.addCInstructions("CMenuInstructions", new CMenuInstructions(this)); 
+		this.addCInstructions("CSystemMenuInstructions", new CSystemMenuInstructions(this)); 
 		this.addCInstructions("CRadioButtonInstructions", new CRadioButtonInstructions(this)); 
 		this.addCInstructions("CCheckboxInstructions", new CCheckboxInstructions(this));
 		this.addCInstructions("CComboBoxInstructions", new CComboBoxInstructions(this));
+		this.addCInstructions("CColorInstructions", new CColorInstructions(this));
+		this.addCInstructions("CFileUploadInstructions", new CFileUploadInstructions(this));
+		this.addCInstructions("CImageUploadInstructions", new CImageUploadInstructions(this));
 		this.addCInstructions("CTextInputInstructions", new CTextInputInstructions(this));
 		this.addCInstructions("CTextAreaInstructions", new CTextAreaInstructions(this));
 	} // end CControlsDriver()

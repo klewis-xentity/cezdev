@@ -111,48 +111,47 @@ class CButtonInstructions extends CInstructions {
 */
 
         CFunction fnOnClick = new CFunction() { 
-    public CReturn call(CObject obj) { 
-        CControl ccontrol = (CControl) obj;
-        JComponent jcomponent = (JComponent) ccontrol._("m_jcontrol");
-        final String command = (String) ccontrol._("m_propvalue") + " " + (String) ccontrol._("m_strid");
+            public CReturn call(CObject obj) { 
+                final CControl ccontrol = (CControl) obj;
+                JComponent jcomponent = (JComponent) ccontrol._("m_jcontrol");
+                if (!(jcomponent instanceof AbstractButton)) {
+                    return null;
+                }
 
-        if (jcomponent instanceof JRadioButton && command != null && !command.isEmpty()) {
-            final JRadioButton radio = (JRadioButton) jcomponent;
+                final AbstractButton button = (AbstractButton) jcomponent;
+                Object prevListener = ccontrol._("m_onclick_listener");
+                if (prevListener instanceof ActionListener) {
+                    button.removeActionListener((ActionListener) prevListener);
+                }
 
-            // Remove any previous listener (optional)
-            Object prevListener = ccontrol._("m_onclick_listener");
-            if (prevListener instanceof ActionListener) {
-                radio.removeActionListener((ActionListener) prevListener);
+                Object onclickValue = ccontrol._("m_propvalue");
+                ActionListener listener = null;
+
+                if (onclickValue instanceof CFunction) {
+                    final CFunction callback = (CFunction) onclickValue;
+                    listener = new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            callback.call(ccontrol);
+                        }
+                    };
+                } else {
+                    String commandBase = (onclickValue == null) ? "" : onclickValue.toString().trim();
+                    if (commandBase.isEmpty()) {
+                        return null;
+                    }
+                    final String command = commandBase + " " + (String) ccontrol._("m_strid");
+                    listener = new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            __.exec_command(command);
+                        }
+                    };
+                }
+
+                button.addActionListener(listener);
+                ccontrol._("m_onclick_listener", listener);
+                return null;
             }
-
-            ActionListener listener = new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    // This will fire when the radio button is selected
-                    __.exec_command(command);
-                }
-            };
-            radio.addActionListener(listener);
-            ccontrol._("m_onclick_listener", listener);
-
-            // Optional: also listen for actual mouse clicks to fire even if it’s already selected
-            radio.addMouseListener(new java.awt.event.MouseAdapter() {
-                @Override
-                public void mouseClicked(java.awt.event.MouseEvent e) {
-                    __.exec_command(command);
-                }
-            });
-        } else if (jcomponent instanceof AbstractButton && command != null && !command.isEmpty()) {
-            // Buttons / checkboxes
-            ((AbstractButton) jcomponent).addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    __.alert("fire button....");
-                    __.exec_command(command);
-                }
-            });
-        }
-        return null;
-    }
-};
+        };
 
 /*
 		CFunction fnOnClickCheckbox = new CFunction() { 

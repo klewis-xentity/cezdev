@@ -410,12 +410,38 @@ public class __ {
 	// file_path / dir_path of an object
 	public static CHash m_filetodir = null; 
 	public static String file_path(String strfilename) {		
+		if(strfilename == null || strfilename == "")
+			return "";
 		if(__.m_filetodir == null) {
 			__.m_filetodir = CJSON.toCHash(__.file_get_contents(__.get_home_path() + "/../c3dclassessdk.filenames.json"));
 			if(__.m_filetodir == null)
 				__.m_filetodir = CJSON.toCHash(__.file_get_contents(__.get_home_path() + "/../../c3dclassessdk.filenames.json"));
 		} // end if
-		return (__.m_filetodir != null) ? __.m_filetodir._string(strfilename) : "";	
+		if(__.m_filetodir == null)
+			return "";
+
+		String strpath = __.m_filetodir._string(strfilename);
+		if(strpath == null || strpath == "")
+			return "";
+		if(__.file_exists(strpath))
+			return strpath;
+
+		String strhome = __.get_home_path().replace("\\", "/");
+		int i = strhome.toLowerCase().indexOf("/cezdev");
+		if(i != -1) {
+			String strroot = strhome.substring(0, i) + "/cezdev";
+			String strnormalized = strpath.replace("\\", "/");
+			int j = strnormalized.toLowerCase().indexOf("/cezdev/");
+			if(j != -1) {
+				String strremapped = strroot + strnormalized.substring(j + "/cezdev".length());
+				if(__.file_exists(strremapped)) {
+					__.m_filetodir._(strfilename, strremapped);
+					return strremapped;
+				}
+			}
+		}
+
+		return strpath;	
 	} // end file()
 	public static String file_path(Object object) { return __.file_path(object.getClass().getSimpleName() + ".java"); }
 	public static String check_file_path(String strpath) { String path = __.file_path(strpath); return (strpath == "" || strpath == null || path == "" || path == null) ? strpath : __.file_path(strpath); }

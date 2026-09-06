@@ -15,6 +15,8 @@ public class CBISC {
 	//---------------------------------------------------------------------
 	static public CArray loadDB(String strfilename) {
 		CArray lines = __.get_lines_from_file(strfilename); 
+		if(lines == null)
+			return __.carray();
 		for(int i=0; i<lines.length(); i++) {
 			String line = lines._string(i);
 			CArray strnumbers = __.split(" ", line);

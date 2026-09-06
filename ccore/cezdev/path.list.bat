@@ -20,7 +20,19 @@ if "%~1"=="" (
 )
 
 cd /d "%SCRIPT_DIR%"
-call pythonx PathListCommand.py %*
+where pythonx >nul 2>nul
+if "%ERRORLEVEL%"=="0" (
+    call pythonx PathListCommand.py %*
+) else (
+    where python >nul 2>nul
+    if "%ERRORLEVEL%"=="0" (
+        call python PathListCommand.py %*
+    ) else (
+        echo [ERROR] Neither pythonx nor python is available in PATH.
+        cd /d "%PATHLISTHOME%"
+        exit /b 1
+    )
+)
 cd /d "%PATHLISTHOME%"
 
 echo [ENDING] %~nx0
