@@ -18,7 +18,7 @@ class CRadioButtonInstructions extends CInstructions {
         super(cprocessor);
 
         this.m_ccontrolinstructions =
-            (CControlInstructions) cprocessor.getCInstructions("CControlInstrunctions");
+            (CControlInstructions) cprocessor.getCInstructions("CControlInstructions");
 
         CFunction fnCreateJRadioButton = new CFunction() {
             public CReturn call(CObject obj) {

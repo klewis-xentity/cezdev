@@ -18,7 +18,7 @@ class CComboBoxInstructions extends CInstructions {
         super(cprocessor);
 
         final CControlInstructions ccontrolinstructions =
-            this.m_ccontrolinstructions = (CControlInstructions) cprocessor.getCInstructions("CControlInstrunctions");
+            this.m_ccontrolinstructions = (CControlInstructions) cprocessor.getCInstructions("CControlInstructions");
         final CComboBoxInstructions _this = this;
 
         CFunction fnCreateJComboBox = new CFunction() {
@@ -161,7 +161,7 @@ class CComboBoxInstructions extends CInstructions {
                                 try {
                                     CControls ccontrols = CComboBoxInstructions.getCControls();
                                     if (ccontrols != null) {
-                                        ccontrols.retrieve(loadingControlId).setProp("visible", "true");
+                                        ccontrols.retrieve(loadingControlId).updateProp("visible", "true");
                                     }
                                 } catch (Exception ex) {
                                     __.print("Failed to show loading control: " + ex.getMessage());
@@ -184,7 +184,7 @@ class CComboBoxInstructions extends CInstructions {
                                             Thread.sleep(2000);
                                             CControls ccontrols = CComboBoxInstructions.getCControls();
                                             if (ccontrols != null) {
-                                                ccontrols.retrieve(loadingControlId).setProp("visible", "false");
+                                                ccontrols.retrieve(loadingControlId).updateProp("visible", "false");
                                             }
                                         } catch (Exception ex) {
                                             __.print("Failed to hide loading control: " + ex.getMessage());

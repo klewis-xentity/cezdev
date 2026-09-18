@@ -45,22 +45,22 @@ public class CControlsMenuProgram {
 			}
 		});
 
-		ccontrols.retrieve("menu-form main-menubar file-menu open-item").setProp("onclick", new CFunction() {
+		ccontrols.retrieve("menu-form main-menubar file-menu open-item").updateProp("onclick", new CFunction() {
 			public CReturn call(CObject obj) {
 				__.println("File > Open clicked");
 				return null;
 			}
 		});
 
-		ccontrols.retrieve("menu-form main-menubar file-menu exit-item").setProp("onclick", new CFunction() {
+		ccontrols.retrieve("menu-form main-menubar file-menu exit-item").updateProp("onclick", new CFunction() {
 			public CReturn call(CObject obj) {
 				__.println("File > Exit clicked");
-				ccontrols.retrieve("menu-form").setProp("close", "true");
+				ccontrols.retrieve("menu-form").updateProp("close", "true");
 				return null;
 			}
 		});
 
-		ccontrols.retrieve("menu-form main-menubar help-menu about-item").setProp("onclick", new CFunction() {
+		ccontrols.retrieve("menu-form main-menubar help-menu about-item").updateProp("onclick", new CFunction() {
 			public CReturn call(CObject obj) {
 				__.alert("CControlsMenuProgram: menu demo");
 				return null;

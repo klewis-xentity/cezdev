@@ -67,13 +67,13 @@ public class CControlsProgram {
 		
 		__.println(ccontrols.toStringContents());
 		
-		ccontrols.retrieve("myform").setProp("grid","true");
-		ccontrols.retrieve("myform").setProp("visible","true");
-		ccontrols.retrieve("myform").setProp("pack","true");
-		ccontrols.retrieve("myform").setProp("close","true");
-		ccontrols.retrieve("myform control5").setProp("onclick", "C:/Users/kevle/Desktop/test.bat");
-		ccontrols.retrieve("myform control5").setProp("text", "This was just set");	
-		ccontrols.retrieve("myform control5").setProp("onclick", new CFunction() { public CReturn call(CObject obj) {
+		ccontrols.retrieve("myform").updateProp("grid","true");
+		ccontrols.retrieve("myform").updateProp("visible","true");
+		ccontrols.retrieve("myform").updateProp("pack","true");
+		ccontrols.retrieve("myform").updateProp("close","true");
+		ccontrols.retrieve("myform control5").updateProp("onclick", "C:/Users/kevle/Desktop/test.bat");
+		ccontrols.retrieve("myform control5").updateProp("text", "This was just set");	
+		ccontrols.retrieve("myform control5").updateProp("onclick", new CFunction() { public CReturn call(CObject obj) {
 			__.alert("myform control5");
 			__.println("myform control5");
 			return null;

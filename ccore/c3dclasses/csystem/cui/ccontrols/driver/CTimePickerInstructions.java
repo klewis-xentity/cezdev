@@ -23,7 +23,7 @@ class CTimepickerInstructions extends CInstructions {
 
     public CTimepickerInstructions(CProcessor cprocessor) {
         super(cprocessor);
-        this.m_ccontrolinstructions = (CControlInstructions) cprocessor.getCInstructions("CControlInstrunctions");
+        this.m_ccontrolinstructions = (CControlInstructions) cprocessor.getCInstructions("CControlInstructions");
         final CTimepickerInstructions _this = this;
 
         CFunction fnCreate = new CFunction() {

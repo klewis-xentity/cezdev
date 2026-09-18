@@ -27,7 +27,7 @@ class CTextInputInstructions extends CInstructions {
 
     public CTextInputInstructions(CProcessor cprocessor) {
         super(cprocessor);
-        this.m_ccontrolinstructions = (CControlInstructions) cprocessor.getCInstructions("CControlInstrunctions");
+        this.m_ccontrolinstructions = (CControlInstructions) cprocessor.getCInstructions("CControlInstructions");
         final CTextInputInstructions _this = this;
 CFunction fnCreate = new CFunction() {
     public CReturn call(CObject obj) {

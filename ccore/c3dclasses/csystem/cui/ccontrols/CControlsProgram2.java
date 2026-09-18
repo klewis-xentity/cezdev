@@ -93,14 +93,14 @@ public class CControlsProgram2 {
 		ccontrols.retrieve("myform control5").setProp("text", "This was just set");
 		//ccontrols.retrieve("myform control5").setProp("visible","false");
 	
-		ccontrols.retrieve("myform control5").setProp("onclick", new CFunction() { public CReturn call(CObject obj) {
+		ccontrols.retrieve("myform control5").updateProp("onclick", new CFunction() { public CReturn call(CObject obj) {
 			__.alert("myform control5");
 			__.println("myform control5");
 			return null;
 		}}); // end onclick
 		
 		/*
-		ccontrols.retrieve("myform control5").setProp("onclick", new CFunction() { public Object _(Object obj) {
+		ccontrols.retrieve("myform control5").updateProp("onclick", new CFunction() { public Object _(Object obj) {
 			__.execCommand("C:/Users/developer/Desktop/test.bat");
 			return null;
 		}}); // end onclick
@@ -116,17 +116,17 @@ public class CControlsProgram2 {
 			return null;
 		}}); // end onclick
 		
-		ccontrols.retrieve("myform section-control radio-control1").setProp("onclick",  new CFunction() { public Object _(Object obj) {
+		ccontrols.retrieve("myform section-control radio-control1").updateProp("onclick",  new CFunction() { public Object _(Object obj) {
 			__.execCommand("C:/Users/developer/Desktop/test.bat");
 			return null;
 		}}); // end onclick
 		
-		ccontrols.retrieve("myform section-control radio-control2").setProp("onclick",  new CFunction() { public Object _(Object obj) {
+		ccontrols.retrieve("myform section-control radio-control2").updateProp("onclick",  new CFunction() { public Object _(Object obj) {
 			__.execCommand("C:/Users/developer/Desktop/test.bat");
 			return null;
 		}}); // end onclick
 		
-		ccontrols.retrieve("myform control4").setProp("onclick",  new CFunction() { public Object _(Object obj) {
+		ccontrols.retrieve("myform control4").updateProp("onclick",  new CFunction() { public Object _(Object obj) {
 			__.execCommand("C:/Users/developer/Desktop/test.bat");
 			return null;
 		}}); // end onclick	
@@ -140,18 +140,18 @@ public class CControlsProgram2 {
 		
 		
 		/*
-		ccontrols.retrieve("myform textarea-control").setProp("onclick",  new CFunction() { public Object _(Object obj) {
+		ccontrols.retrieve("myform textarea-control").updateProp("onclick",  new CFunction() { public Object _(Object obj) {
 			__.execCommand("C:/Users/developer/Desktop/test.bat");
 			return null;
 		}}); // end onclick
 		
-		ccontrols.retrieve("myform checkbox-control").setProp("onclick",  new CFunction() { public Object _(Object obj) {
+		ccontrols.retrieve("myform checkbox-control").updateProp("onclick",  new CFunction() { public Object _(Object obj) {
 			__.execCommand("C:/Users/developer/Desktop/test.bat");
 			return null;
 		}}); // end onclick
 		
-		ccontrols.retrieve("myform").setProp("title","FRAME");
-		ccontrols.retrieve("myform control5").setProp("title","BUTTON");
+		ccontrols.retrieve("myform").updateProp("title","FRAME");
+		ccontrols.retrieve("myform control5").updateProp("title","BUTTON");
 		
 		__.alert(ccontrols.retrieve("myform control5").getProp("visible"));
 		__.println(ccontrols.toStringContents());

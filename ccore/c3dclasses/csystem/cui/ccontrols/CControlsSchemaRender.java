@@ -86,7 +86,7 @@ public class CControlsSchemaRender {
         ccontrols.endform();
 
         if (strLayout == null || strLayout.equalsIgnoreCase("vertical")) {
-            ccontrols.retrieve(strFormId).setProp("grid", "true");
+            ccontrols.retrieve(strFormId).updateProp("grid", "true");
         }
 
         return ccontrols;

@@ -42,7 +42,7 @@ public class CControlsSystemMenuProgram {
 			showItem.setProp("onclick", new CFunction() {
 			public CReturn call(CObject obj) {
 				__.println("System menu: Show clicked");
-				ccontrols.retrieve("main-form").setProp("visible", "true");
+				ccontrols.retrieve("main-form").updateProp("visible", "true");
 				return null;
 			}
 			});
@@ -55,7 +55,7 @@ public class CControlsSystemMenuProgram {
 			exitItem.setProp("onclick", new CFunction() {
 			public CReturn call(CObject obj) {
 				__.println("System menu: Exit clicked");
-				ccontrols.retrieve("main-form").setProp("close", "true");
+				ccontrols.retrieve("main-form").updateProp("close", "true");
 				return null;
 			}
 			});

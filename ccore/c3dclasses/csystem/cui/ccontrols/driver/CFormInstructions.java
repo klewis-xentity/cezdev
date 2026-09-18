@@ -96,6 +96,96 @@ class CFormInstructions extends CInstructions {
 			return null;	
 		}}; // end fnGetTitle()
 
+		CFunction fnSetPanelTitle = new CFunction() { public CReturn call(CObject obj) { 
+			CControl ccontrol = (CControl) obj;
+			String value = (String) ccontrol._("m_propvalue");
+			Object jcontrol = ccontrol._("m_jcontrol");
+			if (jcontrol instanceof JPanel) {
+				JPanel panel = (JPanel) jcontrol;
+				String text = (value == null) ? "" : value;
+				panel.setBorder(BorderFactory.createTitledBorder(text));
+				panel.revalidate();
+				panel.repaint();
+			}
+			return null;
+		}}; // end fnSetPanelTitle()
+
+		CFunction fnForceVerticalPanelLayout = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			Object jcontrol = ccontrol._("m_jcontrol");
+			if (jcontrol instanceof java.awt.Container) {
+				java.awt.Container container = (java.awt.Container) jcontrol;
+				container.setLayout(new java.awt.GridLayout(0, 1));
+				container.revalidate();
+				container.repaint();
+			}
+			return null;
+		}}; // end fnForceVerticalPanelLayout()
+
+		CFunction fnGetPanelTitle = new CFunction() { public CReturn call(CObject obj) { 
+			CControl ccontrol = (CControl) obj;
+			Object jcontrol = ccontrol._("m_jcontrol");
+			if (jcontrol instanceof JPanel) {
+				JPanel panel = (JPanel) jcontrol;
+				Border border = panel.getBorder();
+				if (border instanceof TitledBorder) {
+					String title = ((TitledBorder) border).getTitle();
+					ccontrol._("m_propvalue", title);
+					return null;
+				}
+			}
+			ccontrol._("m_propvalue", "");
+			return null;
+		}}; // end fnGetPanelTitle()
+
+		CFunction fnClearPanelControls = new CFunction() { public CReturn call(CObject obj) { 
+			CControl ccontrol = (CControl) obj;
+			Object jcontrol = ccontrol._("m_jcontrol");
+			if (!(jcontrol instanceof java.awt.Container)) {
+				return null;
+			}
+			String panelPathId = (String) ccontrol._("m_strpathid");
+			CControls ccontrols = (CControls) ccontrol._("m_ccontrols");
+			if (ccontrols == null) {
+				return null;
+			}
+			CArray keys = ccontrols.getCControls().keys();
+			CArray keysToDelete = new CArray();
+			for (int i = 0; i < keys.length(); i++) {
+				Object keyObj = keys.get(i);
+				if (keyObj == null) {
+					continue;
+				}
+				String key = keyObj.toString();
+				if (key.startsWith(panelPathId + " ")) {
+					keysToDelete.push(key);
+				}
+			}
+			for (int i = 0; i < keysToDelete.length(); i++) {
+				for (int j = i + 1; j < keysToDelete.length(); j++) {
+					String a = String.valueOf(keysToDelete.get(i));
+					String b = String.valueOf(keysToDelete.get(j));
+					if (b.length() > a.length()) {
+						keysToDelete.set(i, b);
+						keysToDelete.set(j, a);
+					}
+				}
+			}
+			for (int i = 0; i < keysToDelete.length(); i++) {
+				String key = String.valueOf(keysToDelete.get(i));
+				CControl child = ccontrols.retrieve(key);
+				if (child != null) {
+					child.delete();
+				}
+				ccontrols.getCControls().remove(key);
+			}
+			java.awt.Container container = (java.awt.Container) jcontrol;
+			container.removeAll();
+			container.revalidate();
+			container.repaint();
+			return null;
+		}}; // end fnClearPanelControls()
+
 		// add instruction id to instrunction function mapping to the processor
 		cprocessor._("form->create", fnCreateJFrame);
 		cprocessor._("panel->create", fnCreateJPanel);
@@ -105,6 +195,12 @@ class CFormInstructions extends CInstructions {
 		cprocessor._("form->set->visible", cprocessor._("ccontrol->set->visible"));
 		cprocessor._("form->get->visible", cprocessor._("ccontrol->get->visible"));		
 		cprocessor._("form->set->title", fnSetTitle);		
-		cprocessor._("form->get->title", fnGetTitle);	
+		cprocessor._("form->get->title", fnGetTitle);
+		cprocessor._("panel->set->title", fnSetPanelTitle);
+		cprocessor._("panel->get->title", fnGetPanelTitle);
+		cprocessor._("panel->set->grid", fnForceVerticalPanelLayout);
+		cprocessor._("panel->set->verticallayout", fnForceVerticalPanelLayout);
+		cprocessor._("panel->destroy->controls", fnClearPanelControls);
 	} // end CFormInstructions()
+
 } // end CFormInstructions

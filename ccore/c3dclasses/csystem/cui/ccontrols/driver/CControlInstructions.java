@@ -3,22 +3,15 @@
 // desc: implements control instruction set
 //--------------------------------------------------------------
 package c3dclasses;
-import java.io.*;
-import java.util.*;
-import java.net.*;
-import java.text.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Component;
 import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener; 
-import java.applet.*;
-import javax.swing.*;
-import javax.swing.plaf.metal.*;
-import javax.swing.border.*;
+import java.awt.Font;
+import javax.swing.AbstractButton;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 //--------------------------------------------------------
 // name: CControlInstructions
@@ -27,134 +20,224 @@ import javax.swing.border.*;
 public class CControlInstructions extends CInstructions {	
 	public CControlInstructions(CProcessor cprocessor) {	
 		super(cprocessor);
-		// instruction function
 		
-		CFunction fnSetVisible = new CFunction() { public CReturn call(CObject obj) { 
-			CControl ccontrol = (CControl) obj;
-			String value = (String) ccontrol._("m_propvalue");
-			Component jcontrol = (Component) ccontrol._("m_jcontrol");
-			jcontrol.setVisible(Boolean.parseBoolean(value));
-			return null;	
-		}}; // end fnSetVisible()
-			
-		CFunction fnGetVisible = new CFunction() { public CReturn call(CObject obj) { 
+		CFunction fnSetVisible = new CFunction() { public CReturn call(CObject obj) {
 			CControl ccontrol = (CControl) obj;
 			Component jcontrol = (Component) ccontrol._("m_jcontrol");
-			String value = Boolean.toString(jcontrol.isVisible());
-			ccontrol._("m_propvalue", value);
-			return null;	
-		}}; // end fnGetVisible()
-		
-		CFunction fnSetFont = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.setFont();
+			jcontrol.setVisible(toBoolean(ccontrol._("m_propvalue")));
 			return null;	
 		}}; // end fnSetVisible()
 			
-		CFunction fnGetFont = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.getFont();
+		CFunction fnGetVisible = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			Component jcontrol = (Component) ccontrol._("m_jcontrol");
+			ccontrol._("m_propvalue", jcontrol.isVisible());
 			return null;	
 		}}; // end fnGetVisible()
 		
-		CFunction fnSetEnable = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.setEnable(boolean b);
+		CFunction fnSetFont = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			Component jcontrol = (Component) ccontrol._("m_jcontrol");
+			Font font = toFont(ccontrol._("m_propvalue"));
+			if(font != null)
+				jcontrol.setFont(font);
 			return null;	
-		}}; // end fnSetVisible()
+		}}; // end fnSetFont()
 			
-		CFunction fnGetEnable = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.getFont();
+		CFunction fnGetFont = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			Component jcontrol = (Component) ccontrol._("m_jcontrol");
+			ccontrol._("m_propvalue", jcontrol.getFont());
 			return null;	
-		}}; // end fnGetVisible()
+		}}; // end fnGetFont()
 		
-		CFunction fnSetIcon = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.setIcon(boolean b);
+		CFunction fnSetEnable = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			Component jcontrol = (Component) ccontrol._("m_jcontrol");
+			jcontrol.setEnabled(toBoolean(ccontrol._("m_propvalue")));
 			return null;	
-		}}; // end fnSetVisible()
+		}}; // end fnSetEnable()
 			
-		CFunction fnGetIcon = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.getIcon();
+		CFunction fnGetEnable = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			Component jcontrol = (Component) ccontrol._("m_jcontrol");
+			ccontrol._("m_propvalue", jcontrol.isEnabled());
 			return null;	
-		}}; // end fnGetVisible()
+		}}; // end fnGetEnable()
 		
-		CFunction fnSetText = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.setEnable(boolean b);
+		CFunction fnSetIcon = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			Icon icon = toIcon(ccontrol._("m_propvalue"));
+			setIcon(ccontrol._("m_jcontrol"), icon);
 			return null;	
-		}}; // end fnSetVisible()
+		}}; // end fnSetIcon()
 			
-		CFunction fnGetText = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.getFont();
+		CFunction fnGetIcon = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			ccontrol._("m_propvalue", getIcon(ccontrol._("m_jcontrol")));
 			return null;	
-		}}; // end fnGetVisible()
+		}}; // end fnGetIcon()
 		
-		CFunction fnSetHorizontalAlignment = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.setEnable(boolean b);
+		CFunction fnSetText = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			setText(ccontrol._("m_jcontrol"), ccontrol._("m_propvalue"));
 			return null;	
-		}}; // end fnSetVisible()
+		}}; // end fnSetText()
 			
-		CFunction fnGetHorizontalAlignment = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.getFont();
+		CFunction fnGetText = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			ccontrol._("m_propvalue", getText(ccontrol._("m_jcontrol")));
 			return null;	
-		}}; // end fnGetVisible()
+		}}; // end fnGetText()
 		
-		
-		CFunction fnSetVerticalAlignment = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.setEnable(boolean b);
+		CFunction fnSetHorizontalAlignment = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			setHorizontalAlignment(ccontrol._("m_jcontrol"), ccontrol._("m_propvalue"));
 			return null;	
-		}}; // end fnSetVisible()
+		}}; // end fnSetHorizontalAlignment()
 			
-		CFunction fnGetVerticalAlignment = new CFunction() { public CReturn call(CObject obj) { 
-			//jcontrol.getFont();
+		CFunction fnGetHorizontalAlignment = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			ccontrol._("m_propvalue", getHorizontalAlignment(ccontrol._("m_jcontrol")));
 			return null;	
-		}}; // end fnGetVisible()
+		}}; // end fnGetHorizontalAlignment()
+		
+		CFunction fnSetVerticalAlignment = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			setVerticalAlignment(ccontrol._("m_jcontrol"), ccontrol._("m_propvalue"));
+			return null;	
+		}}; // end fnSetVerticalAlignment()
+			
+		CFunction fnGetVerticalAlignment = new CFunction() { public CReturn call(CObject obj) {
+			CControl ccontrol = (CControl) obj;
+			ccontrol._("m_propvalue", getVerticalAlignment(ccontrol._("m_jcontrol")));
+			return null;	
+		}}; // end fnGetVerticalAlignment()
 
-		
-        CFunction fnOnInit = new CFunction() {
-            public CReturn call(CObject obj) {
-                final CControl ccontrol = (CControl) obj;
-                ccontrol._("m_oninit_command", ccontrol._("m_propvalue"));
-                return null;
-            } // end call()
-        }; // end fnOnInit()
-
-        CFunction fnOnDeInit = new CFunction() {
-            public CReturn call(CObject obj) {
-                final CControl ccontrol = (CControl) obj;
-                ccontrol._("m_ondeinit_command", ccontrol._("m_propvalue"));
-                return null;
-            } // end call()
-        }; // end fnOnDeInit()
-
-        CFunction fnDoOnInit = new CFunction() {
-            public CReturn call(CObject obj) {
-                final CControl ccontrol = (CControl) obj;
-                String strcommand = (String) ccontrol._("m_oninit_command");
-                if(strcommand != null)
-                    __.exec_command(strcommand + " " + (String) ccontrol._("m_strid"));
-                return null;
-            } // end call() 
-        }; // end fnDoOnInit()
-
-        CFunction fnDoOnDeInit = new CFunction() {
-            public CReturn call(CObject obj) {
-                final CControl ccontrol = (CControl) obj;
-                String strcommand = (String) ccontrol._("m_ondeinit_command");
-                if(strcommand != null)
-                    __.exec_command(strcommand + " " + (String) ccontrol._("m_strid"));
-                return null;
-            } // end call()
-        }; // end fnDoOnInit()
-
-		// add instruction id to instrunction function mapping to the processor
+		// Register the common control instructions.
 		cprocessor._("ccontrol->set->visible", fnSetVisible);
-		cprocessor._("ccontrol->get->visible", fnGetVisible);	
+		cprocessor._("ccontrol->get->visible", fnGetVisible);
 		cprocessor._("ccontrol->set->font", fnSetFont);
 		cprocessor._("ccontrol->get->font", fnGetFont);
-		cprocessor._("ccontrol->set->oninit", fnOnInit);
-        cprocessor._("ccontrol->set->ondeinit", fnOnDeInit);
-   		cprocessor._("ccontrol->get->oninit", fnDoOnInit);
-        cprocessor._("ccontrol->get->ondeinit", fnDoOnDeInit);
-   } // end CControlDriverImplementor()
-	
-	// instruction set helper functions
+		cprocessor._("ccontrol->set->enable", fnSetEnable);
+		cprocessor._("ccontrol->get->enable", fnGetEnable);
+		cprocessor._("ccontrol->set->icon", fnSetIcon);
+		cprocessor._("ccontrol->get->icon", fnGetIcon);
+		cprocessor._("ccontrol->set->text", fnSetText);
+		cprocessor._("ccontrol->get->text", fnGetText);
+		cprocessor._("ccontrol->set->horizontalalignment", fnSetHorizontalAlignment);
+		cprocessor._("ccontrol->get->horizontalalignment", fnGetHorizontalAlignment);
+		cprocessor._("ccontrol->set->verticalalignment", fnSetVerticalAlignment);
+		cprocessor._("ccontrol->get->verticalalignment", fnGetVerticalAlignment);
+	} // end CControlInstructions()
+
+	private static boolean toBoolean(Object value) {
+		return value instanceof Boolean ? (Boolean) value : Boolean.parseBoolean(String.valueOf(value));
+	}
+
+	private static Font toFont(Object value) {
+		if(value instanceof Font)
+			return (Font) value;
+		if(value == null)
+			return null;
+		return Font.decode(String.valueOf(value));
+	}
+
+	private static Icon toIcon(Object value) {
+		if(value instanceof Icon)
+			return (Icon) value;
+		if(value == null || String.valueOf(value).trim().isEmpty())
+			return null;
+		return new ImageIcon(String.valueOf(value));
+	}
+
+	private static void setIcon(Object control, Icon icon) {
+		if(control instanceof AbstractButton)
+			((AbstractButton) control).setIcon(icon);
+		else if(control instanceof JLabel)
+			((JLabel) control).setIcon(icon);
+	}
+
+	private static Icon getIcon(Object control) {
+		if(control instanceof AbstractButton)
+			return ((AbstractButton) control).getIcon();
+		if(control instanceof JLabel)
+			return ((JLabel) control).getIcon();
+		return null;
+	}
+
+	private static void setText(Object control, Object value) {
+		String text = value == null ? "" : String.valueOf(value);
+		if(control instanceof AbstractButton)
+			((AbstractButton) control).setText(text);
+		else if(control instanceof JLabel)
+			((JLabel) control).setText(text);
+		else if(control instanceof JTextComponent)
+			((JTextComponent) control).setText(text);
+	}
+
+	private static String getText(Object control) {
+		if(control instanceof AbstractButton)
+			return ((AbstractButton) control).getText();
+		if(control instanceof JLabel)
+			return ((JLabel) control).getText();
+		if(control instanceof JTextComponent)
+			return ((JTextComponent) control).getText();
+		return null;
+	}
+
+	private static void setHorizontalAlignment(Object control, Object value) {
+		int alignment = parseAlignment(value, true);
+		if(control instanceof AbstractButton)
+			((AbstractButton) control).setHorizontalAlignment(alignment);
+		else if(control instanceof JLabel)
+			((JLabel) control).setHorizontalAlignment(alignment);
+		else if(control instanceof JTextField)
+			((JTextField) control).setHorizontalAlignment(alignment);
+	}
+
+	private static int getHorizontalAlignment(Object control) {
+		if(control instanceof AbstractButton)
+			return ((AbstractButton) control).getHorizontalAlignment();
+		if(control instanceof JLabel)
+			return ((JLabel) control).getHorizontalAlignment();
+		if(control instanceof JTextField)
+			return ((JTextField) control).getHorizontalAlignment();
+		return -1;
+	}
+
+	private static void setVerticalAlignment(Object control, Object value) {
+		int alignment = parseAlignment(value, false);
+		if(control instanceof AbstractButton)
+			((AbstractButton) control).setVerticalAlignment(alignment);
+		else if(control instanceof JLabel)
+			((JLabel) control).setVerticalAlignment(alignment);
+	}
+
+	private static int getVerticalAlignment(Object control) {
+		if(control instanceof AbstractButton)
+			return ((AbstractButton) control).getVerticalAlignment();
+		if(control instanceof JLabel)
+			return ((JLabel) control).getVerticalAlignment();
+		return -1;
+	}
+
+	private static int parseAlignment(Object value, boolean horizontal) {
+		if(value instanceof Number)
+			return ((Number) value).intValue();
+		String alignment = String.valueOf(value).trim().toLowerCase();
+		if("left".equals(alignment) || "top".equals(alignment))
+			return horizontal ? javax.swing.SwingConstants.LEFT : javax.swing.SwingConstants.TOP;
+		if("right".equals(alignment) || "bottom".equals(alignment))
+			return horizontal ? javax.swing.SwingConstants.RIGHT : javax.swing.SwingConstants.BOTTOM;
+		if("leading".equals(alignment))
+			return javax.swing.SwingConstants.LEADING;
+		if("trailing".equals(alignment))
+			return javax.swing.SwingConstants.TRAILING;
+		return javax.swing.SwingConstants.CENTER;
+	}
+
+	// Instruction set helper functions.
 	public static Object createJControl(CControl ccontrol, Component jcontrol) {
 		if(jcontrol == null)
 			return null;
@@ -174,14 +257,3 @@ public class CControlInstructions extends CInstructions {
 		return (Object) container._("m_jcontrol");	
 	} // end getParentContainer()
 } // end CControlInstructions
-
-
-//------------------------------------------------------------------------
-// name: CActionEventHandlers
-// desc: 
-//------------------------------------------------------------------------
-class CActionEventHandlers implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-		System.out.println("CActionEventHandlers");
-    } // end menuSelected()
-} // end CActionEventHandlers

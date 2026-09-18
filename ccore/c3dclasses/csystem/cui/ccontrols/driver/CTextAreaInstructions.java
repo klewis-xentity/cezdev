@@ -25,7 +25,7 @@ class CTextAreaInstructions extends CInstructions {
 
     public CTextAreaInstructions(CProcessor cprocessor) {
         super(cprocessor);
-        this.m_ccontrolinstructions = (CControlInstructions) cprocessor.getCInstructions("CControlInstrunctions");
+        this.m_ccontrolinstructions = (CControlInstructions) cprocessor.getCInstructions("CControlInstructions");
         final CTextAreaInstructions _this = this;
 
         // CREATE

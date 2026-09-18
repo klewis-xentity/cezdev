@@ -28,7 +28,7 @@ class CToggleInstructions extends CInstructions {
 
     public CToggleInstructions(CProcessor cprocessor) {
         super(cprocessor);
-        this.m_ccontrolinstructions = (CControlInstructions) cprocessor.getCInstructions("CControlInstrunctions");
+        this.m_ccontrolinstructions = (CControlInstructions) cprocessor.getCInstructions("CControlInstructions");
         final CToggleInstructions _this = this;
 
         // CREATE

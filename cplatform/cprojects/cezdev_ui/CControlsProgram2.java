@@ -79,9 +79,6 @@ public class CControlsProgram2 {
 
 
 
-//			ccontrols.oninit("C:/Users/kevle/Desktop/init.bat");
-//			ccontrols.ondeinit("C:/Users/kevle/Desktop/test.bat");
-			
 			/*
 			CHash options = __.chash(
 				"C:/Users/kevle/Desktop/cezdev/cmeta/cprojects.json"
@@ -143,7 +140,6 @@ public class CControlsProgram2 {
 //		__.alert("hello, deleting....");
 //		ccontrols.retrieve("myform control4").delete();
 		
-		//ccontrols.retrieve("myform control4").setProp("oninit", "C:/Users/kevle/Desktop/test.bat");
 	
 	
 		//ccontrols.retrieve("myform control5").setProp("onclick", "C:/Users/kevle/Desktop/test.bat");
