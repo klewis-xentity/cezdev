@@ -22,7 +22,7 @@ public class CControlsProgram4 {
                 + "]"
                 + "}";
 
-        CControlsSchemaRender renderer = new CControlsSchemaRender();
+        CControlsSchema renderer = new CControlsSchema();
         CControls ccontrols = renderer.renderFromJson(strUiSchemaJson);
 
         if (ccontrols == null) {

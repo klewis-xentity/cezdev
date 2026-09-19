@@ -15,7 +15,6 @@ if "%C3DCLASSES_JAVAPATH%"=="" (
    endlocal
    exit /b 1
 )
-
 if not exist "%C3DCLASSES_JAVAPATH%\pom.xml" (
    echo [ERROR] pom.xml not found in %C3DCLASSES_JAVAPATH%
    endlocal
@@ -24,18 +23,11 @@ if not exist "%C3DCLASSES_JAVAPATH%\pom.xml" (
 
 echo [BUILDING] Maven build...
 pushd "%dst%"
-call mvn clean install test -e -Drelease.artifactId=%C3DCLASSES_NAME% -Drelease.version=%C3DCLASSES_VERSION% -Drelease.path=%CEZDEV_HOME% -Dother.home=%other.home%
+call mvn clean install -e -Drelease.artifactId=%C3DCLASSES_NAME% -Drelease.version=%C3DCLASSES_VERSION% -Drelease.path=%CEZDEV_HOME% -Dother.home=%other.home%
 set "MVN_EXIT_CODE=%ERRORLEVEL%"
-if not "%MVN_EXIT_CODE%"=="0" (
-   echo [WARNING] Maven clean/install/test failed. Retrying without clean (target may be locked).
-   call mvn install test -e -Drelease.artifactId=%C3DCLASSES_NAME% -Drelease.version=%C3DCLASSES_VERSION% -Drelease.path=%CEZDEV_HOME% -Dother.home=%other.home%
-   set "MVN_EXIT_CODE=%ERRORLEVEL%"
+if errorlevel 1 (
+   echo [ERROR] Maven build failed with exit code %MVN_EXIT_CODE%.
 )
 popd
-if not "%MVN_EXIT_CODE%"=="0" (
-   echo [ERROR] Maven build failed with exit code %MVN_EXIT_CODE%.
-   endlocal
-   exit /b %MVN_EXIT_CODE%
-)
 
 

@@ -16,7 +16,6 @@ public class CControl extends CObject implements AutoCloseable  {
 	// destructor
 	@Override
     public void close() {
-		this._doOnDeInit();
 	} // end close()
 
 	@Override
@@ -32,6 +31,10 @@ public class CControl extends CObject implements AutoCloseable  {
 		CControlsDriver.call(this);
 		return this;
 	} // end updateProp()
+
+	public CControl setProp(String strpropname, Object propvalue) {
+		return this.updateProp(strpropname, propvalue);
+	} // end setProp()
 	
 	public Object retrieveProp(String strpropname) {	
 		this._("m_straction", "get");
@@ -39,6 +42,28 @@ public class CControl extends CObject implements AutoCloseable  {
 		CControlsDriver.call(this);
 		return this._("m_propvalue");
 	} // end retrieveProp()
+
+	public Object getProp(String strpropname) {
+		return this.retrieveProp(strpropname);
+	} // end getProp()
+
+	public CControls addNewPanel(String strFieldsJson, String strid, String strlabel) {
+		CControls ccontrols = (CControls) this._("m_ccontrols");
+		if(ccontrols == null || this._("m_strpathid") == null)
+			return null;
+
+		ccontrols.getContainers().push(this);
+		CControl panel = ccontrols.create("panel", strid, strlabel, null);
+		if(panel == null) {
+			ccontrols.getContainers().pop();
+			return null;
+		}
+		ccontrols.getContainers().pop();
+		CControlsSchema schema = new CControlsSchema();
+		CControls result = schema.renderFieldsIntoContainer(strFieldsJson, ccontrols,
+				(String) panel._("m_strpathid"));
+		return result;
+	} // end addNewPanel()
 	
 	public boolean create(CControls ccontrols, String strtype, String strid, String strpathid, String value, CHash params) {
 		this._("m_straction", "create");
@@ -51,12 +76,10 @@ public class CControl extends CObject implements AutoCloseable  {
 		this._("m_attributes", ccontrols);
 		this._("m_container", ccontrols.getContainers().top());
 		this._("m_address", this);
-	    this._doOnInit();
 		return (CControlsDriver.call(this) != null);
 	} // end create()
 	
 	public boolean delete() {
-		this._doOnDeInit();
 		this._("m_straction", "delete");
 		CControls ccontrols = (CControls) this._("m_ccontrols");
 		String strpathid = (String) this._("m_strpathid");
@@ -89,17 +112,4 @@ public class CControl extends CObject implements AutoCloseable  {
 		return str.toString();
 	} // end toStringContents()
 
-	// event handlers
-	public void _doOnInit() {
-		final String strcommand = (String) this._("m_oninit_command") + " " + (String) this._("m_strid");
-		if(strcommand != null || strcommand.trim() != "")
-			__.exec_command(strcommand); // Executes the string as a command
-		return;
-	} // end doOnInit()
-	public void _doOnDeInit() {
-		final String strcommand = (String) this._("m_ondeinit_command") + " " + (String) this._("m_strid");
-		if(strcommand != null || strcommand.trim() != "")
-			__.exec_command(strcommand); // Executes the string as a command
-		return;
-	} // end doOnDeInit()
 } // end class CControl

@@ -1,6 +1,6 @@
 //-------------------------------------------------------
 // name: CControlsSchemaRenderProgram.java
-// desc: Driver code for CControlsSchemaRender usage
+// desc: Driver code for CControlsSchema usage
 //-------------------------------------------------------
 package c3dclasses;
 
@@ -24,7 +24,7 @@ public class CControlsSchemaRenderProgram {
                 + "]"
                 + "}";
 
-        CControlsSchemaRender renderer = new CControlsSchemaRender();
+        CControlsSchema renderer = new CControlsSchema();
         CControls ccontrols = renderer.renderFromJson(strUiSchemaJson);
 
         if (ccontrols == null) {
