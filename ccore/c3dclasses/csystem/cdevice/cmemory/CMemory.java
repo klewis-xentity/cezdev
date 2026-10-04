@@ -52,8 +52,11 @@ public class CMemory extends CResource {
 	} // end create()
     
 	public CReturn retrieve(String strname) {
+		CHash cvar = (this.m_cache != null) ? this.m_cache._chash(strname) : null;
+		if(cvar != null)
+			return CReturn._done(cvar);
 		CReturn creturn = this.driver("retrieve", __.args(this, strname));
-		if(creturn.isdone() && creturn.data() != null)
+		if(creturn.isdone() && creturn.data() != null && this.m_cache != null)
 			this.m_cache._(strname,creturn.data());
 		return creturn;
 	} // end retrieve()
