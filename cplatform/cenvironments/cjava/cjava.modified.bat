@@ -73,7 +73,7 @@ if errorlevel 1 (
 )
 
 :update
-call "%~dp0cjava.update.bat"
+:: call "%~dp0cjava.update.bat"
 
 :end
 echo [ENDING] %~nx0

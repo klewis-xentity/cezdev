@@ -4,6 +4,8 @@
 //---------------------------------------------------------------------------------------------------------
 package c3dclasses;
 
+import java.io.File;
+
 //-----------------------------------------------------------------------------------------------------------
 // name: CSetVarCommand
 // desc: Command entry point for persisting and exporting environment variable values.
@@ -16,7 +18,8 @@ public class CSetVarCommand {
 	public static void main(String[] args) {
 		// Read command line arguments.
 		CArray cargs = __.carray(args);
-		if(cargs == null || cargs.length() < 3) {
+		int base = argumentBaseOffset(cargs);
+		if(cargs == null || (cargs.length() - base) < 3) {
 			__.println("[USAGE] supply 2-4 arguments");
 			__.println("setvar <ENVVARNAME> <value>");
 			__.println("setvar <ENVVARNAME> <prompt message> <-file|-dir|-path>");
@@ -29,13 +32,15 @@ public class CSetVarCommand {
 		} // end if
 		__.print("[PARAMS] ");
 		__.println(cargs);
-		String strmetapath =  __.dirname(cargs._string(0));
-		String strvarname = cargs._string(1);
-		String strpromptmsg =  cargs._string(2);
-		String strvarspath = cargs._string(0);
-		boolean bsetpath = (cargs._string(3) != null) ? cargs._string(3).equals("-path") : false;
-		boolean bsetfile = (cargs._string(3) != null) ? cargs._string(3).equals("-file") : false;
-		boolean bsetdir = (cargs._string(3) != null) ? cargs._string(3).equals("-dir") : false;
+		String strvarspath = cargs._string(base);
+		String strmetapath = new File(strvarspath).getParent();
+		if(strmetapath == null || strmetapath.equals(""))
+			strmetapath = __.dirname(strvarspath);
+		String strvarname = cargs._string(base + 1);
+		String strpromptmsg =  cargs._string(base + 2);
+		boolean bsetpath = (cargs._string(base + 3) != null) ? cargs._string(base + 3).equals("-path") : false;
+		boolean bsetfile = (cargs._string(base + 3) != null) ? cargs._string(base + 3).equals("-file") : false;
+		boolean bsetdir = (cargs._string(base + 3) != null) ? cargs._string(base + 3).equals("-dir") : false;
 		String strvarvalue = "";
 		
 		// Include and open memory store.
@@ -94,7 +99,7 @@ public class CSetVarCommand {
 			} // end if
 		} // end if
 		else {
-			strvarvalue =  cargs._string(2);
+			strvarvalue =  cargs._string(base + 2);
 			cmemory.update(strvarname, strvarvalue, "string", null);
 			cmemory.close();
 			__.println("[UPDATING] cmemory with new value: " + strvarvalue);
@@ -102,7 +107,7 @@ public class CSetVarCommand {
 		} // end else
 		
 		// Create temp script that sets environment variables in the caller shell.
-		String strscriptfile = strmetapath + "/" + strvarname + "_tmp.bat";
+		String strscriptfile = new File(strmetapath, strvarname + "_tmp.bat").getAbsolutePath();
 		String strcontents = "echo [SETTING] the environment variable: " + strvarname + " with value: " + strvarvalue + "\n";
 		strcontents += "set " + strvarname + "=" + strvarvalue + "\n";
 		if(bsetpath) {
@@ -113,4 +118,16 @@ public class CSetVarCommand {
 		__.file_set_contents(strscriptfile, strcontents);
 		return;
 	} // end main()
+
+	private static int argumentBaseOffset(CArray cargs) {
+		if(cargs == null || cargs.length() < 2)
+			return 0;
+		String first = cargs._string(0);
+		String second = cargs._string(1);
+		if(first == null || second == null)
+			return 0;
+		boolean looksLikeClass = first.contains(".") || first.endsWith("Command");
+		boolean looksLikePath = second.endsWith(".json") || second.contains(":\\") || second.startsWith("/") || second.startsWith("\\");
+		return (looksLikeClass && looksLikePath) ? 1 : 0;
+	}
 } // end CSetVarCommand

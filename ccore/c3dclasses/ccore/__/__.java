@@ -409,27 +409,43 @@ public class __ {
 	////////////////////////////////////////
 	// file_path / dir_path of an object
 	public static CHash m_filetodir = null; 
-	public static String file_path(String strfilename) {		
+	public static String file_path(String strfilename) {
 		if(strfilename == null || strfilename == "")
 			return "";
+		if(__.file_exists(strfilename))
+			return strfilename;
 		if(__.m_filetodir == null) {
-			__.m_filetodir = CJSON.toCHash(__.file_get_contents(__.get_home_path() + "/../c3dclassessdk.filenames.json"));
-			if(__.m_filetodir == null)
-				__.m_filetodir = CJSON.toCHash(__.file_get_contents(__.get_home_path() + "/../../c3dclassessdk.filenames.json"));
+			String[] arrfilenames = new String[] {
+				__.get_home_path() + "/../c3dclassessdk.filenames.json",
+				__.get_home_path() + "/../../c3dclassessdk.filenames.json",
+				__.get_home_path() + "/../c3dclasses.filenames.json",
+				__.get_home_path() + "/../../c3dclasses.filenames.json",
+				__.get_home_path() + "/../c3dclasses_java.filenames.json",
+				__.get_home_path() + "/../../c3dclasses_java.filenames.json",
+				__.get_home_path() + "/../cdata/cmetadata/c3dclasses.filenames.json",
+				__.get_home_path() + "/../../cdata/cmetadata/c3dclasses.filenames.json",
+				__.get_home_path() + "/../cdata/cmetadata/c3dclasses_java.filenames.json",
+				__.get_home_path() + "/../../cdata/cmetadata/c3dclasses_java.filenames.json"
+			};
+			for(int i=0; i<arrfilenames.length; i++) {
+				if(__.file_exists(arrfilenames[i])) {
+					__.m_filetodir = CJSON.toCHash(__.file_get_contents(arrfilenames[i]));
+					if(__.m_filetodir != null)
+						break;
+				}
+			}
 		} // end if
-		if(__.m_filetodir == null)
-			return "";
-
-		String strpath = __.m_filetodir._string(strfilename);
-		if(strpath == null || strpath == "")
-			return "";
-		if(__.file_exists(strpath))
-			return strpath;
+		String strpath = "";
+		if(__.m_filetodir != null) {
+			strpath = __.m_filetodir._string(strfilename);
+			if(strpath != null && strpath != "" && __.file_exists(strpath))
+				return strpath;
+		}
 
 		String strhome = __.get_home_path().replace("\\", "/");
 		int i = strhome.toLowerCase().indexOf("/cezdev");
-		if(i != -1) {
-			String strroot = strhome.substring(0, i) + "/cezdev";
+		String strroot = (i != -1) ? strhome.substring(0, i) + "/cezdev" : strhome;
+		if(__.m_filetodir != null) {
 			String strnormalized = strpath.replace("\\", "/");
 			int j = strnormalized.toLowerCase().indexOf("/cezdev/");
 			if(j != -1) {
@@ -441,8 +457,38 @@ public class __ {
 			}
 		}
 
-		return strpath;	
+		String fallback = __.find_file_path(strroot, strfilename);
+		if(fallback != null && fallback != "")
+			return fallback;
+		return strpath;
 	} // end file()
+	public static String find_file_path(String startpath, String strfilename) {
+		if(startpath == null || strfilename == null || startpath == "" || strfilename == "")
+			return "";
+		try {
+			File dir = new File(startpath);
+			if(!dir.exists())
+				return "";
+			if(dir.isFile() && dir.getName().equals(strfilename))
+				return dir.getCanonicalPath();
+			File[] files = dir.listFiles();
+			if(files == null)
+				return "";
+			for(int i=0; i<files.length; i++) {
+				String found = "";
+				if(files[i].isDirectory())
+					found = __.find_file_path(files[i].getCanonicalPath(), strfilename);
+				else if(files[i].getName().equals(strfilename))
+					found = files[i].getCanonicalPath();
+				if(found != null && found != "")
+					return found;
+			}
+			return "";
+		}
+		catch(Exception ex) {
+			return "";
+		}
+	} // end find_file_path()
 	public static String file_path(Object object) { return __.file_path(object.getClass().getSimpleName() + ".java"); }
 	public static String check_file_path(String strpath) { String path = __.file_path(strpath); return (strpath == "" || strpath == null || path == "" || path == null) ? strpath : __.file_path(strpath); }
 	public static String dir_path(String strfilename) { return __.get_path(__.file_path(strfilename)); }

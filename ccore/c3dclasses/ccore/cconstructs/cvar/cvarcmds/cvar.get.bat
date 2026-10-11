@@ -6,7 +6,8 @@
 call cjava c3dclasses.CGetVarCommand "%CMETADATA_CVARS%" %*
 
 :: Run the temp script to apply env var changes, then remove it.
-echo [CALLING] temporary bat file: %1_tmp.bat
-call "%CMETADATA%\%1_tmp.bat"
-echo [REMOVING] temporary bat file: %1_tmp.bat
-del "%CMETADATA%\%1_tmp.bat"
+set "TMP_VAR_NAME=%~1"
+echo [CALLING] temporary bat file: %TMP_VAR_NAME%_tmp.bat
+call "%CMETADATA%\%TMP_VAR_NAME%_tmp.bat"
+echo [REMOVING] temporary bat file: %TMP_VAR_NAME%_tmp.bat
+del "%CMETADATA%\%TMP_VAR_NAME%_tmp.bat"

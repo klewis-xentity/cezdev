@@ -1,0 +1,6 @@
+{
+	"label": "test",
+	"optionsFromDirectory": "./testdir",
+	"handler": "./handler.bat",
+	"id": "custom-button-1"
+}

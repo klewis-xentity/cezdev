@@ -36,16 +36,15 @@ class CControlStateMemory {
         if (strComponent != null && strComponent.equals("select")) {
             // For select controls, create CHash with m_value and m_options
             CHash stateHash = new CHash();
-            stateHash.set("m_value", value);
-            
             Object optionsObj = ccontrol._("m_options");
+            Object storedSelectValue = resolveSelectStoredValue(value, optionsObj);
+            stateHash.set("m_value", storedSelectValue);
+            
             if (optionsObj != null) {
                 stateHash.set("m_options", optionsObj);
             }
             
-            // Use the value's type, not "chash"
-            String valueType = __.typeOf(value);
-            CReturn creturn = cmemory.upsert(key, stateHash, valueType, null);
+            CReturn creturn = cmemory.upsert(key, stateHash, __.typeOf(stateHash), null);
             return creturn != null && creturn.isdone();
         }
         
@@ -78,16 +77,15 @@ class CControlStateMemory {
             return null;
         }
 
-        Object data = creturn.data();
-        
-        // If data is a CHash, extract m_value (used for select controls)
-        if (data instanceof CHash) {
-            CHash cvar = (CHash) data;
-            return cvar._("m_value");
+        Object storedValue = extractStoredValue(creturn.data());
+
+        // Select controls store a state hash { m_value, m_options }.
+        if (storedValue instanceof CHash) {
+            return ((CHash) storedValue)._("m_value");
         }
-        
-        // Otherwise return the value directly (used for other control types)
-        return data;
+
+        // Other controls persist scalar values directly.
+        return storedValue;
     }
 
     static CHash loadState(CControl ccontrol) {
@@ -114,16 +112,15 @@ class CControlStateMemory {
             return null;
         }
 
-        Object data = creturn.data();
-        
-        // If data is already a CHash (for select controls), return it
-        if (data instanceof CHash) {
-            return (CHash) data;
+        Object storedValue = extractStoredValue(creturn.data());
+
+        if (storedValue instanceof CHash) {
+            return (CHash) storedValue;
         }
-        
-        // Otherwise wrap the value in a CHash for consistency
+
+        // Wrap scalar values for consistency.
         CHash stateHash = new CHash();
-        stateHash.set("m_value", data);
+        stateHash.set("m_value", storedValue);
         return stateHash;
     }
 
@@ -137,16 +134,36 @@ class CControlStateMemory {
         return stateHash._("m_options");
     }
 
-    static String toMemoryKey(CControl ccontrol) {
-        String pathId = (String) ccontrol._("m_strpathid");
-        if (pathId == null || pathId.trim().isEmpty()) {
-            pathId = (String) ccontrol._("m_strid");
-        }
-        if (pathId == null || pathId.trim().isEmpty()) {
-            pathId = "unknown";
+    static boolean delete(CControl ccontrol) {
+        if (ccontrol == null) {
+            return false;
         }
 
-        String normalized = pathId.trim().replace(" ", ".").replace("/", ".").replace("\\", ".");
+        String memoryPath = resolveMemoryPath();
+        if (memoryPath == null || memoryPath.trim().isEmpty()) {
+            return false;
+        }
+
+        if (CMemory.include(MEMORY_ID, memoryPath, "c3dclasses.CJSONMemoryDriver", null) == null) {
+            return false;
+        }
+
+        CMemory cmemory = CMemory.use(MEMORY_ID);
+        if (cmemory == null) {
+            return false;
+        }
+
+        CReturn creturn = cmemory.delete(toMemoryKey(ccontrol));
+        return creturn != null && creturn.isdone();
+    }
+
+    static String toMemoryKey(CControl ccontrol) {
+        String controlId = resolveControlId(ccontrol);
+        if (controlId == null || controlId.trim().isEmpty()) {
+            controlId = "unknown";
+        }
+
+        String normalized = controlId.trim().replace(" ", ".").replace("/", ".").replace("\\", ".");
         return "ccontrols.state." + normalized;
     }
 
@@ -162,5 +179,75 @@ class CControlStateMemory {
         }
 
         return null;
+    }
+
+    private static Object extractStoredValue(Object data) {
+        if (!(data instanceof CHash)) {
+            return data;
+        }
+
+        CHash record = (CHash) data;
+        if (record.containsKey("m_strname") || record.containsKey("m_strtype") || record.containsKey("m_icreated")) {
+            return record._("m_value");
+        }
+
+        return data;
+    }
+
+    private static Object resolveSelectStoredValue(Object selectedValue, Object optionsObj) {
+        if (selectedValue == null) {
+            return null;
+        }
+
+        if (!(optionsObj instanceof CHash)) {
+            return selectedValue;
+        }
+
+        String selected = String.valueOf(selectedValue);
+        CHash options = (CHash) optionsObj;
+
+        // If selected value is already an option key, preserve it.
+        if (options.containsKey(selected)) {
+            return selected;
+        }
+
+        String normalizedSelected = normalizeValue(selected);
+        CArray keys = options.keys();
+        for (int i = 0; i < keys.length(); i++) {
+            String key = keys._string(i);
+            String optionValue = options._string(key);
+            if (selected.equals(optionValue) || normalizedSelected.equals(normalizeValue(optionValue))) {
+                return key;
+            }
+        }
+
+        return selected;
+    }
+
+    private static String normalizeValue(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value.trim().replace("\\", "/").toLowerCase();
+    }
+
+    private static String resolveControlId(CControl ccontrol) {
+        String controlId = (String) ccontrol._("m_strid");
+        if (controlId == null || controlId.trim().isEmpty()) {
+            controlId = (String) ccontrol._("m_strpathid");
+        }
+
+        if (controlId == null) {
+            return null;
+        }
+
+        String normalizedId = controlId.trim();
+        String strComponent = (String) ccontrol._("m_component");
+        boolean isSelect = strComponent != null && strComponent.equals("select");
+
+        if (isSelect && !normalizedId.toLowerCase().startsWith("select-")) {
+            normalizedId = "select-" + normalizedId;
+        }
+        return normalizedId;
     }
 }

@@ -5,6 +5,9 @@
 package c3dclasses;
 
 import java.io.File;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 
 public class CControlsSchema {
     private String m_formId;
@@ -15,6 +18,79 @@ public class CControlsSchema {
 
     public CControls createCControls(String strJSONSchema) {
         return this.renderFromJson(strJSONSchema);
+    }
+
+    public CControls createCControlsFromPath(String strJSONSchemaPath) {
+        System.out.println("[CControlsSchema] createCControlsFromPath called with: " + strJSONSchemaPath);
+        if (strJSONSchemaPath == null || strJSONSchemaPath.trim().equals("")) {
+            System.out.println("[CControlsSchema] null or empty path; returning null");
+            return null;
+        }
+
+        File schemaFile = new File(strJSONSchemaPath.trim());
+        if (schemaFile.isFile() || !schemaFile.exists() || !schemaFile.isDirectory()) {
+            System.out.println("[CControlsSchema] path is not a directory: " + schemaFile.getAbsolutePath());
+            return null;
+        }
+
+        String dirName = schemaFile.getName();
+        if (dirName == null || dirName.trim().equals("")) {
+            System.out.println("[CControlsSchema] directory name is empty");
+            return null;
+        }
+
+        String dirId = this.text2id(dirName, 12);
+        CControls ccontrols = new CControls();
+        String formId = "form-" + dirId;
+        String panelId = "panel-" + dirId;
+        this.m_formId = formId;
+
+        System.out.println("[CControlsSchema] dirName=" + dirName + ", formId=" + formId + ", panelId=" + panelId);
+        ccontrols.form(formId, dirName, null);
+        ccontrols.panel(panelId, dirName, null);
+        this.renderDirectoryControlsIntoPath(schemaFile, ccontrols, formId + " " + panelId);
+
+        ccontrols.endpanel();
+        ccontrols.endform();
+        System.out.println("[CControlsSchema] returning form controls: " + ccontrols.getCControls().keys().length());
+        return ccontrols;
+    }
+
+    public CControls createCControlsFromPathIntoContainer(String strJSONSchemaPath, CControls ccontrols,
+            String strParentPathId, String strPanelId, String strPanelLabel) {
+        if (strJSONSchemaPath == null || strJSONSchemaPath.trim().equals("") || ccontrols == null
+                || strParentPathId == null || strParentPathId.trim().equals("")) {
+            return null;
+        }
+
+        File schemaDirectory = new File(strJSONSchemaPath.trim());
+        if (!schemaDirectory.exists() || !schemaDirectory.isDirectory()) {
+            return null;
+        }
+
+        CControl parentControl = ccontrols.retrieve(strParentPathId);
+        if (parentControl == null) {
+            return null;
+        }
+
+        String dirName = schemaDirectory.getName();
+        String panelId = this.getOrDefault(strPanelId, "panel-" + this.text2id(strJSONSchemaPath, 10));
+        String panelLabel = this.getOrDefault(strPanelLabel, dirName);
+        String panelPath = strParentPathId + " " + panelId;
+
+        ccontrols.getContainers().push(parentControl);
+        ccontrols.panel(panelId, panelLabel, null);
+        this.renderDirectoryControlsIntoPath(schemaDirectory, ccontrols, panelPath);
+        ccontrols.endpanel();
+        ccontrols.getContainers().pop();
+
+        CControl panelControl = ccontrols.retrieve(panelPath);
+        if (panelControl != null) {
+            panelControl._("m_directory_path", schemaDirectory.getAbsolutePath());
+            panelControl.setProp("visible", "true");
+            panelControl.setProp("grid", "true");
+        }
+        return ccontrols;
     }
 
     public CControl createCControl(String strJSONSchema) {
@@ -172,16 +248,125 @@ public class CControlsSchema {
     }
 
     private CHash optionsToHash(CHash field) {
+        return this.optionsToHash(field, null);
+    }
+
+    private void renderDirectoryControlsIntoPath(File schemaDirectory, CControls ccontrols, String parentPath) {
+        if (schemaDirectory == null || ccontrols == null || parentPath == null || parentPath.trim().equals("")) {
+            return;
+        }
+
+        File[] files = schemaDirectory.listFiles(File::isFile);
+        if (files == null) {
+            System.out.println("[CControlsSchema] listFiles returned null for directory");
+            return;
+        }
+
+        System.out.println("[CControlsSchema] scanning " + files.length + " file(s)");
+        for (File file : files) {
+            System.out.println("[CControlsSchema] file in directory: " + file.getAbsolutePath());
+            String fileName = file.getName();
+            String lower = fileName.toLowerCase();
+            boolean isButton = lower.endsWith(".btn.json");
+            boolean isDirectorySelect = lower.endsWith(".cbx.dir.json");
+            boolean isSelect = lower.endsWith(".cbx.json") || isDirectorySelect;
+            if (!isButton && !isSelect) {
+                System.out.println("[CControlsSchema] skipping unsupported file type: " + fileName);
+                continue;
+            }
+
+            String suffix = isButton ? ".btn.json" : ".cbx.json";
+            if (isDirectorySelect) {
+                suffix = ".cbx.dir.json";
+            }
+
+            String controlId = (isButton ? "btn-" : "select-") + this.text2id(fileName, 8);
+            String json = __.get_file_contents(file.getAbsolutePath());
+            CHash parsed = json == null || json.trim().equals("") ? null : CJSON.decode(json);
+            String label = fileName;
+            String handler = null;
+            String selected = null;
+            CHash options = __.chash();
+
+            if (parsed != null) {
+                String customId = parsed._string("id");
+                if (customId != null && !customId.trim().equals("")) {
+                    controlId = customId.trim();
+                }
+                label = this.getOrDefault(parsed._string("label"), fileName.substring(0, fileName.length() - suffix.length()));
+                handler = this.getOrDefault(parsed._string("handler"), parsed._string("onclick"));
+                selected = this.getOrDefault(parsed._string("selected"), parsed._string("value"));
+                options = this.optionsToHash(parsed, file.getParentFile());
+            } else {
+                label = fileName.substring(0, fileName.length() - suffix.length());
+            }
+
+            handler = this.resolveHandlerPath(handler, file.getParentFile());
+
+            if (isButton) {
+                System.out.println("[CControlsSchema] creating button: file=" + fileName + ", label=" + label + ", handler=" + handler);
+                ccontrols.button(controlId, label, null);
+                String buttonPath = parentPath + " " + controlId;
+                CControl buttonControl = ccontrols.retrieve(buttonPath);
+                System.out.println("[CControlsSchema] buttonPath=" + buttonPath + ", found=" + (buttonControl != null));
+                if (buttonControl != null) {
+                    buttonControl._("m_schema", parsed != null ? parsed : __.chash());
+                    buttonControl.setProp("visible", "true");
+                    buttonControl.setProp("text", label);
+                    if (handler != null && !handler.trim().equals("")) {
+                        buttonControl.setProp("onclick", handler);
+                    }
+                }
+            } else {
+                System.out.println("[CControlsSchema] creating select: file=" + fileName + ", label=" + label + ", handler=" + handler + ", options=" + options.keys().length());
+                ccontrols.select(controlId, null, options, null);
+                String selectPath = parentPath + " " + controlId;
+                CControl selectControl = ccontrols.retrieve(selectPath);
+                System.out.println("[CControlsSchema] selectPath=" + selectPath + ", found=" + (selectControl != null));
+                if (selectControl != null) {
+                    selectControl._("m_schema", parsed != null ? parsed : __.chash());
+                    selectControl._("m_component", "select");
+                    selectControl._("m_options_from_directory", isDirectorySelect ? "true" : "false");
+                    selectControl.setProp("visible", "true");
+                    if (selected != null && !selected.trim().equals("")) {
+                        selectControl.setProp("selected", selected);
+                    }
+                    if (handler != null && !handler.trim().equals("")) {
+                        selectControl.setProp("onchange", handler);
+                    }
+                }
+            }
+        }
+    }
+
+    private CHash optionsToHash(CHash field, File baseDirectory) {
+        if (field == null) {
+            return __.chash();
+        }
+
         String path = field._string("optionFromDirectoryPath");
         if (path == null || path.trim().equals("")) {
             path = field._string("optionsFromDirectoryPath");
         }
+        if (path == null || path.trim().equals("")) {
+            path = field._string("optionsFromDirectory");
+        }
         if (path != null && !path.trim().equals("")) {
-            return this.optionsFromDirectory(path);
+            return this.optionsFromDirectory(path, baseDirectory);
         }
 
         CHash optionsHash = __.chash();
         Object optionsObj = field._("options");
+        if (optionsObj instanceof CHash) {
+            CHash options = (CHash) optionsObj;
+            CArray keys = options.keys();
+            for (int i = 0; i < keys.length(); i++) {
+                String key = String.valueOf(keys._(i));
+                Object value = options._(key);
+                optionsHash.set(key, value == null ? key : String.valueOf(value));
+            }
+            return optionsHash;
+        }
         if (optionsObj instanceof CArray) {
             CArray options = (CArray) optionsObj;
             for (int i = 0; i < options.length(); i++) {
@@ -195,9 +380,9 @@ public class CControlsSchema {
         return optionsHash;
     }
 
-    private CHash optionsFromDirectory(String strDirectoryPath) {
+    private CHash optionsFromDirectory(String strDirectoryPath, File baseDirectory) {
         CHash optionsHash = __.chash();
-        String resolvedPath = this.resolveDirectoryPath(strDirectoryPath);
+        String resolvedPath = this.resolveDirectoryPath(strDirectoryPath, baseDirectory);
         if (resolvedPath == null || resolvedPath.trim().equals("")) {
             return optionsHash;
         }
@@ -212,7 +397,7 @@ public class CControlsSchema {
         return optionsHash;
     }
 
-    private String resolveDirectoryPath(String strDirectoryPath) {
+    private String resolveDirectoryPath(String strDirectoryPath, File baseDirectory) {
         String path = strDirectoryPath == null ? null : strDirectoryPath.trim();
         if (path == null) {
             return null;
@@ -228,7 +413,42 @@ public class CControlsSchema {
                     + suffix.replace("/", File.separator);
             }
         }
-        return path.replace("/", File.separator);
+
+        String normalized = path.replace("/", File.separator);
+        File asFile = new File(normalized);
+        if (!asFile.isAbsolute() && baseDirectory != null) {
+            return new File(baseDirectory, normalized).getAbsolutePath();
+        }
+        return normalized;
+    }
+
+    private String resolveHandlerPath(String strHandler, File baseDirectory) {
+        if (strHandler == null) {
+            return null;
+        }
+
+        String handler = strHandler.trim();
+        if (handler.equals("")) {
+            return null;
+        }
+
+        // Resolve local script references relative to the .btn.json file directory.
+        if (handler.startsWith("./") || handler.startsWith(".\\") || handler.startsWith("../") || handler.startsWith("..\\")) {
+            if (baseDirectory != null) {
+                File resolved = new File(baseDirectory, handler);
+                return resolved.getAbsolutePath();
+            }
+        }
+
+        File asFile = new File(handler);
+        if (!asFile.isAbsolute() && baseDirectory != null) {
+            File resolved = new File(baseDirectory, handler);
+            if (resolved.exists()) {
+                return resolved.getAbsolutePath();
+            }
+        }
+
+        return handler;
     }
 
     public CControls renderFieldsIntoContainer(String strUiSchemaJson, CControls ccontrols, String strParentId) {
@@ -270,6 +490,47 @@ public class CControlsSchema {
             ccontrols.getContainers().pop();
         }
         return ccontrols;
+    }
+
+    private String text2id(String strText, int length) {
+        if (strText == null) {
+            strText = "";
+        }
+        String normalized = strText.trim();
+        if (normalized.equals("")) {
+            normalized = "0";
+        }
+
+        String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(normalized.getBytes(StandardCharsets.UTF_8));
+            BigInteger value = new BigInteger(1, hash);
+            StringBuilder result = new StringBuilder();
+
+            while (value.signum() > 0) {
+                BigInteger[] divide = value.divideAndRemainder(BigInteger.valueOf(alphabet.length()));
+                result.append(alphabet.charAt(divide[1].intValue()));
+                value = divide[0];
+            }
+
+            String encoded = result.reverse().toString();
+            if (encoded.length() < length) {
+                StringBuilder padded = new StringBuilder();
+                for (int i = encoded.length(); i < length; i++) {
+                    padded.append('0');
+                }
+                padded.append(encoded);
+                encoded = padded.toString();
+            }
+            return encoded.substring(0, Math.min(length, encoded.length())).toUpperCase();
+        } catch (Exception ex) {
+            StringBuilder fallback = new StringBuilder();
+            for (int i = 0; i < length; i++) {
+                fallback.append('0');
+            }
+            return fallback.toString();
+        }
     }
 
     private String getOrDefault(String value, String fallback) {

@@ -1,0 +1,5 @@
+{
+	"label": "Open Project",
+	"handler": "./test.bat",
+	"id": "custom-button-4"
+}

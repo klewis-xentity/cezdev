@@ -35,6 +35,15 @@ if exist "%C3DCLASSES_JARFILE%" (
    call cjava.build.bat
 )
 
+echo [GENERATING] Generating c3dclassessdk filenames JSON...
+call path.list.bat "%CMETADATA%\c3dclassessdk.filenames.json" "%src%"
+
+echo [GENERATING] Generating c3dclasses_java filenames JSON...
+call path.list.bat "%CMETADATA%\c3dclasses_java.filenames.json" "%dst%"
+
+echo [GENERATING] Generating c3dclasses filenames JSON...
+call path.list.bat "%CMETADATA%\c3dclasses.filenames.json" "%src%"
+
 :: Return to the original directory
 cd /d "%CJAVACREATEHOME%"
 echo [FINISHED] %date% %time%

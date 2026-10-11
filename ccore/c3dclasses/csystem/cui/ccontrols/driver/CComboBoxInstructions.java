@@ -6,6 +6,9 @@ package c3dclasses;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import java.io.File;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -29,9 +32,22 @@ class CComboBoxInstructions extends CInstructions {
         CHash options = null;
         CHash params = (CHash) control._("m_params");
         if (params != null) options = (CHash) params._("m_options");
+        control._("m_component", "select");
         
         // set the options
         control._("m_options", options);
+
+        CHash restoredState = CControlStateMemory.loadState(control);
+        String restoredValue = null;
+        if (restoredState != null) {
+            Object restored = restoredState._("m_value");
+            restoredValue = restored == null ? null : String.valueOf(restored);
+
+            if ((options == null || options.keys().length() == 0) && restoredState._("m_options") instanceof CHash) {
+                options = (CHash) restoredState._("m_options");
+                control._("m_options", options);
+            }
+        }
 
         // the control options
         if (options != null) {
@@ -59,10 +75,9 @@ class CComboBoxInstructions extends CInstructions {
         // Register the Swing control
         ccontrolinstructions.createJControl(control, comboBox);
 
-        Object restored = CControlStateMemory.load(control);
-        if (restored != null) {
-            String restoredValue = String.valueOf(restored);
+        if (restoredValue != null) {
             boolean applied = false;
+            String normalizedRestored = normalizePathValue(restoredValue);
 
             for (int i = 0; i < comboBox.getItemCount(); i++) {
                 Object item = comboBox.getItemAt(i);
@@ -78,7 +93,7 @@ class CComboBoxInstructions extends CInstructions {
                 for (int i = 0; i < keys.length(); i++) {
                     String key = keys._string(i);
                     String value = options._string(key);
-                    if (restoredValue.equals(value)) {
+                    if (restoredValue.equals(value) || normalizedRestored.equals(normalizePathValue(value))) {
                         comboBox.setSelectedItem(key);
                         break;
                     }
@@ -95,8 +110,16 @@ class CComboBoxInstructions extends CInstructions {
                 String selectedValue = (hash != null) ? (String) hash._(selected) : null;
                 String valueToStore = (selectedValue != null) ? selectedValue : (selected != null ? selected.toString() : "");
                 CControlStateMemory.save(control, valueToStore);
+                renderSelectedDirectoryPanel(control, selected, valueToStore);
             }
         });
+
+        Object initiallySelected = comboBox.getSelectedItem();
+        CHash initialHash = (CHash) control._("m_options");
+        String initialSelectedValue = (initialHash != null) ? initialHash._string(String.valueOf(initiallySelected)) : null;
+        String initialPath = (initialSelectedValue != null) ? initialSelectedValue
+                : (initiallySelected == null ? "" : String.valueOf(initiallySelected));
+        renderSelectedDirectoryPanel(control, initiallySelected, initialPath);
 
         return CReturn._done(control);
     }
@@ -119,7 +142,32 @@ class CComboBoxInstructions extends CInstructions {
                 CControl ccontrol = (CControl) obj;
                 JComboBox<?> combo = (JComboBox<?>) ccontrol._("m_jcontrol");
                 String value = (String) ccontrol._("m_propvalue");
-                combo.setSelectedItem(value);
+                boolean applied = false;
+                CHash options = (CHash) ccontrol._("m_options");
+
+                if (value != null && options != null) {
+                    String normalizedValue = normalizePathValue(value);
+                    CArray keys = options.keys();
+                    for (int i = 0; i < keys.length(); i++) {
+                        String key = keys._string(i);
+                        String mappedValue = options._string(key);
+                        if (value.equals(key) || value.equals(mappedValue)
+                                || normalizedValue.equals(normalizePathValue(mappedValue))) {
+                            combo.setSelectedItem(key);
+                            applied = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!applied) {
+                    combo.setSelectedItem(value);
+                }
+
+                Object selected = combo.getSelectedItem();
+                String selectedValue = (options != null) ? options._string(String.valueOf(selected)) : null;
+                String valueToStore = (selectedValue != null) ? selectedValue : (selected != null ? selected.toString() : "");
+                CControlStateMemory.save(ccontrol, valueToStore);
                 return null;
             }
         };
@@ -216,6 +264,124 @@ class CComboBoxInstructions extends CInstructions {
     private static String quoteArg(String value) {
         String safeValue = (value == null) ? "" : value.replace("\"", "\\\"");
         return "\"" + safeValue + "\"";
+    }
+
+    private static String normalizePathValue(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value.trim().replace("\\", "/").toLowerCase(Locale.ROOT);
+    }
+
+    private static void renderSelectedDirectoryPanel(CControl ccontrol, Object selectedLabel, String selectedPath) {
+        if (ccontrol == null || selectedPath == null || selectedPath.trim().isEmpty()) {
+            return;
+        }
+
+        Object marker = ccontrol._("m_options_from_directory");
+        if (marker != null && !"true".equalsIgnoreCase(String.valueOf(marker))) {
+            return;
+        }
+
+        File selectedDirectory = new File(selectedPath);
+        if (!selectedDirectory.exists() || !selectedDirectory.isDirectory()) {
+            return;
+        }
+
+        CControls ccontrols = (CControls) ccontrol._("m_ccontrols");
+        String controlPath = (String) ccontrol._("m_strpathid");
+        if (ccontrols == null || controlPath == null) {
+            return;
+        }
+
+        int lastSpace = controlPath.lastIndexOf(" ");
+        if (lastSpace <= 0) {
+            return;
+        }
+
+        String parentPath = controlPath.substring(0, lastSpace);
+        String panelId = "panel-dir-" + shortHash(selectedDirectory.getAbsolutePath());
+        String panelPath = parentPath + " " + panelId;
+        String previousPanelPath = (String) ccontrol._("m_selected_directory_panel_path");
+
+        if (previousPanelPath != null && !previousPanelPath.equals(panelPath)) {
+            deleteControlTree(ccontrols, previousPanelPath);
+        }
+
+        if (ccontrols.retrieve(panelPath) == null) {
+            String panelLabel = selectedLabel == null ? selectedDirectory.getName() : String.valueOf(selectedLabel);
+            CControlsSchema schema = new CControlsSchema();
+            schema.createCControlsFromPathIntoContainer(selectedDirectory.getAbsolutePath(), ccontrols,
+                    parentPath, panelId, panelLabel);
+        }
+
+        CControl panel = ccontrols.retrieve(panelPath);
+        if (panel != null) {
+            panel.setProp("visible", "true");
+            panel.setProp("grid", "true");
+            ccontrol._("m_selected_directory_panel_path", panelPath);
+        }
+    }
+
+    private static void deleteControlTree(CControls ccontrols, String rootPath) {
+        if (ccontrols == null || rootPath == null || rootPath.trim().isEmpty()) {
+            return;
+        }
+
+        CControl rootControl = ccontrols.retrieve(rootPath);
+        if (rootControl == null) {
+            ccontrols.getCControls().remove(rootPath);
+            return;
+        }
+
+        CArray keys = ccontrols.getCControls().keys();
+        ArrayList<String> descendants = new ArrayList<String>();
+        String prefix = rootPath + " ";
+        for (int i = 0; i < keys.length(); i++) {
+            String key = String.valueOf(keys._(i));
+            if (key != null && key.startsWith(prefix)) {
+                descendants.add(key);
+            }
+        }
+
+        Collections.sort(descendants, new Comparator<String>() {
+            public int compare(String a, String b) {
+                return b.length() - a.length();
+            }
+        });
+
+        for (String key : descendants) {
+            CControl child = ccontrols.retrieve(key);
+            if (child != null) {
+                child.delete();
+            }
+            ccontrols.getCControls().remove(key);
+        }
+
+        Object rootJControl = rootControl._("m_jcontrol");
+        Object rootContainer = rootControl._("m_container");
+        Object parentJControl = (rootContainer instanceof CControl) ? ((CControl) rootContainer)._("m_jcontrol") : null;
+        if (rootJControl instanceof Component && parentJControl instanceof Container) {
+            Container parent = (Container) parentJControl;
+            parent.remove((Component) rootJControl);
+            parent.revalidate();
+            parent.repaint();
+        }
+
+        rootControl.delete();
+        ccontrols.getCControls().remove(rootPath);
+    }
+
+    private static String shortHash(String text) {
+        if (text == null) {
+            return "0";
+        }
+        int hash = text.hashCode();
+        if (hash == Integer.MIN_VALUE) {
+            hash = 0;
+        }
+        hash = Math.abs(hash);
+        return Integer.toString(hash, 36).toUpperCase(Locale.ROOT);
     }
 
     public static void setCControls(CControls ccontrols) {

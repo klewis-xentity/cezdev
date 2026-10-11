@@ -60,13 +60,14 @@ echo.
 ::------------------------------------------------------
 :: Optional: Start file monitoring (uncomment to enable)
 ::------------------------------------------------------
-set "MONITOR_CALLBACK=%CENVIRONMENTS%\cjava\cjava.modified.bat,%CENVIRONMENTS%\cjs\cjs.modified.bat,%CENVIRONMENTS%\cpy\cpy.modified.bat"
-start file.monitor.bat "%CCORE%,%CPLATFORM%" "%MONITOR_CALLBACK%"
+:: set "MONITOR_CALLBACK=%CENVIRONMENTS%\cjava\cjava.modified.bat,%CENVIRONMENTS%\cjs\cjs.modified.bat,%CENVIRONMENTS%\cpy\cpy.modified.bat"
+:: start file.monitor.bat "%CCORE%,%CPLATFORM%" "%MONITOR_CALLBACK%"
 
 ::------------------------------------------------------
 :: Return to CEZDEV home
 ::------------------------------------------------------
 cd /d "%CEZDEV_HOME%"
+echo.
 echo [INFO] Current directory: %CD%
 echo [ENDING] %~nx0
 echo ::---------------------------------------------------------------------------------------
