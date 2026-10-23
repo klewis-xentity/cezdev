@@ -54,12 +54,16 @@ public class CGetVarCommand {
 			
 		// Create temp script that sets the environment variable in the caller shell.
 		String strscriptfile = new File(strmetapath, strvarname + "_tmp.bat").getAbsolutePath();
+		String strvaluefile = new File(strmetapath, strvarname + ".txt").getAbsolutePath();
 		String strcontents = "echo [SETTING] the environment variable: " + strvarname + " with value: " + strvarvalue + "\n";
 		strcontents += "set " + strvarname + "=" + strvarvalue + "\n";
+		strcontents += "set " + strvarname + ".txt=" + strvaluefile + "\n";
 		__.println("[CREATED] script for setting environment variable in: " + strscriptfile);
+		__.println("[CREATED] value file for environment variable in: " + strvaluefile);
 		__.println("[ENVNAME] " + strvarname);
 		__.println("[ENVVAL] " + strvarvalue);
 		__.file_set_contents(strscriptfile, strcontents);
+		__.file_set_contents(strvaluefile, strvarvalue);
 		return;
 	} // end main()
 

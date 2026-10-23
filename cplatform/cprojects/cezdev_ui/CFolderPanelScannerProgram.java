@@ -249,13 +249,15 @@ public class CFolderPanelScannerProgram {
         List<File> cbxFiles = new ArrayList<File>();
         List<File> btnFiles = new ArrayList<File>();
         List<File> taFiles = new ArrayList<File>();
-        this.collectConfigFiles(rootFolder, cbxFiles, btnFiles, taFiles);
+        List<File> tfFiles = new ArrayList<File>();
+        this.collectConfigFiles(rootFolder, cbxFiles, btnFiles, taFiles, tfFiles);
         cbxFiles.sort(Comparator.comparing(File::getAbsolutePath, String.CASE_INSENSITIVE_ORDER));
         btnFiles.sort(Comparator.comparing(File::getAbsolutePath, String.CASE_INSENSITIVE_ORDER));
         taFiles.sort(Comparator.comparing(File::getAbsolutePath, String.CASE_INSENSITIVE_ORDER));
+        tfFiles.sort(Comparator.comparing(File::getAbsolutePath, String.CASE_INSENSITIVE_ORDER));
 
-        if (cbxFiles.isEmpty() && btnFiles.isEmpty() && taFiles.isEmpty()) {
-            ccontrols.label("empty-scan", "No .cbx.json, .btn.json, or .ta.json files found in the selected folder.", null);
+        if (cbxFiles.isEmpty() && btnFiles.isEmpty() && taFiles.isEmpty() && tfFiles.isEmpty()) {
+            ccontrols.label("empty-scan", "No .cbx.json, .btn.json, .ta.json, or .tf.json files found in the selected folder.", null);
             return "Loaded 0 configs.";
         }
 
@@ -290,7 +292,17 @@ public class CFolderPanelScannerProgram {
             taIndex++;
         }
 
-        return "Loaded " + cbxFiles.size() + " combo(s), " + btnIndex + " button(s), " + taIndex + " text area(s).";
+        int tfIndex = 0;
+        for (File configFile : tfFiles) {
+            if (this.isInsideAnyFolder(configFile, comboOptionRoots)) {
+                continue;
+            }
+            TextFieldConfig config = this.loadTextFieldConfig(configFile);
+            this.addTextFieldPanel(ccontrols, config, tfIndex);
+            tfIndex++;
+        }
+
+        return "Loaded " + cbxFiles.size() + " combo(s), " + btnIndex + " button(s), " + taIndex + " text area(s), " + tfIndex + " text field(s).";
     }
 
     private boolean isInsideAnyFolder(File file, List<File> folders) {
@@ -430,6 +442,7 @@ public class CFolderPanelScannerProgram {
                 final List<ComboBoxConfig> comboConfigs = new ArrayList<ComboBoxConfig>();
                 final List<ButtonConfig> buttonConfigs = new ArrayList<ButtonConfig>();
                 final List<TextAreaConfig> textAreaConfigs = new ArrayList<TextAreaConfig>();
+                final List<TextFieldConfig> textFieldConfigs = new ArrayList<TextFieldConfig>();
                 final String[] error = new String[] { null };
 
                 try {
@@ -449,14 +462,15 @@ public class CFolderPanelScannerProgram {
                             Map<String, File> cbxByPath = new LinkedHashMap<String, File>();
                             Map<String, File> btnByPath = new LinkedHashMap<String, File>();
                             Map<String, File> taByPath = new LinkedHashMap<String, File>();
+                            Map<String, File> tfByPath = new LinkedHashMap<String, File>();
 
                             List<File> cbxFiles = new ArrayList<File>();
                             List<File> btnFiles = new ArrayList<File>();
                             List<File> taFiles = new ArrayList<File>();
+                            List<File> tfFiles = new ArrayList<File>();
                             updateLoadingMessage("Walking folder contents and collecting config files...");
-                            updateLoadingMessage("Finding .cbx.json, .btn.json, and .ta.json files...");
-                            collectConfigFiles(folder, cbxFiles, btnFiles, taFiles);
-                            updateLoadingMessage("Loading control definitions...");
+                            updateLoadingMessage("Finding .cbx.json, .btn.json, .ta.json, and .tf.json files...");
+                            collectConfigFiles(folder, cbxFiles, btnFiles, taFiles, tfFiles);
                             for (File f : cbxFiles) {
                                 cbxByPath.put(f.getAbsolutePath(), f);
                             }
@@ -466,6 +480,9 @@ public class CFolderPanelScannerProgram {
                             for (File f : taFiles) {
                                 taByPath.put(f.getAbsolutePath(), f);
                             }
+                            for (File f : tfFiles) {
+                                tfByPath.put(f.getAbsolutePath(), f);
+                            }
 
                             // Also include top-level config files in the options root folder so
                             // shared controls like cenvironments/*.btn.json appear in this panel.
@@ -473,7 +490,8 @@ public class CFolderPanelScannerProgram {
                                 List<File> rootCbx = new ArrayList<File>();
                                 List<File> rootBtn = new ArrayList<File>();
                                 List<File> rootTa = new ArrayList<File>();
-                                collectDirectConfigFiles(optionsRootFolder, rootCbx, rootBtn, rootTa);
+                                List<File> rootTf = new ArrayList<File>();
+                                collectDirectConfigFiles(optionsRootFolder, rootCbx, rootBtn, rootTa, rootTf);
                                 for (File f : rootCbx) {
                                     cbxByPath.put(f.getAbsolutePath(), f);
                                 }
@@ -483,15 +501,20 @@ public class CFolderPanelScannerProgram {
                                 for (File f : rootTa) {
                                     taByPath.put(f.getAbsolutePath(), f);
                                 }
+                                for (File f : rootTf) {
+                                    tfByPath.put(f.getAbsolutePath(), f);
+                                }
                             }
 
                             cbxFiles = new ArrayList<File>(cbxByPath.values());
                             btnFiles = new ArrayList<File>(btnByPath.values());
                             taFiles = new ArrayList<File>(taByPath.values());
+                            tfFiles = new ArrayList<File>(tfByPath.values());
                             updateLoadingMessage("Rendering loaded controls...");
                             cbxFiles.sort(Comparator.comparing(File::getAbsolutePath, String.CASE_INSENSITIVE_ORDER));
                             btnFiles.sort(Comparator.comparing(File::getAbsolutePath, String.CASE_INSENSITIVE_ORDER));
                             taFiles.sort(Comparator.comparing(File::getAbsolutePath, String.CASE_INSENSITIVE_ORDER));
+                            tfFiles.sort(Comparator.comparing(File::getAbsolutePath, String.CASE_INSENSITIVE_ORDER));
 
                             for (File file : cbxFiles) {
                                 comboConfigs.add(loadConfig(file));
@@ -502,9 +525,12 @@ public class CFolderPanelScannerProgram {
                             for (File file : taFiles) {
                                 textAreaConfigs.add(loadTextAreaConfig(file));
                             }
+                            for (File file : tfFiles) {
+                                textFieldConfigs.add(loadTextFieldConfig(file));
+                            }
 
-                            if (comboConfigs.isEmpty() && buttonConfigs.isEmpty() && textAreaConfigs.isEmpty()) {
-                                error[0] = "No .cbx.json, .btn.json, or .ta.json found in selected folder.";
+                            if (comboConfigs.isEmpty() && buttonConfigs.isEmpty() && textAreaConfigs.isEmpty() && textFieldConfigs.isEmpty()) {
+                                error[0] = "No .cbx.json, .btn.json, .ta.json, or .tf.json found in selected folder.";
                             }
                         }
                     }
@@ -514,7 +540,7 @@ public class CFolderPanelScannerProgram {
 
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-                        renderDynamicControls(dynamicHost, comboConfigs, buttonConfigs, textAreaConfigs, error[0]);
+                        renderDynamicControls(dynamicHost, comboConfigs, buttonConfigs, textAreaConfigs, textFieldConfigs, error[0]);
                         if (loadingControl != null) {
                             loadingControl.setProp("text", "Loading complete");
                             loadingControl.setProp("visible", "false");
@@ -527,7 +553,7 @@ public class CFolderPanelScannerProgram {
         loadThread.start();
     }
 
-    private void collectDirectConfigFiles(File folder, List<File> cbxFiles, List<File> btnFiles, List<File> taFiles) {
+    private void collectDirectConfigFiles(File folder, List<File> cbxFiles, List<File> btnFiles, List<File> taFiles, List<File> tfFiles) {
         File[] entries = folder.listFiles();
         if (entries == null) {
             return;
@@ -545,6 +571,8 @@ public class CFolderPanelScannerProgram {
                 btnFiles.add(entry);
             } else if (lower.endsWith(".ta.json")) {
                 taFiles.add(entry);
+            } else if (lower.endsWith(".tf.json")) {
+                tfFiles.add(entry);
             }
         }
     }
@@ -554,6 +582,7 @@ public class CFolderPanelScannerProgram {
         List<ComboBoxConfig> comboConfigs,
         List<ButtonConfig> buttonConfigs,
         List<TextAreaConfig> textAreaConfigs,
+        List<TextFieldConfig> textFieldConfigs,
         String errorMessage
     ) {
         host.removeAll();
@@ -572,6 +601,10 @@ public class CFolderPanelScannerProgram {
 
         for (TextAreaConfig cfg : textAreaConfigs) {
             this.addDynamicTextAreaControl(host, cfg);
+        }
+
+        for (TextFieldConfig cfg : textFieldConfigs) {
+            this.addDynamicTextFieldControl(host, cfg);
         }
 
         host.revalidate();
@@ -689,6 +722,22 @@ public class CFolderPanelScannerProgram {
         host.add(textAreaPanel);
     }
 
+    private void addDynamicTextFieldControl(JPanel host, TextFieldConfig config) {
+        JPanel textFieldPanel = new JPanel();
+        textFieldPanel.setLayout(new BoxLayout(textFieldPanel, BoxLayout.Y_AXIS));
+        textFieldPanel.add(new JLabel(config.label));
+
+        JTextField textField = new JTextField(config.value, config.columns);
+        textField.setEditable(config.editable);
+        textFieldPanel.add(textField);
+
+        if (config.errorMessage != null && !config.errorMessage.trim().equals("")) {
+            textFieldPanel.add(new JLabel(config.errorMessage));
+        }
+
+        host.add(textFieldPanel);
+    }
+
     private Map<String, String> toLabelValueMap(CHash options) {
         Map<String, String> map = new LinkedHashMap<String, String>();
         if (options == null) {
@@ -716,7 +765,7 @@ public class CFolderPanelScannerProgram {
         return null;
     }
 
-    private void collectConfigFiles(File folder, List<File> cbxFiles, List<File> btnFiles, List<File> taFiles) {
+    private void collectConfigFiles(File folder, List<File> cbxFiles, List<File> btnFiles, List<File> taFiles, List<File> tfFiles) {
         File[] entries = folder.listFiles();
         if (entries == null) {
             return;
@@ -725,7 +774,7 @@ public class CFolderPanelScannerProgram {
         Arrays.sort(entries, Comparator.comparing(File::getName, String.CASE_INSENSITIVE_ORDER));
         for (File entry : entries) {
             if (entry.isDirectory()) {
-                this.collectConfigFiles(entry, cbxFiles, btnFiles, taFiles);
+                this.collectConfigFiles(entry, cbxFiles, btnFiles, taFiles, tfFiles);
             } else if (entry.isFile()) {
                 String lower = entry.getName().toLowerCase();
                 if (lower.endsWith(".cbx.json")) {
@@ -734,6 +783,8 @@ public class CFolderPanelScannerProgram {
                     btnFiles.add(entry);
                 } else if (lower.endsWith(".ta.json")) {
                     taFiles.add(entry);
+                } else if (lower.endsWith(".tf.json")) {
+                    tfFiles.add(entry);
                 }
             }
         }
@@ -894,6 +945,24 @@ public class CFolderPanelScannerProgram {
         }
     }
 
+    private void addTextFieldPanel(CControls ccontrols, TextFieldConfig config, int index) {
+        String textFieldId = "text-control-" + index;
+        String textFieldPath = FORM_ID + " " + textFieldId;
+
+        ccontrols.label("text-label-" + index, config.label, null);
+        ccontrols.text(textFieldId, config.value, null);
+
+        CControl textFieldControl = ccontrols.retrieve(textFieldPath);
+        if (textFieldControl != null) {
+            textFieldControl.setProp("columns", String.valueOf(config.columns));
+            textFieldControl.setProp("editable", String.valueOf(config.editable));
+        }
+
+        if (config.errorMessage != null && !config.errorMessage.trim().equals("")) {
+            ccontrols.label("text-error-" + index, config.errorMessage, null);
+        }
+    }
+
     private ButtonConfig loadButtonConfig(File configFile) {
         ButtonConfig config = new ButtonConfig();
         config.configFile = configFile;
@@ -971,6 +1040,50 @@ public class CFolderPanelScannerProgram {
         return config;
     }
 
+    private TextFieldConfig loadTextFieldConfig(File configFile) {
+        TextFieldConfig config = new TextFieldConfig();
+        config.configFile = configFile;
+        config.controlName = this.getControlName(configFile.getName());
+        config.label = config.controlName;
+        config.value = "";
+        config.columns = 40;
+        config.editable = true;
+
+        String json = __.get_file_contents(configFile.getAbsolutePath());
+        if (json == null || json.trim().equals("")) {
+            config.errorMessage = "Unable to read config file.";
+            return config;
+        }
+
+        CHash parsed = CJSON.decode(json);
+        if (parsed == null) {
+            config.errorMessage = "Invalid JSON config.";
+            return config;
+        }
+
+        config.label = this.firstNonEmpty(parsed._string("label"), config.controlName);
+        config.value = this.firstNonEmpty(parsed._string("value"), parsed._string("text"));
+
+        String valueFromFile = parsed._string("valueFromFile");
+        if (valueFromFile != null && !valueFromFile.trim().equals("")) {
+            File valueFile = this.resolvePath(configFile.getParentFile(), valueFromFile);
+            String fileValue = (valueFile == null) ? null : __.get_file_contents(valueFile.getAbsolutePath());
+            if (fileValue == null) {
+                config.errorMessage = "Unable to read valueFromFile.";
+            } else {
+                config.value = fileValue;
+            }
+        }
+
+        config.columns = this.parsePositiveInt(parsed._string("columns"), config.columns);
+        String editable = parsed._string("editable");
+        if (editable != null && !editable.trim().equals("")) {
+            config.editable = !editable.equalsIgnoreCase("false");
+        }
+
+        return config;
+    }
+
     private int parsePositiveInt(String value, int fallback) {
         if (value == null || value.trim().equals("")) {
             return fallback;
@@ -996,6 +1109,9 @@ public class CFolderPanelScannerProgram {
         }
         if (lower.endsWith(".ta.json")) {
             return fileName.substring(0, fileName.length() - ".ta.json".length());
+        }
+        if (lower.endsWith(".tf.json")) {
+            return fileName.substring(0, fileName.length() - ".tf.json".length());
         }
         return fileName;
     }
@@ -1026,6 +1142,16 @@ public class CFolderPanelScannerProgram {
         private String errorMessage;
         private File configFile;
         private int rows;
+        private int columns;
+        private boolean editable;
+    }
+
+    private static class TextFieldConfig {
+        private String controlName;
+        private String label;
+        private String value;
+        private String errorMessage;
+        private File configFile;
         private int columns;
         private boolean editable;
     }

@@ -1,0 +1,6 @@
+{
+	"label": "test2",
+	"optionsFromDirectory": "./testdir",
+	"handler": "./handler.bat",
+	"id": "custom-select-2"
+}

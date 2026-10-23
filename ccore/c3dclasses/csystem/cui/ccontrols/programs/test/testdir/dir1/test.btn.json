@@ -1,4 +1,5 @@
 {
-	"label": "Open Project",
-	"handler": "./test.bat"
+	"label": "dir1-test.btn.json",
+	"handler": "./test.btn.bat",
+	"id": "dir1-test.btn.4.0.0"
 }

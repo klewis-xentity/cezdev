@@ -34,7 +34,10 @@ CFunction fnCreate = new CFunction() {
         final CControl control = (CControl) obj;
 
         final JTextField tf = new JTextField();
-        tf.setText("foo-boo"); // initialize with value
+        Object initialValue = control._("m_value");
+        if (initialValue != null) {
+            tf.setText(String.valueOf(initialValue));
+        }
 
         // Expand to take available width
         tf.setPreferredSize(new Dimension(400, tf.getPreferredSize().height));

@@ -2,5 +2,5 @@
 	"label": "test",
 	"optionsFromDirectory": "./testdir",
 	"handler": "./handler.bat",
-	"id": "custom-button-1"
+	"id": "custom-select-1"
 }

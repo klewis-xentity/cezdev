@@ -47,6 +47,11 @@ class CTextAreaInstructions extends CInstructions {
                     if (wsw instanceof Boolean) ta.setWrapStyleWord((Boolean) wsw);
                 }
 
+                Object initialValue = control._("m_value");
+                if (initialValue != null) {
+                    ta.setText(String.valueOf(initialValue));
+                }
+
                 Object restored = CControlStateMemory.load(control);
                 if (restored != null) {
                     ta.setText(String.valueOf(restored));

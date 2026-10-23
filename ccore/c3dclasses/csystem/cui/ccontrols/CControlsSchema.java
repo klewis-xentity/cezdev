@@ -8,6 +8,15 @@ import java.io.File;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 
 public class CControlsSchema {
     private String m_formId;
@@ -262,30 +271,35 @@ public class CControlsSchema {
             return;
         }
 
+        files = this.applyLayoutOrdering(schemaDirectory, files);
+
         System.out.println("[CControlsSchema] scanning " + files.length + " file(s)");
         for (File file : files) {
             System.out.println("[CControlsSchema] file in directory: " + file.getAbsolutePath());
             String fileName = file.getName();
             String lower = fileName.toLowerCase();
             boolean isButton = lower.endsWith(".btn.json");
+            boolean isTextField = lower.endsWith(".tf.json");
+            boolean isTextArea = lower.endsWith(".ta.json");
             boolean isDirectorySelect = lower.endsWith(".cbx.dir.json");
             boolean isSelect = lower.endsWith(".cbx.json") || isDirectorySelect;
-            if (!isButton && !isSelect) {
+            if (!isButton && !isTextField && !isTextArea && !isSelect) {
                 System.out.println("[CControlsSchema] skipping unsupported file type: " + fileName);
                 continue;
             }
 
-            String suffix = isButton ? ".btn.json" : ".cbx.json";
+            String suffix = isButton ? ".btn.json" : isTextField ? ".tf.json" : isTextArea ? ".ta.json" : ".cbx.json";
             if (isDirectorySelect) {
                 suffix = ".cbx.dir.json";
             }
 
-            String controlId = (isButton ? "btn-" : "select-") + this.text2id(fileName, 8);
+            String controlId = (isButton ? "btn-" : isTextField ? "text-" : isTextArea ? "textarea-" : "select-") + this.text2id(fileName, 8);
             String json = __.get_file_contents(file.getAbsolutePath());
             CHash parsed = json == null || json.trim().equals("") ? null : CJSON.decode(json);
             String label = fileName;
             String handler = null;
             String selected = null;
+            String textValue = "";
             CHash options = __.chash();
 
             if (parsed != null) {
@@ -296,6 +310,7 @@ public class CControlsSchema {
                 label = this.getOrDefault(parsed._string("label"), fileName.substring(0, fileName.length() - suffix.length()));
                 handler = this.getOrDefault(parsed._string("handler"), parsed._string("onclick"));
                 selected = this.getOrDefault(parsed._string("selected"), parsed._string("value"));
+                textValue = this.getOrDefault(parsed._string("value"), parsed._string("text"));
                 options = this.optionsToHash(parsed, file.getParentFile());
             } else {
                 label = fileName.substring(0, fileName.length() - suffix.length());
@@ -317,6 +332,36 @@ public class CControlsSchema {
                         buttonControl.setProp("onclick", handler);
                     }
                 }
+            } else if (isTextField) {
+                System.out.println("[CControlsSchema] creating text field: file=" + fileName + ", label=" + label + ", value=" + textValue);
+                ccontrols.text(controlId, textValue, null);
+                String textPath = parentPath + " " + controlId;
+                CControl textControl = ccontrols.retrieve(textPath);
+                if (textControl != null) {
+                    textControl._("m_schema", parsed != null ? parsed : __.chash());
+                    textControl._("m_component", "text");
+                    textControl.setProp("visible", "true");
+                    Object restoredText = CControlStateMemory.load(textControl);
+                    textControl.setProp("text", restoredText == null ? textValue : String.valueOf(restoredText));
+                    if (handler != null && !handler.trim().equals("")) {
+                        textControl.setProp("onchange", handler);
+                    }
+                }
+            } else if (isTextArea) {
+                System.out.println("[CControlsSchema] creating text area: file=" + fileName + ", label=" + label + ", value=" + textValue);
+                ccontrols.textarea(controlId, textValue, null);
+                String textAreaPath = parentPath + " " + controlId;
+                CControl textAreaControl = ccontrols.retrieve(textAreaPath);
+                if (textAreaControl != null) {
+                    textAreaControl._("m_schema", parsed != null ? parsed : __.chash());
+                    textAreaControl._("m_component", "textarea");
+                    textAreaControl.setProp("visible", "true");
+                    Object restoredTextArea = CControlStateMemory.load(textAreaControl);
+                    textAreaControl.setProp("text", restoredTextArea == null ? textValue : String.valueOf(restoredTextArea));
+                    if (handler != null && !handler.trim().equals("")) {
+                        textAreaControl.setProp("onchange", handler);
+                    }
+                }
             } else {
                 System.out.println("[CControlsSchema] creating select: file=" + fileName + ", label=" + label + ", handler=" + handler + ", options=" + options.keys().length());
                 ccontrols.select(controlId, null, options, null);
@@ -328,14 +373,123 @@ public class CControlsSchema {
                     selectControl._("m_component", "select");
                     selectControl._("m_options_from_directory", isDirectorySelect ? "true" : "false");
                     selectControl.setProp("visible", "true");
-                    if (selected != null && !selected.trim().equals("")) {
-                        selectControl.setProp("selected", selected);
+
+                    String selectedToApply = null;
+                    CHash restoredSelectState = CControlStateMemory.loadState(selectControl);
+                    if (restoredSelectState != null) {
+                        Object restoredOption = restoredSelectState._("m_selectedoption");
+                        if (restoredOption != null && !String.valueOf(restoredOption).trim().equals("")) {
+                            selectedToApply = String.valueOf(restoredOption);
+                        } else {
+                            Object restoredValue = restoredSelectState._("m_value");
+                            if (restoredValue != null && !String.valueOf(restoredValue).trim().equals("")) {
+                                selectedToApply = String.valueOf(restoredValue);
+                            }
+                        }
+                    }
+
+                    if (selectedToApply == null && selected != null && !selected.trim().equals("")) {
+                        selectedToApply = selected;
+                    }
+
+                    if (selectedToApply != null && !selectedToApply.trim().equals("")) {
+                        selectControl.setProp("selected", selectedToApply);
                     }
                     if (handler != null && !handler.trim().equals("")) {
                         selectControl.setProp("onchange", handler);
                     }
                 }
             }
+        }
+    }
+
+    private File[] applyLayoutOrdering(File schemaDirectory, File[] files) {
+        if (files == null || files.length == 0) {
+            return files;
+        }
+
+        File layoutFile = null;
+        for (File file : files) {
+            String name = file.getName().toLowerCase();
+            if (name.endsWith(".layout.json")) {
+                layoutFile = file;
+                break;
+            }
+        }
+
+        if (layoutFile == null) {
+            return files;
+        }
+
+        List<String> orderedNames = this.readLayoutFileOrder(layoutFile);
+        if (orderedNames == null || orderedNames.isEmpty()) {
+            return files;
+        }
+
+        Map<String, File> filesByLowerName = new HashMap<String, File>();
+        for (File file : files) {
+            filesByLowerName.put(file.getName().toLowerCase(), file);
+        }
+
+        List<File> orderedFiles = new ArrayList<File>();
+        Set<String> used = new HashSet<String>();
+
+        for (String orderedName : orderedNames) {
+            if (orderedName == null) {
+                continue;
+            }
+
+            String trimmed = orderedName.trim();
+            if (trimmed.equals("")) {
+                continue;
+            }
+
+            File matched = filesByLowerName.get(trimmed.toLowerCase());
+            if (matched != null && !used.contains(matched.getName().toLowerCase())) {
+                orderedFiles.add(matched);
+                used.add(matched.getName().toLowerCase());
+            }
+        }
+
+        // Keep unlisted files in their original directory order.
+        for (File file : files) {
+            String lower = file.getName().toLowerCase();
+            if (!used.contains(lower)) {
+                orderedFiles.add(file);
+            }
+        }
+
+        return orderedFiles.toArray(new File[orderedFiles.size()]);
+    }
+
+    private List<String> readLayoutFileOrder(File layoutFile) {
+        if (layoutFile == null) {
+            return null;
+        }
+
+        String json = __.get_file_contents(layoutFile.getAbsolutePath());
+        if (json == null || json.trim().equals("")) {
+            return null;
+        }
+
+        try {
+            Object parsed = new JSONParser().parse(json);
+            if (!(parsed instanceof JSONArray)) {
+                System.out.println("[CControlsSchema] layout file is not a JSON array: " + layoutFile.getAbsolutePath());
+                return null;
+            }
+
+            JSONArray layout = (JSONArray) parsed;
+            List<String> orderedNames = new ArrayList<String>();
+            for (Object entry : layout) {
+                if (entry != null) {
+                    orderedNames.add(String.valueOf(entry));
+                }
+            }
+            return orderedNames;
+        } catch (Exception ex) {
+            System.out.println("[CControlsSchema] failed to parse layout file: " + layoutFile.getAbsolutePath() + ", error=" + ex.getMessage());
+            return null;
         }
     }
 

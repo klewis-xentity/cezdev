@@ -108,14 +108,18 @@ public class CSetVarCommand {
 		
 		// Create temp script that sets environment variables in the caller shell.
 		String strscriptfile = new File(strmetapath, strvarname + "_tmp.bat").getAbsolutePath();
+		String strvaluefile = new File(strmetapath, strvarname + ".txt").getAbsolutePath();
 		String strcontents = "echo [SETTING] the environment variable: " + strvarname + " with value: " + strvarvalue + "\n";
 		strcontents += "set " + strvarname + "=" + strvarvalue + "\n";
+		strcontents += "set " + strvarname + ".txt=" + strvaluefile + "\n";
 		if(bsetpath) {
 			strcontents += "echo [SETTING] the PATH with: " + strvarname + "\n";
 			strcontents += "\nset PATH=%PATH%;%"+strvarname+"%;\n";
 		} // end if
 		__.println("[CREATED] script for environment variable in: " + strscriptfile);
+		__.println("[CREATED] value file for environment variable in: " + strvaluefile);
 		__.file_set_contents(strscriptfile, strcontents);
+		__.file_set_contents(strvaluefile, strvarvalue);
 		return;
 	} // end main()
 

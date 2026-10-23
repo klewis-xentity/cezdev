@@ -38,14 +38,23 @@ class CComboBoxInstructions extends CInstructions {
         control._("m_options", options);
 
         CHash restoredState = CControlStateMemory.loadState(control);
+        String restoredSelectedOption = null;
         String restoredValue = null;
         if (restoredState != null) {
+            Object restoredOption = restoredState._("m_selectedoption");
+            restoredSelectedOption = restoredOption == null ? null : String.valueOf(restoredOption);
+
             Object restored = restoredState._("m_value");
             restoredValue = restored == null ? null : String.valueOf(restored);
 
             if ((options == null || options.keys().length() == 0) && restoredState._("m_options") instanceof CHash) {
                 options = (CHash) restoredState._("m_options");
                 control._("m_options", options);
+            }
+
+            if ((restoredValue == null || restoredValue.trim().isEmpty()) && options != null
+                    && restoredSelectedOption != null && options.containsKey(restoredSelectedOption)) {
+                restoredValue = options._string(restoredSelectedOption);
             }
         }
 
@@ -75,8 +84,19 @@ class CComboBoxInstructions extends CInstructions {
         // Register the Swing control
         ccontrolinstructions.createJControl(control, comboBox);
 
-        if (restoredValue != null) {
-            boolean applied = false;
+        boolean applied = false;
+        if (restoredSelectedOption != null && !restoredSelectedOption.trim().isEmpty()) {
+            for (int i = 0; i < comboBox.getItemCount(); i++) {
+                Object item = comboBox.getItemAt(i);
+                if (item != null && restoredSelectedOption.equals(String.valueOf(item))) {
+                    comboBox.setSelectedItem(item);
+                    applied = true;
+                    break;
+                }
+            }
+        }
+
+        if (!applied && restoredValue != null) {
             String normalizedRestored = normalizePathValue(restoredValue);
 
             for (int i = 0; i < comboBox.getItemCount(); i++) {
@@ -319,7 +339,45 @@ class CComboBoxInstructions extends CInstructions {
         if (panel != null) {
             panel.setProp("visible", "true");
             panel.setProp("grid", "true");
+            ensurePanelAfterOwnerControl(ccontrol, panel);
             ccontrol._("m_selected_directory_panel_path", panelPath);
+        }
+    }
+
+    private static void ensurePanelAfterOwnerControl(CControl ownerControl, CControl panelControl) {
+        if (ownerControl == null || panelControl == null) {
+            return;
+        }
+
+        Object ownerComponentObj = ownerControl._("m_jcontrol");
+        Object panelComponentObj = panelControl._("m_jcontrol");
+        if (!(ownerComponentObj instanceof Component) || !(panelComponentObj instanceof Component)) {
+            return;
+        }
+
+        Component ownerComponent = (Component) ownerComponentObj;
+        Component panelComponent = (Component) panelComponentObj;
+        Container parent = ownerComponent.getParent();
+        if (parent == null || panelComponent.getParent() != parent) {
+            return;
+        }
+
+        int ownerIndex = parent.getComponentZOrder(ownerComponent);
+        int panelIndex = parent.getComponentZOrder(panelComponent);
+        if (ownerIndex < 0 || panelIndex < 0) {
+            return;
+        }
+
+        int desiredIndex = ownerIndex + 1;
+        int maxIndex = parent.getComponentCount() - 1;
+        if (desiredIndex > maxIndex) {
+            desiredIndex = maxIndex;
+        }
+
+        if (panelIndex != desiredIndex) {
+            parent.setComponentZOrder(panelComponent, desiredIndex);
+            parent.revalidate();
+            parent.repaint();
         }
     }
 
