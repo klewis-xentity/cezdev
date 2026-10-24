@@ -26,6 +26,9 @@ public class CControlsDriver extends CProcessor {
 		this.addCInstructions("CImageUploadInstructions", new CImageUploadInstructions(this));
 		this.addCInstructions("CTextInputInstructions", new CTextInputInstructions(this));
 		this.addCInstructions("CTextAreaInstructions", new CTextAreaInstructions(this));
+		this.addCInstructions("CDatePickerInstructions", new CDatepickerInstructions(this));
+		this.addCInstructions("CDateTimePickerInstructions", new CDateTimepickerInstructions(this));
+		this.addCInstructions("CTimePickerInstructions", new CTimepickerInstructions(this));
 	}
 	 
 	public String toInstruction(CObject operand) {

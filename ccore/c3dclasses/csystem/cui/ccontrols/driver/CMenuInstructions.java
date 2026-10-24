@@ -85,22 +85,42 @@ class CMenuInstructions extends CInstructions {
 		
 		CFunction fnOnClickMenuItem = new CFunction() { 
 			public CReturn call(CObject obj) { 
-				CControl ccontrol = (CControl) obj;
+				final CControl ccontrol = (CControl) obj;
 				JComponent jcomponent = (JComponent) ccontrol._("m_jcontrol");
-				//String command = (String) ccontrol._("m_propvalue");
-
-				// Build the command string dynamically
-				String command = (String) ccontrol._("m_propvalue") + " " 
-							+ (String) ccontrol._("m_strid");
-				
-
-				if (jcomponent instanceof JMenuItem && command != null && !command.isEmpty()) {
-					((JMenuItem) jcomponent).addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							__.exec_command(command); // Executes the string as a command
-						}
-					});
+				if (!(jcomponent instanceof JMenuItem)) {
+					return null;
 				}
+
+				final JMenuItem menuItem = (JMenuItem) jcomponent;
+				final Object clickValue = ccontrol._("m_propvalue");
+				Object prevListener = ccontrol._("m_onclick_listener");
+				if (prevListener instanceof ActionListener) {
+					menuItem.removeActionListener((ActionListener) prevListener);
+				}
+
+				ActionListener listener = null;
+				if (clickValue instanceof CFunction) {
+					final CFunction callback = (CFunction) clickValue;
+					listener = new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							callback.call(ccontrol);
+						}
+					};
+				} else {
+					String commandBase = (clickValue == null) ? "" : clickValue.toString().trim();
+					if (commandBase.isEmpty()) {
+						return null;
+					}
+					final String command = commandBase + " " + (String) ccontrol._("m_strid");
+					listener = new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							__.exec_command(command);
+						}
+					};
+				}
+
+				menuItem.addActionListener(listener);
+				ccontrol._("m_onclick_listener", listener);
 				return null;
 			}
 		};

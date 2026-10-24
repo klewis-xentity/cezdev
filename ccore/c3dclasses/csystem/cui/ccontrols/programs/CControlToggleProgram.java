@@ -25,7 +25,7 @@ public class CControlToggleProgram {
 
 		ccontrols.retrieve("toggle-form show-state").setProp("onclick", new CFunction() {
 			public CReturn call(CObject obj) {
-				boolean selected = ((Boolean) ccontrols.retrieve("toggle-form feature-toggle").getProp("selected")).booleanValue();
+				boolean selected = Boolean.TRUE.equals(ccontrols.retrieve("toggle-form feature-toggle").getProp("selected"));
 				__.alert("Toggle selected: " + selected);
 				__.println("Toggle selected: " + selected);
 				return null;

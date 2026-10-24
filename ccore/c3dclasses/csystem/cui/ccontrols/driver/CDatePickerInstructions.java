@@ -35,6 +35,7 @@ class CDatepickerInstructions extends CInstructions {
         CFunction fnCreate = new CFunction() {
             public CReturn call(CObject obj) {
                 CControl control = (CControl) obj;
+                control._("m_component", "datepicker");
                 SpinnerDateModel model = new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_MONTH);
                 JSpinner spinner = new JSpinner(model);
                 // default format & apply
@@ -48,7 +49,20 @@ class CDatepickerInstructions extends CInstructions {
                     if (min != null) model.setStart(_this.coerceToDate(min, fmt));
                     if (max != null) model.setEnd(_this.coerceToDate(max, fmt));
                 }
+                Object restored = CControlStateMemory.load(control);
+                if (restored != null) {
+                    Date restoredDate = _this.coerceToDate(restored, fmt);
+                    if (restoredDate != null) {
+                        spinner.setValue(restoredDate);
+                    }
+                }
                 control._("m_format", fmt);
+                spinner.addChangeListener(new ChangeListener() {
+                    public void stateChanged(ChangeEvent e) {
+                        Date value = (Date) spinner.getValue();
+                        CControlStateMemory.save(control, value == null ? "" : new SimpleDateFormat(fmt).format(value));
+                    }
+                });
                 m_ccontrolinstructions.createJControl(control, spinner);
                 return CReturn._done(control);
             }
@@ -61,7 +75,10 @@ class CDatepickerInstructions extends CInstructions {
                 JSpinner sp = (JSpinner) c._("m_jcontrol");
                 String fmt = _this.getOrDefaultFormat(c, "yyyy-MM-dd");
                 Date d = _this.coerceToDate(c._("m_propvalue"), fmt);
-                if (d != null) sp.setValue(d);
+                if (d != null) {
+                    sp.setValue(d);
+                    CControlStateMemory.save(c, new SimpleDateFormat(fmt).format(d));
+                }
                 return null;
             }
         };

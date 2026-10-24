@@ -35,6 +35,7 @@ class CToggleInstructions extends CInstructions {
         CFunction fnCreate = new CFunction() {
             public CReturn call(CObject obj) {
                 CControl control = (CControl) obj;
+                control._("m_component", "toggle");
                 CHash params = (CHash) control._("m_params");
 
                 String text = control._("m_value") instanceof String ? (String) control._("m_value") : null;
@@ -54,6 +55,18 @@ class CToggleInstructions extends CInstructions {
                     Object offlabel = params._("m_offlabel");
                     if (offlabel instanceof String) control._("m_offlabel", (String) offlabel);
                 }
+
+                Object restored = CControlStateMemory.load(control);
+                if (restored != null) {
+                    boolean selected = restored instanceof Boolean ? (Boolean) restored : Boolean.parseBoolean(String.valueOf(restored));
+                    toggle.setSelected(selected);
+                }
+
+                toggle.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        CControlStateMemory.save(control, toggle.isSelected());
+                    }
+                });
 
                 // Save and apply labels if provided
                 _this.updateLabelForState(control, toggle);
@@ -92,6 +105,7 @@ class CToggleInstructions extends CInstructions {
                 if (v instanceof Boolean) sel = (Boolean) v;
                 else if (v != null) sel = Boolean.parseBoolean(String.valueOf(v));
                 t.setSelected(sel);
+                CControlStateMemory.save(c, sel);
                 _this.updateLabelForState(c, t);
                 return null;
             }

@@ -25,6 +25,7 @@ class CDateTimepickerInstructions extends CInstructions {
         CFunction fnCreate = new CFunction() {
             public CReturn call(CObject obj) {
                 CControl control = (CControl) obj;
+                control._("m_component", "datetimepicker");
                 SpinnerDateModel model = new SpinnerDateModel(new Date(), null, null, Calendar.MINUTE);
                 JSpinner spinner = new JSpinner(model);
                 String fmt = _this.getOrDefaultFormat(control, "yyyy-MM-dd HH:mm");
@@ -37,7 +38,20 @@ class CDateTimepickerInstructions extends CInstructions {
                     if (min != null) model.setStart(_this.coerceToDate(min, fmt));
                     if (max != null) model.setEnd(_this.coerceToDate(max, fmt));
                 }
+                Object restored = CControlStateMemory.load(control);
+                if (restored != null) {
+                    Date restoredDate = _this.coerceToDate(restored, fmt);
+                    if (restoredDate != null) {
+                        spinner.setValue(restoredDate);
+                    }
+                }
                 control._("m_format", fmt);
+                spinner.addChangeListener(new ChangeListener() {
+                    public void stateChanged(ChangeEvent e) {
+                        Date value = (Date) spinner.getValue();
+                        CControlStateMemory.save(control, value == null ? "" : new SimpleDateFormat(fmt).format(value));
+                    }
+                });
                 m_ccontrolinstructions.createJControl(control, spinner);
                 return CReturn._done(control);
             }
@@ -49,7 +63,10 @@ class CDateTimepickerInstructions extends CInstructions {
                 JSpinner sp = (JSpinner) c._("m_jcontrol");
                 String fmt = _this.getOrDefaultFormat(c, "yyyy-MM-dd HH:mm");
                 Date d = _this.coerceToDate(c._("m_propvalue"), fmt);
-                if (d != null) sp.setValue(d);
+                if (d != null) {
+                    sp.setValue(d);
+                    CControlStateMemory.save(c, new SimpleDateFormat(fmt).format(d));
+                }
                 return null;
             }
         };

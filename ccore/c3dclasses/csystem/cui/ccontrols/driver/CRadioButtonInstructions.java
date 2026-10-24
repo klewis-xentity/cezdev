@@ -23,8 +23,40 @@ class CRadioButtonInstructions extends CInstructions {
         CFunction fnCreateJRadioButton = new CFunction() {
             public CReturn call(CObject obj) {
                 CControl control = (CControl) obj;
-                createJRadioButton(control, new JRadioButton((String) control._("m_value")));
+                control._("m_component", "radio");
+                final JRadioButton radio = new JRadioButton((String) control._("m_value"));
+                Object restored = CControlStateMemory.load(control);
+                if (restored != null) {
+                    radio.setSelected(Boolean.parseBoolean(String.valueOf(restored)));
+                }
+                radio.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        CControlStateMemory.save(control, radio.isSelected());
+                    }
+                });
+                createJRadioButton(control, radio);
                 return CReturn._done(control);
+            }
+        };
+
+        CFunction fnSetSelected = new CFunction() {
+            public CReturn call(CObject obj) {
+                CControl ccontrol = (CControl) obj;
+                JRadioButton jcontrol = (JRadioButton) ccontrol._("m_jcontrol");
+                Object value = ccontrol._("m_propvalue");
+                boolean selected = value instanceof Boolean ? (Boolean) value : Boolean.parseBoolean(String.valueOf(value));
+                jcontrol.setSelected(selected);
+                CControlStateMemory.save(ccontrol, selected);
+                return null;
+            }
+        };
+
+        CFunction fnGetSelected = new CFunction() {
+            public CReturn call(CObject obj) {
+                CControl ccontrol = (CControl) obj;
+                JRadioButton jcontrol = (JRadioButton) ccontrol._("m_jcontrol");
+                ccontrol._("m_propvalue", jcontrol.isSelected());
+                return null;
             }
         };
 
@@ -65,7 +97,11 @@ class CRadioButtonInstructions extends CInstructions {
 
         // --- REGISTER ---
         cprocessor._("radio->create", fnCreateJRadioButton);
+        cprocessor._("radio->set->selected", fnSetSelected);
+        cprocessor._("radio->get->selected", fnGetSelected);
         cprocessor._("radio->set->onclick", fnOnClick);
+        cprocessor._("radio->set->visible", cprocessor._("ccontrol->set->visible"));
+        cprocessor._("radio->get->visible", cprocessor._("ccontrol->get->visible"));
     }
 
     // --- RADIO BUTTON GROUPING HELPER ---

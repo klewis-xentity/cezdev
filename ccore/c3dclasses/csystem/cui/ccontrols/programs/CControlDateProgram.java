@@ -10,7 +10,7 @@ public class CControlDateProgram {
 
 		ccontrols.form("date-form", "Date Picker Demo", null);
 			ccontrols.label("date-label", "Choose a date and click Show Date.", null);
-			ccontrols.create("datepicker", "selected-date", "2026-10-23", null);
+			ccontrols.datepicker("selected-date", "2026-10-23", null);
 			ccontrols.button("show-date", "Show Date", null);
 		ccontrols.endform();
 
@@ -23,8 +23,8 @@ public class CControlDateProgram {
 
 		ccontrols.retrieve("date-form show-date").setProp("onclick", new CFunction() {
 			public CReturn call(CObject obj) {
-				CControl date = ccontrols.retrieve("date-form selected-date");
-				String selected = (String) date.getProp("value");
+				Object value = ccontrols.retrieve("date-form selected-date").getProp("value");
+				String selected = value == null ? "" : String.valueOf(value);
 				__.alert("Selected date: " + selected);
 				__.println("Selected date: " + selected);
 				return null;

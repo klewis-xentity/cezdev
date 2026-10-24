@@ -59,6 +59,7 @@ public class CControls extends CHash {
 	public boolean text(String strid, String value, CHash params) { return this.control("text", strid, value, params);}
 	public boolean textarea(String strid, String value, CHash params) { return this.control("textarea", strid, value, params);}
 	public boolean checkbox(String strid, String value, CHash params) { return this.control("checkbox", strid, value, params);}
+	public boolean toggle(String strid, String value, CHash params) { return this.control("toggle", strid, value, params); }
 	public boolean select(String strid, String value, CHash options, CHash params) { return this.choices("select", strid, value, options, params); }
 	public boolean radio(String strgroupid, String strid, String value, CHash params) { 
 		if(params == null)
@@ -66,6 +67,9 @@ public class CControls extends CHash {
 		params.set("m_strgroupid", strgroupid); 	
 		return this.control("radio", strid, value, params);
 	} // end radio()
+	public boolean datepicker(String strid, String value, CHash params) { return this.control("datepicker", strid, value, params); }
+	public boolean datetimepicker(String strid, String value, CHash params) { return this.control("datetimepicker", strid, value, params); }
+	public boolean timepicker(String strid, String value, CHash params) { return this.control("timepicker", strid, value, params); }
 	public boolean button(String strid, String value, CHash params) { return this.control("button", strid, value, params);} 
 	public boolean submit(String strid, String value, CHash params) { return this.button(strid, value, params);} 
 	public boolean dropDownPages(String strid, String value, CHash params) { return this.control("dropdown-pages", strid, value, params); }

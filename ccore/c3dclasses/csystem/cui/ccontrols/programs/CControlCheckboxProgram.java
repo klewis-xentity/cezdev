@@ -27,9 +27,9 @@ public class CControlCheckboxProgram {
 
 		ccontrols.retrieve("checkbox-form show-selection").setProp("onclick", new CFunction() {
 			public CReturn call(CObject obj) {
-				boolean agree = ((Boolean) ccontrols.retrieve("checkbox-form agree-terms").getProp("selected")).booleanValue();
-				boolean newsletter = ((Boolean) ccontrols.retrieve("checkbox-form newsletter").getProp("selected")).booleanValue();
-				boolean debug = ((Boolean) ccontrols.retrieve("checkbox-form debug-mode").getProp("selected")).booleanValue();
+				boolean agree = Boolean.TRUE.equals(ccontrols.retrieve("checkbox-form agree-terms").getProp("selected"));
+				boolean newsletter = Boolean.TRUE.equals(ccontrols.retrieve("checkbox-form newsletter").getProp("selected"));
+				boolean debug = Boolean.TRUE.equals(ccontrols.retrieve("checkbox-form debug-mode").getProp("selected"));
 
 				__.alert("Selected: agree=" + agree + ", newsletter=" + newsletter + ", debug=" + debug);
 				__.println("Selected: agree=" + agree + ", newsletter=" + newsletter + ", debug=" + debug);
