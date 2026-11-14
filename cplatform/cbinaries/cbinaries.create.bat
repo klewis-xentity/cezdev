@@ -1,18 +1,5 @@
 @echo off
-
-:: Detect binaries drive (prefer D:, fallback to E:)
-if exist "D:\cbinaries" (
-    set "CBINARIES_DRIVE=D:"
-) else if exist "E:\cbinaries" (
-    set "CBINARIES_DRIVE=E:"
-) else (
-    echo ERROR: Neither D: nor E: drive is available.
-    exit /b 1
-)
-
 :: Root directory for all binaries
-set "CBINARIES_HOME=%CBINARIES_DRIVE%\cbinaries"
-
 set "code.home=%CBINARIES_HOME%\code\VSCode-win32-x64-1.119.1"
 set "code.bin=%CBINARIES_HOME%\code\VSCode-win32-x64-1.119.1\bin"
 
@@ -52,12 +39,15 @@ set "other.bin=%CBINARIES_HOME%\other"
 ::set "python.home=%CBINARIES_HOME%\python\python-3.13.13-embed-amd64"
 ::set "python.bin=%CBINARIES_HOME%\python\python-3.13.13-embed-amd64"
 
-set "python.home=%CBINARIES_HOME%\python\python-3.14.7-amd64"
-set "python.bin=%CBINARIES_HOME%\python\python-3.14.7-amd64"
+::set "python.home=%CBINARIES_HOME%\python\python-3.14.7-amd64"
+::set "python.bin=%CBINARIES_HOME%\python\python-3.14.7-amd64"
+
+set "python.home=%CBINARIES_HOME%\python\python-3.13.13-embed-amd64"
+set "python.bin=%CBINARIES_HOME%\python\python-3.13.13-embed-amd64"
+
 
 set "ssh.home=%CBINARIES_HOME%\ssh"
 set "ssh.bin=%CBINARIES_HOME%\ssh"
 
 set "yt-dlp.home=%CBINARIES_HOME%\yt-dlp"
 set "yt-dlp.bin=%CBINARIES_HOME%\yt-dlp"
-

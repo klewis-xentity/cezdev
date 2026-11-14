@@ -9,5 +9,7 @@
 echo [CALLING] %~nx0
 
 call "%~dp0cpy.create.bat" %1 %2
+if errorlevel 1 exit /b 1
 
 echo [ENDING] %~nx0
+exit /b 0

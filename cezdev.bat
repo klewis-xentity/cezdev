@@ -2,7 +2,6 @@
 :: name: CEZDEV.bat
 :: desc: starts the CEZDEV application
 ::------------------------------------------------------
-
 @echo off
 
 echo.
@@ -10,13 +9,18 @@ echo ::-------------------------------------------------------------------------
 echo ::  (cezdev.bat - begin) Starting EasyDeveloper (CEZDEV)...
 echo ::---------------------------------------------------------------------------------------
 echo [CALLING] %~nx0
+echo.
 
-echo [SETTING] CEZDEV_HOME to %~dp0
-set CEZDEV_HOME=%~dp0
+echo.
+echo ::---------------------------------------------------------------------------------------
+echo :: (cezdev.vars.bat - begin) Initializing environment variables and directories...
+echo ::---------------------------------------------------------------------------------------
+call cezdev.vars.bat
+echo ::---------------------------------------------------------------------------------------
+echo :: (cezdev.vars.bat - begin) Initializing environment variables and directories...
+echo ::---------------------------------------------------------------------------------------
+echo.
 
-::--------------------------------------------------------------------------------------------
-:: Call the create script to initialize environment variables and directories
-::--------------------------------------------------------------------------------------------
 echo.
 echo ::---------------------------------------------------------------------------------------
 echo :: (cezdev.create.bat - begin) Initializing environment variables and directories...

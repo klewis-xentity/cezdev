@@ -4,3 +4,4 @@ node_modules
 *.exe
 *.pyc
 *.secrets.bat
+/cplatform/cbinaries/cbinaries/

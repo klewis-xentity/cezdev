@@ -32,13 +32,21 @@ if "%CPY_ENV_READY%"=="1" (
 )
 
 :: Moving the Python environment from core source to Python project
-call cpy.move.bat
+call "%~dp0cpy.move.bat"
+if errorlevel 1 goto cpy_create_failed
 
 :: Building the Python environment
-call cpy.build.bat
+call "%~dp0cpy.build.bat"
+if errorlevel 1 goto cpy_create_failed
 
 :cpy_create_done
 :: Return to the original directory
 echo [RETURNING] to original directory: %CPYCREATEHOME%
 cd /d "%CPYCREATEHOME%"
 echo [ENDING] %~nx0
+exit /b 0
+
+:cpy_create_failed
+cd /d "%CPYCREATEHOME%"
+echo [ERROR] %~nx0 failed.
+exit /b 1
