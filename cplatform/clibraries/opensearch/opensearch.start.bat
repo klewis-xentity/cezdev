@@ -1,0 +1,2 @@
+aws sso login --profile gp-sit
+aws ssm start-session --target i-0e652fd1e2eb4b4ff --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters "host=vpc-gp-sit-us-west-2-opensearch-5mhcu6hjk6obyvsr355k5vj6ja.us-west-2.es.amazonaws.com,portNumber=443,localPortNumber=9443" --region us-west-2 --profile gp-sit

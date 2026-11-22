@@ -6,7 +6,7 @@ package c3dclasses;
 
 class CControlStateMemory {
     private static final String MEMORY_ID = "ccontrols-state";
-
+    
     private CControlStateMemory() {
     }
 
@@ -35,10 +35,10 @@ class CControlStateMemory {
 
         // Check if this is a select control
         if (isSelectComponent(strComponent)) {
-            // For select controls, persist outer m_value and inner m_ccontrol_value details.
+            // Select values use the option key in both m_value fields.
             Object optionsObj = ccontrol._("m_options");
             Object selectedOption = resolveSelectStoredOption(value, optionsObj);
-            Object storedSelectValue = resolveSelectStoredValue(value, optionsObj);
+            Object storedSelectValue = selectedOption;
             CReturn creturn = cmemory.upsert(key, storedSelectValue, __.typeOf(storedSelectValue), null);
             if (creturn == null || !creturn.isdone()) {
                 return false;
@@ -127,7 +127,18 @@ class CControlStateMemory {
             return null;
         }
 
-        Object storedValue = extractStoredValue(creturn.data());
+        Object data = creturn.data();
+        if (data instanceof CHash) {
+            Object controlValue = ((CHash) data)._("m_ccontrol_value");
+            if (controlValue instanceof CHash) {
+                Object selectedOption = ((CHash) controlValue)._("m_selectedoption");
+                if (selectedOption != null) {
+                    return selectedOption;
+                }
+            }
+        }
+
+        Object storedValue = extractStoredValue(data);
 
         // Prefer control payload when present and fallback to m_value for legacy records.
         if (storedValue instanceof CHash) {
@@ -270,36 +281,6 @@ class CControlStateMemory {
         }
 
         return data;
-    }
-
-    private static Object resolveSelectStoredValue(Object selectedValue, Object optionsObj) {
-        if (selectedValue == null) {
-            return null;
-        }
-
-        if (!(optionsObj instanceof CHash)) {
-            return selectedValue;
-        }
-
-        String selected = String.valueOf(selectedValue);
-        CHash options = (CHash) optionsObj;
-
-        // If selected value is an option key, store the mapped option value.
-        if (options.containsKey(selected)) {
-            return options._(selected);
-        }
-
-        String normalizedSelected = normalizeValue(selected);
-        CArray keys = options.keys();
-        for (int i = 0; i < keys.length(); i++) {
-            String key = keys._string(i);
-            String optionValue = options._string(key);
-            if (selected.equals(optionValue) || normalizedSelected.equals(normalizeValue(optionValue))) {
-                return optionValue;
-            }
-        }
-
-        return selected;
     }
 
     private static Object resolveSelectStoredOption(Object selectedValue, Object optionsObj) {

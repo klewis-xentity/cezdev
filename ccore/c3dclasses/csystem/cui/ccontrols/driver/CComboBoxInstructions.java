@@ -37,27 +37,6 @@ class CComboBoxInstructions extends CInstructions {
         // set the options
         control._("m_options", options);
 
-        CHash restoredState = CControlStateMemory.loadState(control);
-        String restoredSelectedOption = null;
-        String restoredValue = null;
-        if (restoredState != null) {
-            Object restoredOption = restoredState._("m_selectedoption");
-            restoredSelectedOption = restoredOption == null ? null : String.valueOf(restoredOption);
-
-            Object restored = restoredState._("m_value");
-            restoredValue = restored == null ? null : String.valueOf(restored);
-
-            if ((options == null || options.keys().length() == 0) && restoredState._("m_options") instanceof CHash) {
-                options = (CHash) restoredState._("m_options");
-                control._("m_options", options);
-            }
-
-            if ((restoredValue == null || restoredValue.trim().isEmpty()) && options != null
-                    && restoredSelectedOption != null && options.containsKey(restoredSelectedOption)) {
-                restoredValue = options._string(restoredSelectedOption);
-            }
-        }
-
         // the control options
         if (options != null) {
             __.print("The control options: " + options.toString());
@@ -84,44 +63,7 @@ class CComboBoxInstructions extends CInstructions {
         // Register the Swing control
         ccontrolinstructions.createJControl(control, comboBox);
 
-        boolean applied = false;
-        if (restoredSelectedOption != null && !restoredSelectedOption.trim().isEmpty()) {
-            for (int i = 0; i < comboBox.getItemCount(); i++) {
-                Object item = comboBox.getItemAt(i);
-                if (item != null && restoredSelectedOption.equals(String.valueOf(item))) {
-                    comboBox.setSelectedItem(item);
-                    applied = true;
-                    break;
-                }
-            }
-        }
-
-        if (!applied && restoredValue != null) {
-            String normalizedRestored = normalizePathValue(restoredValue);
-
-            for (int i = 0; i < comboBox.getItemCount(); i++) {
-                Object item = comboBox.getItemAt(i);
-                if (item != null && restoredValue.equals(String.valueOf(item))) {
-                    comboBox.setSelectedItem(item);
-                    applied = true;
-                    break;
-                }
-            }
-
-            if (!applied && options != null) {
-                CArray keys = options.keys();
-                for (int i = 0; i < keys.length(); i++) {
-                    String key = keys._string(i);
-                    String value = options._string(key);
-                    if (restoredValue.equals(value) || normalizedRestored.equals(normalizePathValue(value))) {
-                        comboBox.setSelectedItem(key);
-                        break;
-                    }
-                }
-            }
-        }
-
-        // Always persist current selection for retrieval even if onchange is never configured.
+        // Update directory panels whenever the selection changes.
         comboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JComboBox<?> source = (JComboBox<?>) e.getSource();
@@ -129,7 +71,6 @@ class CComboBoxInstructions extends CInstructions {
                 CHash hash = (CHash) control._("m_options");
                 String selectedValue = (hash != null) ? (String) hash._(selected) : null;
                 String valueToStore = (selectedValue != null) ? selectedValue : (selected != null ? selected.toString() : "");
-                CControlStateMemory.save(control, valueToStore);
                 renderSelectedDirectoryPanel(control, selected, valueToStore);
             }
         });
@@ -187,7 +128,6 @@ class CComboBoxInstructions extends CInstructions {
                 Object selected = combo.getSelectedItem();
                 String selectedValue = (options != null) ? options._string(String.valueOf(selected)) : null;
                 String valueToStore = (selectedValue != null) ? selectedValue : (selected != null ? selected.toString() : "");
-                CControlStateMemory.save(ccontrol, valueToStore);
                 return null;
             }
         };
@@ -221,8 +161,6 @@ class CComboBoxInstructions extends CInstructions {
                             CHash hash = (CHash) ccontrol._("m_options");
                             String selectedValue = (hash != null) ? (String) hash._(selected) : null;
                             String valueToStore = (selectedValue != null) ? selectedValue : (selected != null ? selected.toString() : "");
-
-                            CControlStateMemory.save(ccontrol, valueToStore);
 
                             // Show loading indicator if available
                             if (loadingControlId != null && !loadingControlId.trim().isEmpty()) {

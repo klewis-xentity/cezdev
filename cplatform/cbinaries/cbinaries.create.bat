@@ -51,3 +51,7 @@ set "ssh.bin=%CBINARIES_HOME%\ssh"
 
 set "yt-dlp.home=%CBINARIES_HOME%\yt-dlp"
 set "yt-dlp.bin=%CBINARIES_HOME%\yt-dlp"
+
+set "session-manager.home=%CBINARIES_HOME%\session-manager\SessionManagerPlugin\package"
+set "session-manager.bin=%CBINARIES_HOME%\session-manager\SessionManagerPlugin\package\bin"
+

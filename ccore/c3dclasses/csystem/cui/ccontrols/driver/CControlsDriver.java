@@ -29,17 +29,15 @@ public class CControlsDriver extends CProcessor {
 		this.addCInstructions("CDatePickerInstructions", new CDatepickerInstructions(this));
 		this.addCInstructions("CDateTimePickerInstructions", new CDateTimepickerInstructions(this));
 		this.addCInstructions("CTimePickerInstructions", new CTimepickerInstructions(this));
-	}
+	} // end CControlsDriver()
 	 
 	public String toInstruction(CObject operand) {
 		if(operand == null)
 			return "";
-
 		CControl control = (CControl) operand;
 		String type = (String) control._("m_strdefaulttype");
 		if(type == null)
 			type = (String) control._("m_strtype");
-
 		StringBuilder instruction = new StringBuilder(type == null ? "" : type);
 		String action = (String) control._("m_straction");
 		String property = (String) control._("m_strpropname");
@@ -48,8 +46,10 @@ public class CControlsDriver extends CProcessor {
 		if(property != null)
 			instruction.append("->").append(property);
 		return instruction.toString().toLowerCase();
-	}
-	
+	} // end toInstruction()
+	public CReturn execute(CObject operand) {
+		return super.execute(operand);
+	} // end execute()
 	public static CProcessor m_processor = new CControlsDriver();
 	public static CReturn call(CControl ccontrol) { return CControlsDriver.m_processor.execute(ccontrol); }
 } // end CControlsDriver

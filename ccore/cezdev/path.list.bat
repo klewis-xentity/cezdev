@@ -23,51 +23,45 @@ cd /d "%SCRIPT_DIR%"
 set "PYTHON_CMD="
 set "PYTHON_ARGS="
 
-where pythonx >nul 2>nul
-if "%ERRORLEVEL%"=="0" (
-    set "PYTHON_CMD=pythonx"
-) else (
-    where python >nul 2>nul
-    if "%ERRORLEVEL%"=="0" (
-        set "PYTHON_CMD=python"
-    ) else (
-        where py >nul 2>nul
-        if "%ERRORLEVEL%"=="0" (
-            set "PYTHON_CMD=py"
-            set "PYTHON_ARGS=-3"
-        )
-    )
+if defined PYTHON_HOME if exist "%PYTHON_HOME%\python.exe" (
+    set "PYTHON_CMD=%PYTHON_HOME%\python.exe"
 )
 
-if not defined PYTHON_CMD (
-    if defined PYTHON_HOME if exist "%PYTHON_HOME%\python.exe" (
-        set "PYTHON_CMD=%PYTHON_HOME%\python.exe"
-    )
+if not defined PYTHON_CMD if defined python.home if exist "%python.home%\python.exe" (
+    set "PYTHON_CMD=%python.home%\python.exe"
 )
 
-if not defined PYTHON_CMD (
-    if defined python.home if exist "%python.home%\python.exe" (
-        set "PYTHON_CMD=%python.home%\python.exe"
-    )
+if not defined PYTHON_CMD if defined python.bin if exist "%python.bin%\python.exe" (
+    set "PYTHON_CMD=%python.bin%\python.exe"
 )
 
-if not defined PYTHON_CMD (
-    if defined python.bin if exist "%python.bin%\python.exe" (
-        set "PYTHON_CMD=%python.bin%\python.exe"
-    )
-)
-
-if not defined PYTHON_CMD (
-    if defined CBINARIES_HOME (
-        for /d %%D in ("%CBINARIES_HOME%\python\python-*") do (
-            if exist "%%~fD\python.exe" if not defined PYTHON_CMD set "PYTHON_CMD=%%~fD\python.exe"
-        )
-    )
-)
-
-if not defined PYTHON_CMD (
-    for /d %%D in ("%SCRIPT_DIR%\..\..\cplatform\cbinaries\python\python-*") do (
+if not defined PYTHON_CMD if defined CBINARIES_HOME (
+    for /d %%D in ("%CBINARIES_HOME%\python\python-*") do (
         if exist "%%~fD\python.exe" if not defined PYTHON_CMD set "PYTHON_CMD=%%~fD\python.exe"
+    )
+)
+
+if not defined PYTHON_CMD (
+    for /d %%D in ("%SCRIPT_DIR%\..\..\cplatform\cbinaries\cbinaries\python\python-*") do (
+        if exist "%%~fD\python.exe" if not defined PYTHON_CMD set "PYTHON_CMD=%%~fD\python.exe"
+    )
+)
+
+if not defined PYTHON_CMD (
+    where pythonx >nul 2>nul
+    if "%ERRORLEVEL%"=="0" (
+        set "PYTHON_CMD=pythonx"
+    ) else (
+        where python >nul 2>nul
+        if "%ERRORLEVEL%"=="0" (
+            set "PYTHON_CMD=python"
+        ) else (
+            where py >nul 2>nul
+            if "%ERRORLEVEL%"=="0" (
+                set "PYTHON_CMD=py"
+                set "PYTHON_ARGS=-3"
+            )
+        )
     )
 )
 
@@ -79,22 +73,31 @@ if not defined PYTHON_CMD (
         call "%SCRIPT_DIR%\..\..\cplatform\clibraries\python\python.create.bat" >nul 2>nul
     )
 
-    where pythonx >nul 2>nul
-    if "%ERRORLEVEL%"=="0" set "PYTHON_CMD=pythonx"
-    if not defined PYTHON_CMD (
-        where python >nul 2>nul
-        if "%ERRORLEVEL%"=="0" set "PYTHON_CMD=python"
-    )
-    if not defined PYTHON_CMD (
-        where py >nul 2>nul
-        if "%ERRORLEVEL%"=="0" (
-            set "PYTHON_CMD=py"
-            set "PYTHON_ARGS=-3"
-        )
-    )
     if not defined PYTHON_CMD if defined PYTHON_HOME if exist "%PYTHON_HOME%\python.exe" set "PYTHON_CMD=%PYTHON_HOME%\python.exe"
     if not defined PYTHON_CMD if defined python.home if exist "%python.home%\python.exe" set "PYTHON_CMD=%python.home%\python.exe"
     if not defined PYTHON_CMD if defined python.bin if exist "%python.bin%\python.exe" set "PYTHON_CMD=%python.bin%\python.exe"
+    if not defined PYTHON_CMD if defined CBINARIES_HOME (
+        for /d %%D in ("%CBINARIES_HOME%\python\python-*") do (
+            if exist "%%~fD\python.exe" if not defined PYTHON_CMD set "PYTHON_CMD=%%~fD\python.exe"
+        )
+    )
+    if not defined PYTHON_CMD (
+        where pythonx >nul 2>nul
+        if "%ERRORLEVEL%"=="0" (
+            set "PYTHON_CMD=pythonx"
+        ) else (
+            where python >nul 2>nul
+            if "%ERRORLEVEL%"=="0" (
+                set "PYTHON_CMD=python"
+            ) else (
+                where py >nul 2>nul
+                if "%ERRORLEVEL%"=="0" (
+                    set "PYTHON_CMD=py"
+                    set "PYTHON_ARGS=-3"
+                )
+            )
+        )
+    )
 )
 
 if not defined PYTHON_CMD (

@@ -1,0 +1,943 @@
+Unnamed: 0,assignment_number,comments,skill,participant_id,batch,grade
+1,620.0,Code is well organized into logical classes and methods. Indentation and whitespace is used consistently. Variable and method names are clear and meaningful. Methods are focused on single responsibilities. Access modifiers are appropriately used to encapsulate data.,Readability,15,1,A+
+10,400.0,Code is well-formatted with consistent indentation and whitespace usage. Methods are focused and names are meaningful. Public vs private access is used appropriately. The code is easy to follow and self-explanatory.,Readability,15,1,A+
+17,422.0,The code is well-organized and easy to understand. Classes are separated into logical files. Naming of variables and methods is generally clear and meaningful. Indentation and whitespace usage is mostly consistent. Some longer methods could benefit from more explanatory comments or being broken into smaller sub-methods. ,Readability,15,1,A
+18,480.0,"The code formatting is decent, with consistent indentation and spacing. Meaningful names are used for variables and methods. The code is organized logically and is fairly easy to follow.",Readability,15,1,B+
+1,620.0,"Excellent work on completing all core and challenge tasks. The simulation includes at least 5 acting species (Jaguar, Lion, Cheetah, Gazelle, Zebra), with at least 2 predators (Jaguar, Lion, Cheetah) and 2 non-predators (Gazelle, Zebra). The Lion and Cheetah compete for Gazelles as a shared food source. The species distinguish males and females, requiring them to meet to propagate. Time of day is tracked, with some behaviors differing between day and night. The graphical interface  is impressive! I like the useful buttons provided, especially the ""Reset"" button to easily restart the simulation.",Correctness,15,1,A+
+10,400.0,"The simulation meets all the core requirements as outlined in the assignment. It includes at least 5 acting species (Lynx, Wolf, Deer, Hamster, Plant), with Lynx and Wolf as predators and Deer and Hamster as non-predators. The Lynx and Wolf compete for Deer as a shared food source. The species distinguish males and females which must meet to propagate. Time of day is tracked, with nocturnal vs diurnal behavior for different species.
+
+In addition, several challenge tasks were implemented to a high standard, demonstrating originality and technical excellence. Weather effects impact animal breeding and plant growth. Diseases like WolfFlu and AnimalFlu can infect animals and spread between them.",Correctness,15,1,A
+17,422.0,"All core tasks are completed, with at least 5 acting species (Wolf, Sheep, Snake, Rhizomys, Elephant), including predators (Wolf, Snake) and non-predators (Sheep, Rhizomys, Elephant). The Wolf and Snake compete for Sheep and Rhizomys as shared food sources. The species distinguish males and females, requiring them to meet to propagate. Time of day is tracked, with some behaviors likely differing between day and night. Challenge tasks like adding plants (Bamboo, Grass), weather, and disease are also implemented. ",Correctness,15,1,A+
+18,480.0,"The core requirements are mostly implemented, with at least 5 species (Wolf, Rabbit, Bear, Tiger, Deer) including predators and non-predators. The provided rabbit was not replaced with other animals. Wolves and tigers compete for rabbits. The species distinguish males and females that must meet to breed. Time of day is tracked and influences animal behavior. None of the challenge tasks like adding plants, weather or disease appear to be attempted. ",Correctness,15,1,B-
+1,620.0,"The code makes excellent use of inheritance with base Animal, Predator, and Plant classes. Shared constants and methods are defined in parent classes. Each specific animal and plant type extends the base classes with their unique characteristics. This produces very clean, readable and maintainable code.",Code Elegance,15,1,A+
+10,400.0,"The code makes excellent use of classes, inheritance, and interfaces to create well-organized, reusable and maintainable code. Class responsibilities are clearly delineated. Abstractions like Animal, Disease, Weather allow shared behavior to be cleanly captured. The code is efficient and readable.",Code Elegance,15,1,A+
+17,422.0,"The code demonstrates good use of classes and inheritance to represent the different species and their shared characteristics. The Animal and Plant abstract classes provide a clean separation of common functionality. The code is generally efficient and readable. A few areas could potentially be improved, such as reducing some repetition between similar classes, but overall the code is quite elegant.",Code Elegance,15,1,A
+18,480.0,"The code is structured reasonably with separate classes for each species inheriting from an Animal superclass. However, there is a lot of duplicated code between species classes that could be refactored into the superclass to improve reusability. The code is readable but some design decisions are questionable, like having so many static constants.",Code Elegance,15,1,C+
+1,620.0,"The code is exceptionally well documented. Each class and method has clear, detailed comments describing its purpose and parameters. In-line comments explain complex logic. Files contain header comments.",Documentation,15,1,A+
+10,400.0,Each class and method is clearly documented with its purpose and parameters. In-line comments explain complex logic. Files have header comments. Documentation is concise and useful without being overly verbose.,Documentation,15,1,A+
+17,422.0,"Most classes and methods have some level of documentation, providing a basic overview of their purpose. However, the documentation is not always comprehensive - some parameters and return values lack descriptions, and some complex logic could use more in-depth explanations. ",Documentation,15,1,B+
+18,480.0,Class and method comments are present but fairly minimal. They state the obvious in many cases rather than providing insights into the code. ,Documentation,15,1,B-
+1,473.0,"The code is clean, understandable and organised.",Readability,24,1,A+
+1,473.0,The application works as described in the assignment; all submission instructions were followed correctly.,Correctness,24,1,A+
+1,473.0,the code is efficient without sacrificing readability and understanding.,Code Elegance,24,1,A
+1,473.0,The documentation consists od comments that are some-what useful in understanding the code.,Documentation,24,1,A
+2,315.0,The code is presented well with good naming conventions and formatting. Unfortunately some access modifiers are not appropriate with many methods being left public,Readability,28,2,B+
+5,550.0,"The code is formatted very well with good naming conventions and formatting. Access modifiers are used correctly and spacing, tabbing is generally good. Some lines of code are too long. ",Readability,28,2,A+
+13,74.0,The code is presented reasonably well overall with good naming conventions. Some of the formatting is inconsistent particularly with new-line and tabbing. Some methods should have a more limited access modifier,Readability,28,2,B+
+2,315.0,The student has met all baseline requirements to a high standard. The student also implemented challenge additions such as plants and weather. The additions have been implemented well with good encapsulation and extensibility,Correctness,28,2,A++
+5,550.0,The baseline tasks are implemented to a very high standard. Plants are implemented as a challenge task. No other extensions were attempted.,Correctness,28,2,A+
+13,74.0,The student has met all baseline tasks and has tackled challenge additions with innovation. The plantlife is interesting and the weather effects are concise but effective,Correctness,28,2,A+
+2,315.0,The code is structured very well with good use of additional superclasses and extensions. The addition of ENUMS improves the code maintainability. ,Code Elegance,28,2,A++
+5,550.0,The code is well structured and shows a good understanding of classes and inheritance. The Time class is an elegant addition. The code would benefit with a Predator and Prey class to help with encapsulating common code across animals. ,Code Elegance,28,2,A-
+13,74.0,The code is structured very well with good use of subtyping and inheritance. The use of a predator and prey subtype helps to keep the code clean.,Code Elegance,28,2,A++
+2,315.0,The code is documented to a high standard throughout. Parameter and output annotations are used well.,Documentation,28,2,A++
+5,550.0,The code is documented to a very high standard throughout. All classes and methods are described well and annotations are used to describe inputs and outputs of methods. ,Documentation,28,2,A++
+13,74.0,"The code is documented well with most methods being annotated and described well. Getters and setters are not described, however, this is reasonable in most cases",Documentation,28,2,A-
+3,86.0,,Readability,8,2,A
+5,107.0,"method naming conventions are not correct:
+Method names should be verbs:
+In java method names should begin with lowercase letter and camelcase.
+Formatting can be fixed in some regions of code",Readability,8,2,B+
+11,661.0,formatting and naming could be  more proper,Readability,8,2,B
+13,8.0,,Readability,8,2,A+
+14,109.0,"
+- Class names should begin with upper letter in Java
+- Variable names should be camelCase, usually static variables is named with UPPERCASE letters
+-missing/unclear documentation for some of the classes 
+- code formatting is missing in some classes ",Readability,8,2,B
+16,182.0,"formatting and naming could be  improved
+- Method/Variable names should begin with lower case letters according to best practices
+- Check spelling Virus instead of Vrius
+- use all upper case letter namings for static variables",Readability,8,2,A-
+18,639.0,"namings could be improved, in Java we should name static variables with letters that all upper, otherwise camelcase should be followed. ",Readability,8,2,B
+3,86.0,,Correctness,8,2,A+
+5,107.0,,Correctness,8,2,A
+11,661.0,,Correctness,8,2,B+
+13,8.0,"All base and challenge tasks are completed, small improvements like namings, separating methods into util or helper classes could be considered. 
+Overall solution is good, easy to read and understand",Correctness,8,2,A
+14,109.0,,Correctness,8,2,B+
+16,182.0,"Overall solution is good 
+All base tasks and challenge tasks implemented",Correctness,8,2,A
+18,639.0,core and challenge tasks are implemented but code contains a lot of duplications which can be removed by using static variables or additional abstractions,Correctness,8,2,A-
+3,86.0,,Code Elegance,8,2,A+
+5,107.0,"some parts of code does not match single responsibility principle. 
+Weather should not be responsible for dateTimeCheck.
+Rain and Sunny implements Weather interface but they do day time check. Night or Day check could be specificly implemented ",Code Elegance,8,2,B
+11,661.0,,Code Elegance,8,2,A
+13,8.0,,Code Elegance,8,2,A+
+14,109.0,,Code Elegance,8,2,A
+16,182.0,,Code Elegance,8,2,B+
+18,639.0,,Code Elegance,8,2,A-
+3,86.0,,Documentation,8,2,A-
+5,107.0,,Documentation,8,2,A-
+11,661.0,,Documentation,8,2,A
+13,8.0,,Documentation,8,2,A++
+14,109.0,,Documentation,8,2,B
+16,182.0,,Documentation,8,2,A
+18,639.0,copy paste issues are  persisted in documentation comments,Documentation,8,2,B
+3,36.0,"The codebase demonstrates a high level of organisation, consistent indentation, and meaningful identifier names.",Readability,3,1,A++
+7,399.0,No changes were made to the default code provided. Same code as the default files provided. No changes were made.,Readability,3,1,F
+10,119.0,"The codebase demonstrates a high level of organisation, consistent indentation, and meaningful identifier names.",Readability,3,1,A++
+13,629.0,"The codebase demonstrates a high level of organisation, consistent indentation, and meaningful identifier names.",Readability,3,1,A++
+19,144.0,"The codebase demonstrates a high level of organisation, consistent indentation, and meaningful identifier names.",Readability,3,1,A++
+3,36.0,"Core Tasks: All listed core tasks have been completed, indicating a comprehensive approach to the simulation's basic requirements.
+
+Challenge Tasks:  Three challenge tasks are completed (Plants, Weather, Disease), demonstrating exceptional technical aptitude and creativity in extending the simulation beyond the basic requirements.
+
+BlueJ: Run's in BlueJ without any issues.",Correctness,3,1,A++
+7,399.0,None of the core tasks is implemented. Same code as the default files provided. No changes were made.,Correctness,3,1,F
+10,119.0,"Core Tasks: All listed core tasks have been completed, indicating a comprehensive approach to the simulation's basic requirements.
+
+Challenge Tasks:  Two challenge tasks are completed (Plants,, Disease), demonstrating technical aptitude and creativity in extending the simulation beyond the basic requirements.
+
+BlueJ: Run's in BlueJ without any issues.",Correctness,3,1,A
+13,629.0,"Core Tasks: All listed core tasks have been completed, indicating a comprehensive approach to the simulation's basic requirements.
+
+Challenge Tasks:  Three challenge tasks are completed (Plants, Weather, Disease), demonstrating exceptional technical aptitude and creativity in extending the simulation beyond the basic requirements.
+
+BlueJ: Run's in BlueJ without any issues.",Correctness,3,1,A++
+19,144.0,"Core Tasks: All listed core tasks have been completed, indicating a comprehensive approach to the simulation's basic requirements.
+
+Challenge Tasks:  Three challenge tasks are completed (Plants, Weather, Disease), demonstrating exceptional technical aptitude and creativity in extending the simulation beyond the basic requirements.
+
+BlueJ: Run's in BlueJ without any issues.",Correctness,3,1,A++
+3,36.0,"Effective Use of Object-Oriented Principles, Easy Maintainability and Reusability.",Code Elegance,3,1,A++
+7,399.0,No changes were made to the default code provided. Same code as the default files provided. No changes were made.,Code Elegance,3,1,F
+10,119.0,"Effective Use of Object-Oriented Principles, Easy Maintainability and Reusability.",Code Elegance,3,1,A++
+13,629.0,"Effective Use of Object-Oriented Principles, Easy Maintainability and Reusability.",Code Elegance,3,1,A++
+19,144.0,"Effective Use of Object-Oriented Principles, Easy Maintainability and Reusability.",Code Elegance,3,1,A++
+3,36.0,"Each class and method is accompanied by comments that clearly explain their role, inputs, outputs, and behaviors. Well documented.",Documentation,3,1,A++
+7,399.0,No changes were made to the default code provided. Same code as the default files provided. No changes were made.,Documentation,3,1,F
+10,119.0,"Each class and method is accompanied by comments that clearly explain their role, inputs, outputs, and behaviors. Well documented.",Documentation,3,1,A++
+13,629.0,"Each class and method is accompanied by comments that clearly explain their role, inputs, outputs, and behaviors. Well documented.",Documentation,3,1,A++
+19,144.0,"Each class and method is accompanied by comments that clearly explain their role, inputs, outputs, and behaviors. Well documented.",Documentation,3,1,A++
+3,389.0,"The code is mostly easy to read, and well stratified into classes and variables.",Readability,18,1,A++
+11,255.0,"Sometimes, the code is vague and hard to properly understand. Some components lack proper explanation.",Readability,18,1,A
+14,387.0,"Sometimes, the code is too crammed and it becomes hard to read.",Readability,18,1,A+
+16,450.0,"For the findFood method, it is quite hard to understand what happens behind the code as the names themselves for the methods and variables do not explain enough. Sometimes, the code is not split into lines and it becomes hard to read.",Readability,18,1,B-
+17,221.0,,Readability,18,1,A++
+19,516.0,"Some parts of the code have some odd spacing. Also, some long methods are not described well enough to be easy to understand.",Readability,18,1,A-
+3,389.0,"More than five animals were used. At least 2 of them compete for the same prayer. At least 2 of them eat just grass. Male or female animals are identified for some of the animals. Time of the day is tracked. Extra additions: plants that act as grass, different levels of diseases.",Correctness,18,1,A+
+11,255.0,"There are at least 5 animals, from which at least 2 compete for the same resource, while at least 2 do not compete for any animal. The time of the day is included in the behaviour of the animals. Giving birth is based on male and female. Challenges added: weather + disease + plants.",Correctness,18,1,A++
+14,387.0,There are at least five classes of animals. At least two of them fight for the same prey and at least two of them only eat grass. Giving birth is based on males and females and the code keeps track of the time of the day. Challenges implemented: plants + diseases + weather. The fourth extra feature does not display correctly.,Correctness,18,1,A
+16,450.0,"The code contains at least 5 animal classes. At least 2 of them do not fight for any resource, while at least 2 of them fight for the same resource. When animals give birth, they need to be a combination between a male and a female. However, the code does not keep track of the time of the day for the animals to react differently. Challenges added: disease.",Correctness,18,1,C
+17,221.0,"There are at least 5 animals created. At least 2 of them do not fight for any resource, while at least 2 of them fight for the same resource. The time of the day changes the behaviour of the animals in the code and the animals can give birth only if they are different gender. Challenges implemented: plants + weather + diseases.",Correctness,18,1,A+
+19,516.0,"There are not at least 5 animals created. At least 2 of them fight for the plant, while there are not at least 2 of them that are predators. The breeding is based on different genders. The time of the day affects the behaviour of at least 2 species. Challenges added: plants + disease + weather.",Correctness,18,1,B
+3,389.0,"The code is efficient and the use of classes is well specified. Good indentation is present, and the classes are well-stratified.",Code Elegance,18,1,A++
+11,255.0,All the variables that are common to animals should have been enclosed in the superclass and defined through the constructor.,Code Elegance,18,1,A+
+14,387.0,"The refactored class, even though it contains attributes that are common for all the animals, some of them define them again in their class. The Weather class is not correctly defined as it is empty - not good practice.",Code Elegance,18,1,A
+16,450.0,Many variables are common between multiple classes and they are defined in each of the subclasses instead of the superclass.,Code Elegance,18,1,A-
+17,221.0,The genderequals method should have been defined in the superclass rather than exploited in each of the subclasses. This also applies to the common attributes between many different animals. The same happens also with the different kind of plants.,Code Elegance,18,1,A-
+19,516.0,"Some of the constructors are empty, which is not good practice. Some variables that are common between many species are part of only the subclass, and not also the superclass. Some components that should not be part of the subclass are still instantiated in the incorrect place.",Code Elegance,18,1,B-
+3,389.0,"The code is mostly easy to read, but many sections do not have enough comments, while some sections have redundant comments.",Documentation,18,1,B
+11,255.0,Not all the methods have comments before them. Some parts of the code lack comments.,Documentation,18,1,A
+14,387.0,Some of the methods are not properly explained.,Documentation,18,1,A
+16,450.0,"Some of the sections of the code are not commented enough, and it is hard to understand the code. There are some sections in the code, where the lack of comments creates a problem to properly understand it.",Documentation,18,1,B-
+17,221.0,,Documentation,18,1,A++
+19,516.0,Some of the components of the code are not commented enough.,Documentation,18,1,A-
+1,620.0,Excessively long conditions should be extracted for ease of interpretation. Generally good identifier names and indentation. Some function has side effects.,Readability,16,1,A-
+10,400.0,Overall very readable code for functions appropriate use for identifier names and good visibility use for methods.,Readability,16,1,A
+17,422.0,Generally good identifier names and nice indentation and white spaces for segregating methods.,Readability,16,1,A
+18,480.0,Generally good identifier names and indentation. Some function has side effects or are overly long.,Readability,16,1,A-
+1,620.0,Completed all base tasks and extension tasks. Generally implemented all features from assignments. More explanation needed for easier interpretation. ,Correctness,16,1,A+
+10,400.0,"This student has completed all tasks, providing some documentation for how the tasks are completed. Overall quite good at organising methods and classes for completing the different tasks.",Correctness,16,1,A+
+17,422.0,All base tasks and extension tasks are completed. Some documentation on how these tasks are implemented.,Correctness,16,1,A
+18,480.0,All base tasks are completed and no extension tasks are completed. Has followed the submission instruction.,Correctness,16,1,B
+1,620.0,"Overall good attempt at using parent class to reduce repeated code. However, coupling to the Simulator class might be inappropriate as it contains lots of logic.",Code Elegance,16,1,A
+10,400.0,Overall good attempt at using parent class to reduce repeated code. Excellent use of classes to segregate responsibiliities in program.,Code Elegance,16,1,A+
+17,422.0,"Generally good use of classes. However, some more work will be needed to reduce repeated code segments in animal classes, such as their behavior. It is hard to extend the program for more sophisticated extension features such as Time, Diseases, and weather.",Code Elegance,16,1,B+
+18,480.0,"Generally okay use of classes. However, some more work will be needed to reduce repeated code segments in animal classes, such as their behavior. ",Code Elegance,16,1,C+
+1,620.0,"Generally included comments on all methods. However, some states the obvious which seems to be redundant.",Documentation,16,1,A-
+10,400.0,"Generally good comments on all methods and parameters. However, some comments have proven to be too long suggesting that the method is doing too much perhaps.",Documentation,16,1,A+
+17,422.0,"Generally included comments on all methods. However, some state the obvious which seems to be redundant.",Documentation,16,1,B+
+18,480.0,Generally good comments on return types and description of function. Contains short comments throughout some functions suggesting that the function is a little too long.,Documentation,16,1,A
+2,216.0,"As many methods are not explained correctly, the code is hard to understand. Also, there are many classes, subclasses and interfaces that are not required.",Readability,18,2,C
+3,35.0,Some of the methods do not have a name that is suitable for the operation they perform. There are some methods that could be broken into multiple parts.,Readability,18,2,A
+5,546.0,'Wildlife' or 'Spring' are hard to reused as they do not provide enough information.,Readability,18,2,A+
+2,216.0,There are only four different species that are used. There are not 2 species that fight for the same resource. The program keeps track of the time of the day. Extra features: Plants as rocks/trees.,Correctness,18,2,C
+3,35.0,"There are at least five animals. Two of them do not hunt, while there are two animals that fight for the same prey. The program distinguishes between male and female. The program keeps track of the time of the day. Extra features implemented: Plants. Disease and Weather not sufficiently explored.",Correctness,18,2,B
+5,546.0,"If we consider male and female fox as two different species, the program has five different species. Two of them do not for any resource, while two of them fight for the same resource. There is a distinction between male and female. However, the behaviour is not different between day and night. Extra features added: Plants + Weather + Disease.",Correctness,18,2,A
+2,216.0,"Many characteristics of a specific species should have been instantiated in the superclass rather than each subclass. The 'DeadBody' class is not required - this should be just a variable in a superclass of the species. This happens the same for the 'Undead'. 'Reproduction' should not be an interface, this should have been designed as a variable.",Code Elegance,18,2,B-
+3,35.0,Not abstract classes have abstract methods. Code not split into many methods makes it not reusable. Every animal has characteristics that it should not have in their superclass.,Code Elegance,18,2,B
+5,546.0,"There are many variables that should be specific to a superclass that are defined in a subclass. 'Disease' class has an empty constructor - so does 'Winter'. The difference between a male and a female should not be made by a different class. Fox acts as a superclass for foxes, instead of an animal class that is a superclass for all of them, and without a Fox class.",Code Elegance,18,2,B-
+2,216.0,"The 'act' method is not explained sufficiently. Thus, it is quite hard to understand what the code does. Many methods are not commented enough. This also includes quote large blocks of code inside a specific method.",Documentation,18,2,B-
+3,35.0,"Some of the comments are not correctly presented. Some of the methods are not commented enough, and it becomes hard to understand the code.",Documentation,18,2,A
+5,546.0,There are some parts of the code that are hard to read because there are not enough comments. There are some methods that are not explained at all.,Documentation,18,2,A
+11,416.0,"Good identifier names, semi-appropriate public/private, function performs single operation.",Readability,27,1,A+
+14,529.0,"Meaningful identifier names, appropriate public/private. Some functions do not perform single operation.",Readability,27,1,A
+17,13.0,no attempt made,Readability,27,1,F
+11,416.0,"The application works. Base Tasks completed. 2 Challenge tasks attempted (plants, weather). ",Correctness,27,1,A-
+14,529.0,"The application works. Base Tasks completed. 3 Challenge tasks attempted (plants, weather, disease). ",Correctness,27,1,A-
+17,13.0,no attempt made,Correctness,27,1,F
+11,416.0,Code can be re-used. Code is maintainable.,Code Elegance,27,1,A
+14,529.0,"Code could be re-used, but more could be done to make it re-usable. Code is maintainable.",Code Elegance,27,1,A-
+17,13.0,no attempt made,Code Elegance,27,1,F
+11,416.0,Appropriate commenting at beginning and through each file.,Documentation,27,1,A+
+14,529.0,Comments present at beginning of file. More and more detailed comments could be included throughout.,Documentation,27,1,A
+17,13.0,no attempt made,Documentation,27,1,F
+7,521.0,Occasional unnecessary whitespace,Readability,22,2,A
+11,432.0,,Readability,22,2,A++
+18,142.0,,Readability,22,2,A+
+7,521.0,All core tasks completed. Only plants implemented from extension tasks.,Correctness,22,2,A-
+11,432.0,All base and challenge tasks completed. No self-defined extension implemented. ,Correctness,22,2,A+
+18,142.0,All base and challenge tasks completed. No self-defined extension implemented. ,Correctness,22,2,A+
+7,521.0,"Some abstraction present but there remains much more that could be achieved, e.g. more common methods in the animal class.",Code Elegance,22,2,A-
+11,432.0,Basic abstraction class structure however this is well utilised with lots of methods residing in the animal class.,Code Elegance,22,2,A
+18,142.0,Advanced abstraction structure in classes however this could still be better utilised with more methods moved up to animal or organism.,Code Elegance,22,2,A
+7,521.0,,Documentation,22,2,A++
+11,432.0,,Documentation,22,2,A++
+18,142.0,Method descriptions occasionally have missing arguments or too many. ,Documentation,22,2,A+
+2,216.0,"Appropriate function, class and variable names used. Indentation and general code structure is clear. Good use of self-contained classes.",Readability,17,2,A-
+3,35.0,"Appropriate function, class and variable names used. Indentation and general code structure is clear. Good use of self-contained classes.",Readability,17,2,A-
+5,546.0,Some disorganisation with the classes and files included.,Readability,17,2,C+
+2,216.0,"Creative idea with the fantasy domain, all base tasks completed to a high standard. A couple of extra challenge tasks completed. ",Correctness,17,2,A-
+3,35.0,All challenge and base classes are implemented correctly.,Correctness,17,2,A
+5,546.0,"Fox and Rabbit classes are used in the simulation which is not permitted, male and female implementation is incorrect. Plant challenge task is correctly implemented and so are the other base classes.",Correctness,17,2,C-
+2,216.0,Appropriate approaches taken for the implementation of the tasks.,Code Elegance,17,2,B+
+3,35.0,Solid implementation of both core and challenge classes. Very appropriate approaches taken.,Code Elegance,17,2,A
+5,546.0,"No need to separate animal into two genders in two different files, this should be handled within the animal class itself. Otherwise the implementation is reasonable.",Code Elegance,17,2,C+
+2,216.0,"Solid use of comments and javadocs, however sometimes displays some overcommenting on lines which have obvious functionality. ",Documentation,17,2,A-
+3,35.0,"Solid use of comments and javadocs, however sometimes displays some overcommenting on lines which have obvious functionality. ",Documentation,17,2,A-
+5,546.0,"Reasonable use of comments and javadocs, however sometimes displays some overcommenting on lines which have obvious functionality. Further, some comments have clearly been copied from other classes and been left unchanged.",Documentation,17,2,C
+1,303.0,"Easy to follow, good choice of names for the variables",Readability,4,2,A-
+4,188.0,"Easy to read, good choise of variable names",Readability,4,2,A
+8,672.0,Easy to read ,Readability,4,2,A
+19,290.0,Easy to read,Readability,4,2,B+
+1,303.0,"Good implementation, challenges successfully implemented. good design ideas",Correctness,4,2,A-
+4,188.0,"Good implementation, challenges successfully implemented. ",Correctness,4,2,A-
+8,672.0,"Good implementation and good design, but some buttons lead to crash",Correctness,4,2,B-
+19,290.0,"Good implementation, simulation stable but it quickly reaches a fixed balance",Correctness,4,2,B+
+1,303.0,Comcpets of the course well utilised. Good structure,Code Elegance,4,2,A-
+4,188.0,Concepts of the class well utilised,Code Elegance,4,2,A
+8,672.0,Concepts of the course well utilised,Code Elegance,4,2,A
+19,290.0,Concepts of the module well utilised,Code Elegance,4,2,A
+1,303.0,"Functions variables well documented, but lacks general documentation",Documentation,4,2,B
+4,188.0,Good documentation,Documentation,4,2,A-
+8,672.0,Good documentation,Documentation,4,2,A-
+19,290.0,Very clear and detailed documentation,Documentation,4,2,A+
+4,544.0,,Readability,14,2,A++
+5,273.0,,Readability,14,2,A+
+10,241.0,,Readability,14,2,A++
+4,544.0,,Correctness,14,2,A++
+5,273.0,,Correctness,14,2,A++
+10,241.0,,Correctness,14,2,A++
+4,544.0,,Code Elegance,14,2,A++
+5,273.0,,Code Elegance,14,2,A+
+10,241.0,,Code Elegance,14,2,A++
+4,544.0,,Documentation,14,2,A++
+5,273.0,,Documentation,14,2,A+
+10,241.0,,Documentation,14,2,A++
+1,473.0,,Readability,21,1,A+
+1,473.0,,Correctness,21,1,A++
+1,473.0,,Code Elegance,21,1,F
+1,473.0,,Documentation,21,1,NAN
+3,86.0,"It is readable, though not perfect.",Readability,7,2,A+
+5,107.0,Good.,Readability,7,2,A++
+11,661.0,"It is readable, though not perfect.",Readability,7,2,A+
+13,8.0,"It is readable, though not perfect.",Readability,7,2,A+
+14,109.0,"It is readable, though not perfect.",Readability,7,2,A+
+16,182.0,"It is readable, though not perfect.",Readability,7,2,A+
+18,639.0,Hard to read.,Readability,7,2,A-
+3,86.0,Seems unoriginal and lacks interesting thoughts.,Correctness,7,2,A-
+5,107.0,Some efforts have been put into this project.,Correctness,7,2,A++
+11,661.0,It is good.,Correctness,7,2,A+
+13,8.0,It is good.,Correctness,7,2,A+
+14,109.0,Much effort has been put into this project.,Correctness,7,2,A++
+16,182.0,It is good.,Correctness,7,2,A+
+18,639.0,Some efforts have been put into this project.,Correctness,7,2,A++
+3,86.0,The design could have been better.,Code Elegance,7,2,A
+5,107.0,Some efforts have been put into this project.,Code Elegance,7,2,A+
+11,661.0,The design could have been better.,Code Elegance,7,2,A
+13,8.0,The design could have been better.,Code Elegance,7,2,A
+14,109.0,The design could have been better.,Code Elegance,7,2,A
+16,182.0,The design could have been better.,Code Elegance,7,2,A
+18,639.0,The design could have been better.,Code Elegance,7,2,A
+3,86.0,"It is good, though not perfect.",Documentation,7,2,A+
+5,107.0,"It is good, though not perfect.",Documentation,7,2,A+
+11,661.0,Good.,Documentation,7,2,A++
+13,8.0,"It is good, though not perfect.",Documentation,7,2,A+
+14,109.0,"It is good, though not perfect.",Documentation,7,2,A+
+16,182.0,"It is good, though not perfect.",Documentation,7,2,A+
+18,639.0,"It is good, though not perfect.",Documentation,7,2,A+
+1,211.0,,Readability,10,1,B
+2,338.0,,Readability,10,1,B
+6,249.0,,Readability,10,1,B+
+8,70.0,,Readability,10,1,B
+14,604.0,,Readability,10,1,B
+15,440.0,,Readability,10,1,B
+1,211.0,,Correctness,10,1,B+
+2,338.0,,Correctness,10,1,B-
+6,249.0,,Correctness,10,1,A-
+8,70.0,,Correctness,10,1,B-
+14,604.0,,Correctness,10,1,B
+15,440.0,,Correctness,10,1,B+
+1,211.0,,Code Elegance,10,1,B+
+2,338.0,,Code Elegance,10,1,B
+6,249.0,,Code Elegance,10,1,B+
+8,70.0,,Code Elegance,10,1,B
+14,604.0,,Code Elegance,10,1,B
+15,440.0,,Code Elegance,10,1,B
+1,211.0,The code is generally well-structured and accomplishes the base tasks. Some challenge tasks are also attempted. It is suggested to break down some complex methods into smaller and manageable methods for better readability. It is also suggested to provide general documentation with detailed elaborations on how the system is accomplished.,Documentation,10,1,B
+2,338.0,"The code is generally well-structured and accomplishes the base tasks. One challenge task is also attempted. However, it seems to be not reasonable that the hedgehog will eventually take over the system through simulation. The code provides some readable comments. It is also suggested to provide general documentation with detailed elaborations on how the system is accomplished.",Documentation,10,1,B-
+6,249.0,"The code is generally well-structured and accomplishes some tasks. However, the simulation process shows that eventually all the animals will be infected, which seems to be not a very reasonable phenomenon. The code provides readable comments. It is also suggested to provide general documentation with detailed elaborations on how the system is accomplished.",Documentation,10,1,B+
+8,70.0,"The code is generally well-structured and accomplishes the base tasks. It seems not reasonable that wolves quickly extinct at the beginning of the simulation. 
+It is suggested to provide more accurate comments. For example, ""wolves age, move, eat rabbits, and die"", but rabbit is not included in the system. It is also suggested to provide general documentation with detailed elaborations on how the system is accomplished.",Documentation,10,1,B-
+14,604.0,"The code is generally well-structured and accomplishes the base tasks. Some challenging tasks are also attempted. The simulator view can be improved by showing the infected number of each species.
+Readable comments are provided. It is also suggested to provide general documentation with detailed elaborations on how the system is accomplished.",Documentation,10,1,B
+15,440.0,"The code is generally well-structured and accomplishes the base tasks. Some challenging tasks are also attempted. 
+Readable comments are provided. It is also suggested to provide general documentation with detailed elaborations on how the system is accomplished.",Documentation,10,1,B
+7,521.0,,Readability,21,2,A++
+11,432.0,,Readability,21,2,A+
+18,142.0,,Readability,21,2,A+
+7,521.0,,Correctness,21,2,A+
+11,432.0,,Correctness,21,2,A++
+18,142.0,,Correctness,21,2,A++
+7,521.0,,Code Elegance,21,2,A+
+11,432.0,,Code Elegance,21,2,A+
+18,142.0,,Code Elegance,21,2,A+
+7,521.0,,Documentation,21,2,A+
+11,432.0,,Documentation,21,2,A+
+18,142.0,,Documentation,21,2,A++
+2,31.0,,Readability,5,1,B+
+9,71.0,,Readability,5,1,C+
+16,599.0,,Readability,5,1,B
+18,227.0,,Readability,5,1,B
+2,31.0,,Correctness,5,1,C
+9,71.0,,Correctness,5,1,B
+16,599.0,,Correctness,5,1,A
+18,227.0,,Correctness,5,1,B+
+2,31.0,,Code Elegance,5,1,B-
+9,71.0,,Code Elegance,5,1,C-
+16,599.0,,Code Elegance,5,1,A
+18,227.0,,Code Elegance,5,1,C+
+2,31.0,,Documentation,5,1,B-
+9,71.0,,Documentation,5,1,B-
+16,599.0,,Documentation,5,1,A-
+18,227.0,,Documentation,5,1,C+
+1,303.0,"Styling is consistent, some commented out code",Readability,1,2,B
+4,188.0,Code generally reads well. Some inconsistencies in documentation styling.,Readability,1,2,A-
+8,672.0,Generally good readability. Some inconsistent spacing in places.,Readability,1,2,A-
+19,290.0,Good code readability.,Readability,1,2,A
+1,303.0,Base tasks completed. Challenge tasks were attempted.,Correctness,1,2,A
+4,188.0,Code runs well. Some challenge tasks were attempted.,Correctness,1,2,A
+8,672.0,Code functions well. Some challenge tasks were attempted.,Correctness,1,2,A
+19,290.0,Program runs well. Some challenge tasks were attempted.,Correctness,1,2,A
+1,303.0,Class hierarchy is sensible. Minimal code redundancy.,Code Elegance,1,2,A
+4,188.0,Class hierarchy is good and supports extension. Non final variables should not be CAPITALISED.,Code Elegance,1,2,B
+8,672.0,Generally good class design.,Code Elegance,1,2,A
+19,290.0,Generally good class design and hierarchy.,Code Elegance,1,2,A
+1,303.0,Very minimal documentation. ,Documentation,1,2,D
+4,188.0,Generally good documentation. ,Documentation,1,2,A
+8,672.0,Generally good documentation.,Documentation,1,2,A
+19,290.0,Good documentation where necessary.,Documentation,1,2,A
+3,198.0,,Readability,12,2,A+
+8,537.0,,Readability,12,2,B-
+10,117.0,,Readability,12,2,A+
+3,198.0,,Correctness,12,2,A+
+8,537.0,does not compile,Correctness,12,2,F
+10,117.0,,Correctness,12,2,B+
+3,198.0,,Code Elegance,12,2,A++
+8,537.0,,Code Elegance,12,2,C+
+10,117.0,,Code Elegance,12,2,A-
+3,198.0,,Documentation,12,2,A+
+8,537.0,,Documentation,12,2,C
+10,117.0,,Documentation,12,2,A-
+1,473.0,,Readability,22,1,A-
+1,473.0,Compiler errors for Rabbit and Fox classes. Mating behaviour does not include sex (M/F) of animals.,Correctness,22,1,A+
+1,473.0,,Code Elegance,22,1,A-
+1,473.0,,Documentation,22,1,A-
+2,31.0,"despite the fact that there are some format, naming issues overall sumbission is easy to understand. Some optimizations can be applied",Readability,8,1,A-
+9,71.0,,Readability,8,1,A+
+16,599.0,,Readability,8,1,A
+18,227.0,,Readability,8,1,B+
+2,31.0,some challenge tasks are not completed such as disease.,Correctness,8,1,A-
+9,71.0,"no weather check, no competition for food source",Correctness,8,1,A
+16,599.0,"good solution, abstraction levels implemented however solution sacrifices code reusability in some places, overall code is readable and understandable",Correctness,8,1,A
+18,227.0,"number of infected animals does not change in ui, I run application couple of times",Correctness,8,1,B+
+2,31.0,,Code Elegance,8,1,A-
+9,71.0,,Code Elegance,8,1,A-
+16,599.0,,Code Elegance,8,1,B-
+18,227.0,"contains couple of formatting, naming issues, some methods can be extracted to abstract class or interface, code reusability sacrificed",Code Elegance,8,1,C+
+2,31.0,,Documentation,8,1,
+9,71.0,,Documentation,8,1,A+
+16,599.0,,Documentation,8,1,
+18,227.0,descriptions of some classes are missing,Documentation,8,1,B+
+2,315.0,Consistent indentation and whitespace. Meaningful identifier names used. Good use of private/public.,Readability,27,2,A
+5,550.0,Some inconsistent indentation  and whitespace. Meaningful identifier names used. Good use of private/public.,Readability,27,2,B+
+13,74.0,Lots of inconsistent indentation and whitespace. Meaningful identifier names used. Good use of private/public.,Readability,27,2,B-
+2,315.0,"The application works. Base Tasks completed. 2 Challenge tasks attempted (plants, disease).",Correctness,27,2,A-
+5,550.0,The application works. Base Tasks completed. 1 Challenge task attempted (plants).,Correctness,27,2,A-
+13,74.0,"The application works. Base Tasks completed. 2 Challenge tasks attempted (plants, weather).",Correctness,27,2,A-
+2,315.0,Code can be re-used. Code is maintainable.,Code Elegance,27,2,A-
+5,550.0,Code can be re-used. Code is maintainable. Good use of abstract classes.,Code Elegance,27,2,A-
+13,74.0,Code can be re-used. Code is maintainable. Excellent use of abstract classes.,Code Elegance,27,2,A+
+2,315.0,Good use of comments. Each function block commented. ,Documentation,27,2,A
+5,550.0,Good use of comments but some more could be added. Each function block commented. ,Documentation,27,2,B+
+13,74.0,"Lot's of missing comments, especially around code blocks",Documentation,27,2,B-
+2,31.0,"Good variable naming and use of private and public, protected used when class has no subclasses",Readability,6,1,A
+9,71.0,,Readability,6,1,A++
+16,599.0,,Readability,6,1,A++
+18,227.0,"Good variable naming, public used where could be private",Readability,6,1,A-
+2,31.0,At least 2 predators do not compete for same food source.,Correctness,6,1,C+
+9,71.0,"Weather doesn't affect behaviour, but instead has chance of giving disease ",Correctness,6,1,A+
+16,599.0,The blueJ package would not load,Correctness,6,1,F
+18,227.0,"No weather or disease, plants implemented",Correctness,6,1,A-
+2,31.0,"Methods are reusable and readable, but some code repetition",Code Elegance,6,1,B+
+9,71.0,"Methods are reusable and readable, but some code repetition",Code Elegance,6,1,B-
+16,599.0,It is overly complex and has lots of segregation,Code Elegance,6,1,D+
+18,227.0,"Methods are reusable and readable, but some code repetition",Code Elegance,6,1,B+
+2,31.0,"Missing return and parameter comments for some methods, aggressive use of inline comments",Documentation,6,1,A-
+9,71.0,Missing parameter comments for some methods. missing class comment for some class,Documentation,6,1,B
+16,599.0,,Documentation,6,1,A++
+18,227.0,"Missing return and parameter comments for some methods, misuse of header tags",Documentation,6,1,C-
+1,620.0,"Clear naming conventions, consistent formatting, and well-organized structure. ",Readability,13,1,A+
+10,400.0,"Good maintainability, extensibility, and debuggability of the code.",Readability,13,1,A+
+17,422.0,High readability in code,Readability,13,1,A++
+18,480.0,"Good maintainability, extensibility, and debuggability of the code.",Readability,13,1,A++
+1,620.0,"The code completes all base tasks correctly and add weather, grass, hunter task, which are also finished well.",Correctness,13,1,A++
+10,400.0,"The simulation should have at least five different kinds of acting species but this submission only has 4 species. After simulating 200 steps, it only ends up with hamster and the other animals are all dead, which is a issue.",Correctness,13,1,B+
+17,422.0,This submission completes the core task partially because it forgot to keep track of the time of day. It adds disease and plant factors as challenge tasks.,Correctness,13,1,B+
+18,480.0,"This submission completes the core task successfully. However, it skips the challenge tasks.",Correctness,13,1,B+
+1,620.0,The code have a good use of classed and functions and nicely laid out.,Code Elegance,13,1,A+
+10,400.0,"High clarity, simplicity, and efficiency.",Code Elegance,13,1,A+
+17,422.0,a good use of classed and functions and nicely laid out.,Code Elegance,13,1,A++
+18,480.0,Code is resuseable,Code Elegance,13,1,A++
+1,620.0,Well organised and make the code easy to understand,Documentation,13,1,A+
+10,400.0,The documentation is well written and organised,Documentation,13,1,A+
+17,422.0,the use of meaningful comments and documentation ,Documentation,13,1,A++
+18,480.0,the use of meaningful comments and documentation ,Documentation,13,1,A+
+7,521.0,"The code is clean, understandable and organised; the student used meaningful identifier names",Readability,24,2,A
+11,432.0,"The code is clean, understandable and organised; the student used meaningful identifier names",Readability,24,2,A
+18,142.0,"The code is clean, understandable and organised; the student used meaningful identifier names",Readability,24,2,A
+7,521.0,The application works as described in the assignment; all base tasks are completed; the student has completed some of the challenge tasks;,Correctness,24,2,A+
+11,432.0,The application works as described in the assignment; all base tasks are completed; the student has completed all of the challenge tasks;,Correctness,24,2,A+
+18,142.0,The application works as described in the assignment; all base tasks are completed; the student has completed all of the challenge tasks;,Correctness,24,2,A
+7,521.0,"Student demonstrates excellent use of classes and functions to produce reusable and maintainable code, where possible, in the base and all of the challenge tasks",Code Elegance,24,2,A+
+11,432.0,The application is implemented in such a way that only a few code segments can be rewritten to increase code re-usability,Code Elegance,24,2,B+
+18,142.0,All the base tasks and some of the challenge tasks are implemented in such a way that code can be reused where possible;,Code Elegance,24,2,A
+7,521.0,"The documentation is well written, organised and clearly explains what the code is accomplishing and how",Documentation,24,2,A+
+11,432.0,The documentation consists of comments that are somewhat useful in understanding the code; there are missing comments,Documentation,24,2,A-
+18,142.0,The documentation consists of comments that are somewhat useful in understanding the code; there are missing comments,Documentation,24,2,A-
+1,303.0,,Readability,2,2,A-
+4,188.0,Some method names are misleading,Readability,2,2,B
+8,672.0,,Readability,2,2,A
+19,290.0,code is understandable and organised,Readability,2,2,A-
+1,303.0,All base tasks completed and challenge tasks completed,Correctness,2,2,A+
+4,188.0,All base tasks are completed,Correctness,2,2,B+
+8,672.0,All base and challenge tasks implemented,Correctness,2,2,A+
+19,290.0,All base tasks completed and some challenge tasks attempted,Correctness,2,2,A-
+1,303.0,The code has the potential to be enhanced by employing abstraction and increasing its modularity.,Code Elegance,2,2,B+
+4,188.0,Code is written in a reusable manner by utilising abstract classes and loosely coupling components,Code Elegance,2,2,B+
+8,672.0,The code can be made more extensible by employing abstraction and increasing its modularity.,Code Elegance,2,2,A-
+19,290.0,Time and Weather could be implemented in separate class to improve extensibility,Code Elegance,2,2,B
+1,303.0,Some methods are not documented.,Documentation,2,2,B
+4,188.0,Comments are clear and concise,Documentation,2,2,A-
+8,672.0,,Documentation,2,2,A
+19,290.0,Comments are useful and not overly verbose,Documentation,2,2,A-
+3,198.0,"well structured, code is easy to read",Readability,11,2,A+
+8,537.0,"follows consistent structure, files are separated into folders.",Readability,11,2,A+
+10,117.0,code is readable and follows a consistent structure,Readability,11,2,A+
+3,198.0,"very creative, good additions to project such as showing diseased and norma animals, core and challenging tasks completed",Correctness,11,2,A+
+8,537.0,"code does not compile and does not run on blue j, crashes the application as it continues to open a lot of folders",Correctness,11,2,F
+10,117.0,core tasks and challenging tasks completed ,Correctness,11,2,A+
+3,198.0,good level of abstraction,Code Elegance,11,2,A+
+8,537.0,"Examples of abstraction shown, animals implement entities class. eagle extends avian animal showing even further abstraction and less rewritten code",Code Elegance,11,2,A++
+10,117.0,abstraction shown from predator and prey classes generalizes the find food method,Code Elegance,11,2,A+
+3,198.0,"functions are documented well, explains what happens in each one",Documentation,11,2,A+
+8,537.0,"clear documentation, every function and class is explained well",Documentation,11,2,A+
+10,117.0,documentation is clear ,Documentation,11,2,A+
+1,211.0,,Readability,12,1,B+
+2,338.0,,Readability,12,1,A-
+6,249.0,,Readability,12,1,A+
+8,70.0,,Readability,12,1,B+
+14,604.0,,Readability,12,1,B-
+15,440.0,,Readability,12,1,A-
+1,211.0,,Correctness,12,1,F
+2,338.0,,Correctness,12,1,A-
+6,249.0,,Correctness,12,1,A+
+8,70.0,missing consistency in indentation and spaces between methods and logical blocks. ,Correctness,12,1,B
+14,604.0,,Correctness,12,1,A+
+15,440.0,,Correctness,12,1,B+
+1,211.0,,Code Elegance,12,1,B-
+2,338.0,,Code Elegance,12,1,A-
+6,249.0,,Code Elegance,12,1,A-
+8,70.0,,Code Elegance,12,1,B+
+14,604.0,,Code Elegance,12,1,A-
+15,440.0,,Code Elegance,12,1,B+
+1,211.0,,Documentation,12,1,C+
+2,338.0,,Documentation,12,1,B
+6,249.0,,Documentation,12,1,A+
+8,70.0,,Documentation,12,1,B-
+14,604.0,,Documentation,12,1,A-
+15,440.0,,Documentation,12,1,B-
+2,31.0,Easy to read.,Readability,7,1,A+
+9,71.0,Easy to read.,Readability,7,1,A+
+16,599.0,Easy to read.,Readability,7,1,A+
+18,227.0,Easy to read.,Readability,7,1,A+
+2,31.0,It is basically correct.,Correctness,7,1,A+
+9,71.0,It is basically correct.,Correctness,7,1,A+
+16,599.0,It is basically correct.,Correctness,7,1,A+
+18,227.0,It is basically correct.,Correctness,7,1,A+
+2,31.0,"It is good, though there are little problems here and there.",Code Elegance,7,1,A
+9,71.0,"It is good, though there are little problems here and there.",Code Elegance,7,1,A
+16,599.0,"More thoughtful than others, but it does NOT improve elegance (if I am honest, it only makes things worse). However, this is the inherent problem from the example, which should not be a reason to punish our students.",Code Elegance,7,1,A
+18,227.0,Could be better.,Code Elegance,7,1,B+
+2,31.0,Better than most of the others.,Documentation,7,1,A+
+9,71.0,"Overall, it is great.",Documentation,7,1,A
+16,599.0,"Overall, it is great.",Documentation,7,1,A
+18,227.0,Could be better.,Documentation,7,1,B+
+2,315.0,,Readability,25,2,A+
+5,550.0,,Readability,25,2,A+
+13,74.0,,Readability,25,2,A+
+2,315.0,,Correctness,25,2,A++
+5,550.0,,Correctness,25,2,A+
+13,74.0,,Correctness,25,2,A+
+2,315.0,,Code Elegance,25,2,A++
+5,550.0,,Code Elegance,25,2,A++
+13,74.0,,Code Elegance,25,2,A++
+2,315.0,,Documentation,25,2,A++
+5,550.0,,Documentation,25,2,A+
+13,74.0,,Documentation,25,2,A+
+1,211.0,,Readability,9,1,A
+2,338.0,,Readability,9,1,A
+6,249.0,,Readability,9,1,A+
+8,70.0,,Readability,9,1,B-
+14,604.0,,Readability,9,1,B+
+15,440.0,,Readability,9,1,C+
+1,211.0,,Correctness,9,1,A-
+2,338.0,,Correctness,9,1,B
+6,249.0,,Correctness,9,1,A-
+8,70.0,,Correctness,9,1,B+
+14,604.0,,Correctness,9,1,B+
+15,440.0,,Correctness,9,1,B-
+1,211.0,,Code Elegance,9,1,A
+2,338.0,,Code Elegance,9,1,A
+6,249.0,,Code Elegance,9,1,A-
+8,70.0,,Code Elegance,9,1,B+
+14,604.0,,Code Elegance,9,1,B+
+15,440.0,,Code Elegance,9,1,B-
+1,211.0,,Documentation,9,1,A
+2,338.0,"The assignment demonstrates satisfactory completion of base tasks with some room for improvement in fully meeting specified requirements and implementing challenge tasks. The code exhibits good organization, readability, and adherence to coding conventions, although documentation could be more comprehensive. ",Documentation,9,1,B
+6,249.0,,Documentation,9,1,A
+8,70.0,,Documentation,9,1,B
+14,604.0,,Documentation,9,1,A-
+15,440.0,,Documentation,9,1,B
+3,198.0,,Readability,10,2,B+
+8,537.0,,Readability,10,2,B
+10,117.0,,Readability,10,2,B
+3,198.0,,Correctness,10,2,B+
+8,537.0,,Correctness,10,2,A-
+10,117.0,,Correctness,10,2,B
+3,198.0,,Code Elegance,10,2,B
+8,537.0,,Code Elegance,10,2,B
+10,117.0,,Code Elegance,10,2,B
+3,198.0,The base tasks are achieved and some challenge tasks are attempted. The code is well-commented and the readability is good. The simulation view can be improved by specifying the representation of the colors. The simulation process of the grass population also seems to be not very convincing.,Documentation,10,2,B
+8,537.0,The base tasks are achieved and challenge tasks are attempted. It is suggested that the student should provide more detailed comments on the codes for better readability and improve the structure of the codes.,Documentation,10,2,B
+10,117.0,The base tasks are achieved and one challenge task is attempted. The code is generally well-structured and detailed comments are provided. It is suggested to specify the representation of the colors in the simulator view.,Documentation,10,2,B
+1,473.0,,Readability,23,1,A-
+1,473.0,,Correctness,23,1,A+
+1,473.0,,Code Elegance,23,1,A+
+1,473.0,,Documentation,23,1,B+
+1,303.0,"The code demonstrates a high level of organisation, consistent indentation, and meaningful identifier names.",Readability,3,2,A+
+4,188.0,"The code demonstrates a high level of organisation, consistent indentation, and meaningful identifier names.",Readability,3,2,A++
+8,672.0,"The code demonstrates a high level of organisation, consistent indentation, and meaningful identifier names.",Readability,3,2,A++
+19,290.0,"The code demonstrates a high level of organisation, consistent indentation, and meaningful identifier names.",Readability,3,2,A++
+1,303.0,"Core Tasks: All listed core tasks have been completed, indicating a comprehensive approach to the simulation's basic requirements.
+
+Challenge Tasks:  Three challenge tasks are completed (Plants, Weather, Disease), demonstrating exceptional technical aptitude and creativity in extending the simulation beyond the basic requirements.
+
+BlueJ: Run's in BlueJ without any issues.",Correctness,3,2,A+
+4,188.0,"Core Tasks: All listed core tasks have been completed, indicating a comprehensive approach to the simulation's basic requirements.
+
+Challenge Tasks:  Three challenge tasks are completed (Plants, Weather, Disease), demonstrating exceptional technical aptitude and creativity in extending the simulation beyond the basic requirements.
+
+BlueJ: Run's in BlueJ without any issues.",Correctness,3,2,A++
+8,672.0,"Core Tasks: All listed core tasks have been completed, indicating a comprehensive approach to the simulation's basic requirements.
+
+Challenge Tasks:  Three challenge tasks are completed (Plants, Weather, Disease), demonstrating exceptional technical aptitude and creativity in extending the simulation beyond the basic requirements.
+
+BlueJ: Run's in BlueJ without any issues.",Correctness,3,2,A++
+19,290.0,"Core Tasks: All listed core tasks have been completed, indicating a comprehensive approach to the simulation's basic requirements.
+
+Challenge Tasks:  Two challenge tasks are completed (Plants, Weather), demonstrating exceptional technical aptitude and creativity in extending the simulation beyond the basic requirements.
+
+BlueJ: Run's in BlueJ without any issues.",Correctness,3,2,A
+1,303.0,"Effective Use of Object-Oriented Principles, Easy Maintainability and Reusability.",Code Elegance,3,2,A+
+4,188.0,"Effective Use of Object-Oriented Principles, Easy Maintainability and Reusability.",Code Elegance,3,2,A++
+8,672.0,"Effective Use of Object-Oriented Principles, Easy Maintainability and Reusability.",Code Elegance,3,2,A++
+19,290.0,"Effective Use of Object-Oriented Principles, Easy Maintainability and Reusability.",Code Elegance,3,2,A++
+1,303.0,"Some class and method is not accompanied by comments (ex. Environment.java, getYoungAnimal method in all animals) that clearly explain their role, inputs, outputs, and behaviors.",Documentation,3,2,C
+4,188.0,"Each class and method is accompanied by comments that clearly explain their role, inputs, outputs, and behaviors. Well documented.",Documentation,3,2,A++
+8,672.0,"Each class and method is accompanied by comments that clearly explain their role, inputs, outputs, and behaviors. Well documented.",Documentation,3,2,A++
+19,290.0,"Each class and method is accompanied by comments that clearly explain their role, inputs, outputs, and behaviors. Well documented.",Documentation,3,2,A++
+4,544.0,It is easy to navigate and understand.,Readability,13,2,A
+5,273.0,good readability and clarity,Readability,13,2,A-
+10,241.0,"consistent naming conventions and a clear, logical structure",Readability,13,2,A-
+4,544.0,"The simulation has 7 kinds of species but after simulating 700 steps, it only ends up with lake and grass. The other animals are all dead, which is a issue.",Correctness,13,2,A-
+5,273.0,"The simulation models multiple species: leopard, cheetah, impala, plant, rhino and boar but it ends up with plants after 800 steps. This work introduced the time and weather for the challenge works.",Correctness,13,2,A++
+10,241.0,"The simulation models 5 species and introduced the weather and grass, weather and disease for the challenge task; this work finished the core work and the challenge task.",Correctness,13,2,A+
+4,544.0, It demonstrates a mastery of coding with clarity and precision.,Code Elegance,13,2,A-
+5,273.0,making it highly readable and understandable,Code Elegance,13,2,A-
+10,241.0,making it highly readable and understandable,Code Elegance,13,2,A-
+4,544.0,"With clear, well-written documentation",Documentation,13,2,A-
+5,273.0,Documentation is informative and well structured,Documentation,13,2,A-
+10,241.0,The code is accessible and maintainable,Documentation,13,2,A-
+2,315.0,,Readability,26,2,B
+5,550.0,,Readability,26,2,A-
+13,74.0,,Readability,26,2,A
+2,315.0,"Stable, most objectives complete",Correctness,26,2,A
+5,550.0,,Correctness,26,2,B
+13,74.0,,Correctness,26,2,B+
+2,315.0,Some abstractions are messy - probability need not be an enum,Code Elegance,26,2,B
+5,550.0,,Code Elegance,26,2,A-
+13,74.0,,Code Elegance,26,2,A+
+2,315.0,,Documentation,26,2,A
+5,550.0,,Documentation,26,2,A-
+13,74.0,,Documentation,26,2,A
+3,86.0,Protected and public where private could be used,Readability,6,2,A-
+5,107.0,"Getter methods don't follow traditional naming convention, though understandable",Readability,6,2,A+
+11,661.0,,Readability,6,2,A++
+13,8.0,,Readability,6,2,A++
+14,109.0,Public where private could be used,Readability,6,2,A-
+16,182.0,Public where private could be used,Readability,6,2,A-
+18,639.0,Protected where private could be used,Readability,6,2,A
+3,86.0,,Correctness,6,2,A++
+5,107.0,,Correctness,6,2,A++
+11,661.0,,Correctness,6,2,A++
+13,8.0,,Correctness,6,2,A++
+14,109.0,,Correctness,6,2,A++
+16,182.0,The weather implemented as part of time rather than separate functionality,Correctness,6,2,A
+18,639.0,No weather or disease interaction,Correctness,6,2,A-
+3,86.0,The code is well written but could provide better reusability by moving more shared variables and functions up the inheritance tree.,Code Elegance,6,2,A
+5,107.0,Single function which could be moved up the inheritance tree.,Code Elegance,6,2,A+
+11,661.0,"Inheritance was used well, but instances of code duplication in the same file could've been reduced.",Code Elegance,6,2,A+
+13,8.0,The code is well written but could provide better reusability by moving more shared variables and functions up the inheritance tree.,Code Elegance,6,2,B
+14,109.0,The code is well written but could provide better reusability by moving more shared variables and functions up the inheritance tree.,Code Elegance,6,2,A-
+16,182.0,"Inheritance was used well, but instances of code duplication in the same file could've been reduced.",Code Elegance,6,2,A
+18,639.0,,Code Elegance,6,2,A++
+3,86.0,Missing overrides for methods in child classes,Documentation,6,2,B-
+5,107.0,Missing param and return comment in method header comments ,Documentation,6,2,C-
+11,661.0,Comments for non existent params,Documentation,6,2,C
+13,8.0,Missing student number and k number in file header,Documentation,6,2,B+
+14,109.0,Missing param and return comment in method header comments.,Documentation,6,2,C
+16,182.0,Missing param and return comment in method header comments.,Documentation,6,2,C-
+18,639.0,Missing param and return comment in method header comments ,Documentation,6,2,C-
+4,544.0,The code is well-organized and very easy to understand. Indentation and whitespace are used consistently and appropriately. Variable and method names are meaningful and descriptive. Classes are self-contained with proper access modifiers used.,Readability,15,2,A+
+5,273.0,"The code is well-organized and easy to understand. Good naming is used for classes, methods and variables. Indentation and whitespace is used consistently to enhance readability. Methods are focused and perform clear tasks. Comments are provided to explain less obvious sections of code.",Readability,15,2,A
+10,241.0,"The code is clean, understandable, and well-organized. Meaningful identifier names are used for functions and variables. White space is utilized to separate logical code blocks. Indentation is consistent.",Readability,15,2,A+
+4,544.0,"Excellent work on completing all the core and challenge tasks! The simulation includes at least 5 acting species (Hyena, Lion, Gazelle, Mouse, Fennec Fox), with at least 2 predators (Hyena, Lion) and 2 non-predators (Gazelle, Mouse). The Hyena and Lion compete for Gazelles as a shared food source. The species distinguish males and females, requiring them to meet to propagate. Time of day is tracked, with some behaviors differing between day and night (nocturnal animals like Hyenas and Fennec Foxes only act at night). Plants (Grass) are simulated and eaten by some creatures. Weather effects like rain, fog, and heatwaves are implemented and influence behaviors. Diseases (Covid, Leptospirosis) spread between animals and through water sources.",Correctness,15,2,A+
+5,273.0,"The simulation is working as described in the assignment, with all core tasks completed. The challenge tasks of adding plants and weather have been implemented successfully. Plants grow and are eaten by some animals, and weather changes over time, influencing animal behavior and plant growth.",Correctness,15,2,A-
+10,241.0,"Excellent work on completing all the core and challenge tasks! The simulation includes at least 5 acting species (Hyena, Snake, Wildebeest, Antelope, Lion), with 3 predators (Hyena, Snake, Lion) and 2 non-predators (Wildebeest, Antelope). The Hyena and Lion compete for Wildebeest as a shared food source. The species distinguish males and females, requiring them to meet to propagate. Time of day is tracked, with behaviors differing between day and night.
+
+The challenge tasks of adding plants (grass), weather (clear skies, heavy rain, heavy fog), and disease (infected animal count displayed) were all implemented successfully. ",Correctness,15,2,A+
+4,544.0,"The code demonstrates excellent use of classes and inheritance to create a well-structured simulation. The Animal, Plant, and WaterSources abstract classes allow for elegantly sharing common functionality between the different species. Methods are used effectively to break the logic into manageable parts. The code is efficient and readable.",Code Elegance,15,2,A+
+5,273.0,"The code makes excellent use of classes and inheritance to create a well-structured simulation. The Organism abstract class defines shared functionality, with specific animal and plant classes extending it. Methods are used effectively to encapsulate behaviors.",Code Elegance,15,2,A
+10,241.0,The base tasks and challenge tasks are implemented in a way that allows for code reusability where possible. The code is efficient without sacrificing readability. The design choices are appropriate.,Code Elegance,15,2,A
+4,544.0,"Most classes and methods have clear, descriptive comments explaining their purpose. Some methods are missing parameter descriptions.",Documentation,15,2,A
+5,273.0,The code includes useful comments explaining the purpose of each class and method. Parameters and return values are documented. Some complex logical blocks include explanatory comments,Documentation,15,2,A
+10,241.0,The code includes useful comments to aid in understanding. Each file has header information. The purpose of functions is documented. Some non-obvious code blocks could benefit from additional comments.,Documentation,15,2,A
+2,216.0,"Good variable and functions names, missing some comments",Readability,20,2,B-
+3,35.0,Good function and variable names,Readability,20,2,A
+5,546.0,"Good variable and functions names, missing some comments",Readability,20,2,B+
+2,216.0,"no genders for animals, no weather, no diseases",Correctness,20,2,C+
+3,35.0,all basic tasks and most challenges completed,Correctness,20,2,A-
+5,546.0,"male fox and female fox don't count as different animals.
+Student has not implemented at least five different kinds of acting species.
+Challenge tasks have been completed.",Correctness,20,2,B-
+2,216.0,"Lots of repeated code, could of implemented the act functions in the animal class, same goes for giveBirth and findFood",Code Elegance,20,2,B-
+3,35.0,could of implemented the act and give birth functions in animal class rather than each individual animal for better code reusability.,Code Elegance,20,2,B+
+5,546.0,"Lots of repeated code, could have implemented the act functions in the animal class, same goes for giveBirth and findFood. you have fox, male fox and female fox class which is not good coding. Some functions are very long; should break them down. ",Code Elegance,20,2,C
+2,216.0,"No report, some code not explained",Documentation,20,2,C+
+3,35.0,"No report, some code not explained",Documentation,20,2,B+
+5,546.0,"No report, some missing comments, some obvious comments",Documentation,20,2,B+
+7,521.0,,Readability,23,2,A-
+11,432.0,,Readability,23,2,C+
+18,142.0,,Readability,23,2,A+
+7,521.0,,Correctness,23,2,A-
+11,432.0,,Correctness,23,2,A+
+18,142.0,,Correctness,23,2,A
+7,521.0,,Code Elegance,23,2,B
+11,432.0,,Code Elegance,23,2,C
+18,142.0,,Code Elegance,23,2,A+
+7,521.0,,Documentation,23,2,A+
+11,432.0,,Documentation,23,2,A
+18,142.0,,Documentation,23,2,A+
+3,36.0,"Easy to read, well structured, good variable names",Readability,4,1,B
+7,399.0,No submission,Readability,4,1,F
+10,119.0,"Easy to read, good variable names and well structured",Readability,4,1,B+
+13,629.0,"Easy to follow, good variables, straightforward",Readability,4,1,B+
+19,144.0,"Great choice of variable, very well structured, easy and enjoyable to read",Readability,4,1,A++
+3,36.0,Good implementation of base tasks and some challenges well implemented,Correctness,4,1,F
+7,399.0,Empty submission,Correctness,4,1,F
+10,119.0,"Run well and interesting behaviours, only few challenges tried",Correctness,4,1,B+
+13,629.0,"Run well, good displaying of the population, challenges well implemented",Correctness,4,1,A-
+19,144.0,"Runs very well, Very interesting proposition in the challenge tasks",Correctness,4,1,A++
+3,36.0,Good use of the classes notions,Code Elegance,4,1,B+
+7,399.0,No code,Code Elegance,4,1,F
+10,119.0,Good use of the concepts of the class,Code Elegance,4,1,B+
+13,629.0,"Good use of the notion in class, sone challenges successfully implemented",Code Elegance,4,1,B+
+19,144.0,Perfect use of the notion of the course and great creativity work to create a unique simulation. Very good job,Code Elegance,4,1,A++
+3,36.0,"Every part well structured, and well-commented",Documentation,4,1,B+
+7,399.0,No submission,Documentation,4,1,F
+10,119.0,Great documentation,Documentation,4,1,A
+13,629.0,Good documentation,Documentation,4,1,B+
+19,144.0,Very clear and detailed documentation,Documentation,4,1,A+
+1,211.0,"Code is readable and understandable, they are ordered in a consistent manner.",Readability,11,1,A-
+2,338.0,"Code is readable and understandable, they are ordered in a consistent manner.",Readability,11,1,A+
+6,249.0,Code is simple and readable. ,Readability,11,1,A+
+8,70.0,code is readable and kept consistency throughout the project,Readability,11,1,A-
+14,604.0,code is readable and organized well.,Readability,11,1,A
+15,440.0,Code is readable and consistently spaced.,Readability,11,1,A-
+1,211.0,"Compilations errors, completed all of the core tasks. Some of the challenging tasks completed to some degree however not to great quality.",Correctness,11,1,A-
+2,338.0,Completed all the core tasks and challenging tasks with some errors.,Correctness,11,1,B
+6,249.0,"Completed all the core tasks and challenging tasks however, not the best quality code.",Correctness,11,1,A-
+8,70.0,all the core tasks and challenging tasks were completed,Correctness,11,1,A
+14,604.0,Most of the tasks completed.,Correctness,11,1,B-
+15,440.0,Completed all core tasks and challenging tasks,Correctness,11,1,A-
+1,211.0,"Usage of interfaces incorrectly, Compilation errors. A lot of code rewritten when it could have been implemented in an abstract class,",Code Elegance,11,1,C
+2,338.0,No usage of abstract classes or interfaces. A lot of rewritten code. ,Code Elegance,11,1,D-
+6,249.0,A lot of rewritten code where it could be abstracted further. ,Code Elegance,11,1,C+
+8,70.0,"a lot of rewritten code, could have utilized abstract clsses.",Code Elegance,11,1,C+
+14,604.0,"did not utilize abstraction and interfaces, some rewritten code.",Code Elegance,11,1,C+
+15,440.0,"Great use of abstraction, code is not rewritten for each animal due to predator and prey classes however, canBreed() function could be abstracted even further to animal class.",Code Elegance,11,1,B+
+1,211.0,"Comments are not fully supportive of the code, hard to make out what some functions do. ",Documentation,11,1,B
+2,338.0,Documentation copied and pasted. Inaccurate comments.,Documentation,11,1,C-
+6,249.0,Good documentation however some comments are copied and pasted and are inaccurate,Documentation,11,1,B
+8,70.0,"well documented, every function and class has good comments to help understand what they do.",Documentation,11,1,A-
+14,604.0,"good documentation, function are well defined ",Documentation,11,1,A
+15,440.0,good documentation makes the code easily understandable.,Documentation,11,1,A-
+3,86.0,,Readability,5,2,A
+5,107.0,,Readability,5,2,C+
+11,661.0,,Readability,5,2,B-
+13,8.0,,Readability,5,2,B
+14,109.0,,Readability,5,2,B-
+16,182.0,,Readability,5,2,B+
+18,639.0,,Readability,5,2,A-
+3,86.0,,Correctness,5,2,A
+5,107.0,,Correctness,5,2,B+
+11,661.0,,Correctness,5,2,A-
+13,8.0,,Correctness,5,2,A-
+14,109.0,,Correctness,5,2,A-
+16,182.0,,Correctness,5,2,A+
+18,639.0,,Correctness,5,2,B-
+3,86.0,,Code Elegance,5,2,A
+5,107.0,,Code Elegance,5,2,A
+11,661.0,,Code Elegance,5,2,B+
+13,8.0,,Code Elegance,5,2,B-
+14,109.0,,Code Elegance,5,2,B-
+16,182.0,,Code Elegance,5,2,B+
+18,639.0,,Code Elegance,5,2,A
+3,86.0,,Documentation,5,2,A
+5,107.0,,Documentation,5,2,B
+11,661.0,,Documentation,5,2,A-
+13,8.0,,Documentation,5,2,B-
+14,109.0,,Documentation,5,2,B+
+16,182.0,,Documentation,5,2,B+
+18,639.0,,Documentation,5,2,A-
+4,544.0,"Generally good identifier names for functions and variables and consistent level of indentation. However, some conditions and functions can be slightly too long or have multiple responsibilities.",Readability,16,2,B+
+5,273.0,"Generally, good identifier names for functions and variables However, some conditions and functions can be slightly too long or have multiple responsibilities. Indentation sometimes is inconsistent to the rest of the project",Readability,16,2,B+
+10,241.0,"Generally good identifier names for functions and variables and consistent level of indentation. However, some conditions and functions can be slightly too long or have multiple responsibilities.",Readability,16,2,B
+4,544.0,All base tasks and extension tasks have been completed. Documentation is provided for how each of the tasks is completed.,Correctness,16,2,A
+5,273.0,"All base tasks and some extension tasks have been completed. Generally, there are indications/documentation on what has been completed and they were completed reasonably.",Correctness,16,2,A
+10,241.0,All base tasks and extension tasks have been completed. Some documentation is provided for how each of the tasks is completed.,Correctness,16,2,A
+4,544.0,Good attempt at reducing the repeated code through the use of abstract classes. Can be even craftier at producing offspring for each of the animal classes. Also it seems illogical to use class names to provide linkage for predator and prey.,Code Elegance,16,2,A-
+5,273.0,A lot of code has been repeated through the implementation for each of the animal implementations.  It is more sensible to extract these codes and provide abstract methods to override such behavior..,Code Elegance,16,2,B-
+10,241.0,A lot of code has been repeated through the implementation for each of the animal implementations.  It is more sensible to extract these codes and provide abstract methods to override such behavior.,Code Elegance,16,2,C+
+4,544.0,"Fields' comments generally state the obvious. For the longer functions, more explanation is needed for its action. Other comments generally describe the purpose of the function well.",Documentation,16,2,A-
+5,273.0,Comments for the fields generally state the obvious. Functional comments are generally ok and explain the purpose of its function. Documentation on arguments and return types is ok.,Documentation,16,2,A
+10,241.0,Some documentation states the obvious hence clutters the code even more. Some return types are explained as generic comments which should be done through @return for javadoc. Overall ok explanation for functional comments.,Documentation,16,2,B
+3,389.0,few variable names that were not meaningful.,Readability,20,1,B-
+11,255.0,good choice of variable names but needed to add more comments explaining some functions.,Readability,20,1,A-
+14,387.0,,Readability,20,1,B
+16,450.0,good function and variable names.,Readability,20,1,B-
+17,221.0,Good use of function and variable names. some long functions that should of been broken down.,Readability,20,1,B
+19,516.0,Good use of variable names. some comments state the obvious but mostly good. ,Readability,20,1,A-
+3,389.0,,Correctness,20,1,B
+11,255.0,completed all basic and challenge tasks.,Correctness,20,1,A+
+14,387.0,"extra marks for creativity: infinity gauntlet
+disease and weather not implemented
+when breeding, code doesn't check if there is a partner near by or if they are a opposite sex.",Correctness,20,1,C
+16,450.0,All basic tasks completed but only 1 challenge. No report provided.,Correctness,20,1,B
+17,221.0,All basic and challenge tasks completed. No report provided.,Correctness,20,1,A
+19,516.0,all basic and challenge tasks completed. extra marks for good UI. No report.,Correctness,20,1,A
+3,389.0,,Code Elegance,20,1,B-
+11,255.0,"great code reusability, no repeating code. however some functions are long and do more than 1 thing.",Code Elegance,20,1,A-
+14,387.0,"poor code reusability. Act functions are similar so should of implemented that in the animal class, why do you need a New class for each animal and animal class.",Code Elegance,20,1,C-
+16,450.0,"act function is similar for all animals, should of implemented it in animal class for better code reusability. Same goes for FindFood function.",Code Elegance,20,1,B
+17,221.0,"act function is similar for all animals, should of implemented it in animal class for better code reusability.",Code Elegance,20,1,B
+19,516.0,"act function does too much, should break it down. Excellent code reusability, no repeating code.",Code Elegance,20,1,A
+3,389.0,"did not add student name and number as header for each file.
+some obvious comments. Some places missing comments.",Documentation,20,1,B-
+11,255.0,missing report and no student name and number on each file,Documentation,20,1,B+
+14,387.0,"did not add student name and number as header for each file.
+some obvious comments. Some places missing comments.",Documentation,20,1,B-
+16,450.0,"did not add student name and number as header for each file.
+some obvious comments. No report.",Documentation,20,1,B-
+17,221.0,"did not add student name and number as header for each file.
+some obvious comments. No report.",Documentation,20,1,B-
+19,516.0,"did not add student name and number as header for each file.
+some obvious comments. No report. Didn't follow submission guide, should of been only 1 folder with all files but folder has another folder.",Documentation,20,1,B-
+2,216.0,,Readability,19,2,A
+3,35.0,,Readability,19,2,B+
+5,546.0,,Readability,19,2,A
+2,216.0,No hunters compete for the same food source,Correctness,19,2,C
+3,35.0,,Correctness,19,2,A+
+5,546.0,,Correctness,19,2,A+
+2,216.0,,Code Elegance,19,2,B
+3,35.0,,Code Elegance,19,2,B-
+5,546.0,,Code Elegance,19,2,C
+2,216.0,,Documentation,19,2,A+
+3,35.0,,Documentation,19,2,A+
+5,546.0,,Documentation,19,2,A-
+11,416.0,The code is well presented and is easy to read. Appropriate access modifiers are used throughout. Good naming conventions and formatting is used throughout,Readability,28,1,A+
+14,529.0,"The readability of the code is high in general with good, consistent formatting. The naming of entities is largely appropriate, however, the use of yellowy, bluy, etc. can be confusing and difficult to parse. Access modifiers are used appropriately",Readability,28,1,A-
+17,13.0,No modifications have been made to the original code distributed to students as part of the assignment. ,Readability,28,1,F
+11,416.0,"The baseline requirements have been implemented to a competent level. Some challenge extensions are implemented including disease spread, weather, and plants. The disease spread is very basic and the agents are very homogenous. However, the weather system is implemented well. The simulator only runs for 24 ticks on the majority of occasions",Correctness,28,1,B-
+14,529.0,The baseline requirements are implemented to a good standard. Extensions such as weather and plants are also included. The student shows creativity by influencing plant growth rate by weather behaviours.  ,Correctness,28,1,A-
+17,13.0,No modifications have been made to the original code distributed to students as part of the assignment. ,Correctness,28,1,F
+11,416.0,The code is structured competently with use of enums and inheritance between classes. Introducing a prey and predator subtype could be a good idea for encapsulating common behaviours. ,Code Elegance,28,1,B
+14,529.0,The student uses encapsulation and inheritance well. The inclusion of Nature as a class type is effective for implementing the Tree and Weed. There are some methods such as act() which are too large and would benefit from being divided further. The passing of 'frogPresent' etc. in these classes should be avoided to reduce tight-coupling of classes,Code Elegance,28,1,B
+17,13.0,No modifications have been made to the original code distributed to students as part of the assignment. ,Code Elegance,28,1,F
+11,416.0,All entities are documented to a high standard using JavaDoc annotations and effective descriptions of methods. More complex code blocks are also commented effectively,Documentation,28,1,A+
+14,529.0,The documentation of the code is competent overall however there is a lack of consistency. Some descriptions of classes have been copied-and-pasted leading to confusion. JavaDoc annotations are used appropriately and all properties are described well.,Documentation,28,1,B-
+17,13.0,No modifications have been made to the original code distributed to students as part of the assignment. ,Documentation,28,1,F
+11,416.0,Concise and readable.,Readability,26,1,A+
+14,529.0,Very neatly structured and ordered,Readability,26,1,A+
+17,13.0,,Readability,26,1,F
+11,416.0,Most deliverables complete and code compiles with a stable simulation.,Correctness,26,1,A-
+14,529.0,"Everything compiles and there is a stable simulation, all objectives have been completed to good standard",Correctness,26,1,A++
+17,13.0,"No changes to the template code, so no submission was received.",Correctness,26,1,F
+11,416.0,"Mostly appropriate use of OOP techniques, unsure about the necessity of the Gender class. It seems more semantically intact for gender to be an attribute of any entity rather than an entity in itself. Class hierarchy should aim to replicate the domain hierarchy, else you are designing less of an object-oriented system and more of an arbitrarily designed set of data types.",Code Elegance,26,1,A+
+14,529.0,"Good use of abstraction, and appropriate class hierarchy. Could avoid lots of repetition by using private variables in superclasses and implementing getters within them. Decent application of qualifiers to class fields and methods.",Code Elegance,26,1,A
+17,13.0,,Code Elegance,26,1,F
+11,416.0,Appropriate and insightful comments.,Documentation,26,1,A+
+14,529.0,,Documentation,26,1,A+
+17,13.0,,Documentation,26,1,F
+3,198.0,,Readability,9,2,B-
+8,537.0,,Readability,9,2,A-
+10,117.0,,Readability,9,2,A-
+3,198.0,,Correctness,9,2,A-
+8,537.0,,Correctness,9,2,B+
+10,117.0,,Correctness,9,2,A-
+3,198.0,,Code Elegance,9,2,B
+8,537.0,,Code Elegance,9,2,B+
+10,117.0,,Code Elegance,9,2,B+
+3,198.0,,Documentation,9,2,B
+8,537.0,,Documentation,9,2,A-
+10,117.0,,Documentation,9,2,
+3,389.0,"Appropriate function, class and variable names used. Indentation and general code structure is clear. Good use of self-contained classes.",Readability,17,1,A-
+11,255.0,"Great function, class and variable names used. Indentation and general code structure is clear. Great use of self-contained classes.",Readability,17,1,A+
+14,387.0,A few hacky lines and strange name choices but overall good quality layout.,Readability,17,1,B+
+16,450.0,"Appropriate function, class and variable names used. Indentation and general code structure is clear.",Readability,17,1,A
+17,221.0,"Appropriate function, class and variable names used. Indentation and general code structure is clear.",Readability,17,1,A
+19,516.0,"Appropriate function, class and variable names used. Indentation and general code structure is clear. Classes could be better encapsulated.",Readability,17,1,B-
+3,389.0,All challenge and base classes are implemented correctly to a high standard.,Correctness,17,1,A+
+11,255.0,All challenge and base classes are implemented correctly to a high standard.,Correctness,17,1,A+
+14,387.0,"Most challenge and all base classes are implemented correctly to a high standard. However, recycling fox and rabbit classes is against the spirit of the assignment. Extra GUI feature seems to have no functionality in practice.",Correctness,17,1,A-
+16,450.0,All base classes are implemented correctly to a high standard.,Correctness,17,1,B+
+17,221.0,"Base tasks all completed well, nice addition of plants and weather for the challenge class.",Correctness,17,1,A
+19,516.0,"Base tasks all completed well, nice addition of plants and weather for the challenge class. Simulation elimnates all but two species within very few steps in practice.",Correctness,17,1,B+
+3,389.0,Solid implementation of both core and challenge classes. Very appropriate approaches taken.,Code Elegance,17,1,A
+11,255.0,Base and challenge tasks are efficiently implemented and remain perfectly readable and maintanable.,Code Elegance,17,1,A+
+14,387.0,Mostly solid implementation although a few hacky lines exist throughout reducing readability and maintainability.,Code Elegance,17,1,B
+16,450.0,Appropriate approaches taken to implementation of both core and challenge classes. Very readable.,Code Elegance,17,1,A
+17,221.0,Appropriate approaches taken to implementation of both core and challenge classes. Very readable.,Code Elegance,17,1,A
+19,516.0,Appropriate approaches taken to implementation of both core and challenge classes. Classes could be better encapsulated however.,Code Elegance,17,1,B-
+3,389.0,"Solid use of comments and javadocs, however sometimes displays some overcommenting on lines which have obvious functionality. ",Documentation,17,1,A-
+11,255.0,"Solid use of comments and javadocs, however sometimes displays some overcommenting on lines which have obvious functionality. ",Documentation,17,1,A
+14,387.0,Solid use of comments and javadocs.,Documentation,17,1,A+
+16,450.0,"Solid use of comments and javadocs, however sometimes displays some overcommenting on lines which have obvious functionality. ",Documentation,17,1,A-
+17,221.0,Solid use of comments and javadocs however the codebase would benefit greatly from a spellcheck to to comments and perhaps ,Documentation,17,1,A-
+19,516.0,"Solid use of comments and javadocs, however sometimes displays some overcommenting on lines which have obvious functionality. ",Documentation,17,1,A-
+3,389.0,,Readability,19,1,A
+11,255.0,,Readability,19,1,A+
+14,387.0,,Readability,19,1,B+
+16,450.0,,Readability,19,1,A+
+17,221.0,,Readability,19,1,B
+19,516.0,,Readability,19,1,B
+3,389.0,,Correctness,19,1,A+
+11,255.0,,Correctness,19,1,A+
+14,387.0,,Correctness,19,1,A
+16,450.0,,Correctness,19,1,A-
+17,221.0,,Correctness,19,1,A
+19,516.0,,Correctness,19,1,A
+3,389.0,,Code Elegance,19,1,A-
+11,255.0,,Code Elegance,19,1,A+
+14,387.0,,Code Elegance,19,1,B
+16,450.0,,Code Elegance,19,1,A
+17,221.0,,Code Elegance,19,1,B
+19,516.0,,Code Elegance,19,1,C-
+3,389.0,,Documentation,19,1,B
+11,255.0,,Documentation,19,1,B
+14,387.0,,Documentation,19,1,A
+16,450.0,,Documentation,19,1,A++
+17,221.0,,Documentation,19,1,C
+19,516.0,,Documentation,19,1,B-
+3,36.0,Code very easy to understand and meaningful identifier names are used,Readability,2,1,A+
+7,399.0,The submission is the same as the original folder,Readability,2,1,F
+10,119.0,Application contains inconsistent indentation.,Readability,2,1,B-
+13,629.0,Code uses consistent spacings - Good function and variable names are used.,Readability,2,1,A
+19,144.0,Code is readable with good function and variable names being used,Readability,2,1,A-
+3,36.0,All base and challenging tasks are completed ,Correctness,2,1,A+
+7,399.0,No tasks are completed. Submission is the same as the original folder,Correctness,2,1,F
+10,119.0,All base tasks completed and one challenge task is attempted,Correctness,2,1,A-
+13,629.0,All core and challenge tasks are completed,Correctness,2,1,A+
+19,144.0,All base tasks completed and most challenge tasks completed - Entities not influenced by weather,Correctness,2,1,A
+3,36.0,"To better differentiate between preys and predators, it may be helpful to have a super class for preys and another super class for predators.",Code Elegance,2,1,A-
+7,399.0,The submission is the same as the original ,Code Elegance,2,1,F
+10,119.0,"Code could make use of abstract classes to improve extensibility and breakdown longer functions into smaller, modular functions",Code Elegance,2,1,B-
+13,629.0,Code is maintainable and extendable with good use of abstract classes,Code Elegance,2,1,A+
+19,144.0,May be useful to have superclass for preys and predators to better differentiate between them,Code Elegance,2,1,B+
+3,36.0,Comments are clear and useful - Every file includes header information.,Documentation,2,1,A
+7,399.0,The submission is the same as the original folder,Documentation,2,1,F
+10,119.0,Generally good documentation. Some comments are verbose,Documentation,2,1,B+
+13,629.0,Comments are clear and useful - Every file includes header information.,Documentation,2,1,A
+19,144.0,Generally good documenation. Comments are useful and concise,Documentation,2,1,A-
+11,416.0,,Readability,25,1,A+
+14,529.0,,Readability,25,1,A++
+17,13.0,,Readability,25,1,F
+11,416.0,,Correctness,25,1,A
+14,529.0,,Correctness,25,1,A
+17,13.0,,Correctness,25,1,F
+11,416.0,,Code Elegance,25,1,A++
+14,529.0,,Code Elegance,25,1,A++
+17,13.0,,Code Elegance,25,1,F
+11,416.0,,Documentation,25,1,A+
+14,529.0,,Documentation,25,1,A+
+17,13.0,,Documentation,25,1,F
+3,36.0,Some whitespace inconsistencies and poorly structured code.,Readability,1,1,C
+7,399.0,,Readability,1,1,F
+10,119.0,Better class and variable naming should be used.,Readability,1,1,B
+13,629.0,Some unconvential shorthands are used for some variables. It is ,Readability,1,1,B
+19,144.0,Some whitespace inconsistencies. ,Readability,1,1,B
+3,36.0,Program works as intended. Some challenge tasks are implemented. ,Correctness,1,1,B
+7,399.0,Code has not extended the base code.,Correctness,1,1,F
+10,119.0,Program works well. Challenge tasks are implemented. It is unclear how disease is spread amongst existing mice.,Correctness,1,1,B+
+13,629.0,Program works well. Challenge tasks are implemented.,Correctness,1,1,A+
+19,144.0,Code is implemented well. Some challenge tasks are implemented.,Correctness,1,1,B+
+3,36.0,Class hierarchy makes sense. Final variables that require adjustment should not be kept in a class. They should be kept in the relevant method.,Code Elegance,1,1,B
+7,399.0,,Code Elegance,1,1,F
+10,119.0,Class hierarchy logic is questionable. Why does plant extend animal? findFood method can be generalised better.,Code Elegance,1,1,C+
+13,629.0,"Generally good class structure. Class design could be better, as a lot of shared variables and methods should have been moved to the superclass.",Code Elegance,1,1,B
+19,144.0,Class hierarchy allows addition of more organisms. Food chain class does not seem the best approach. The food chain should be able to be implied from the class hierarchy.,Code Elegance,1,1,B-
+3,36.0,Code is generally explained well if it is unclear.,Documentation,1,1,B+
+7,399.0,,Documentation,1,1,F
+10,119.0,Some mistakes in documentation. A significant amount of documentation is lacking.,Documentation,1,1,C
+13,629.0,Generally good documentation.,Documentation,1,1,A
+19,144.0,Code is documented well.,Documentation,1,1,A
+1,620.0,,Readability,14,1,A-
+10,400.0,,Readability,14,1,A+
+17,422.0,,Readability,14,1,A++
+18,480.0,,Readability,14,1,A++
+1,620.0,,Correctness,14,1,A++
+10,400.0,at least 5 different kinds of acting species are not present only 4 are there,Correctness,14,1,D+
+17,422.0,,Correctness,14,1,A++
+18,480.0,,Correctness,14,1,B+
+1,620.0,,Code Elegance,14,1,A+
+10,400.0,,Code Elegance,14,1,A+
+17,422.0,,Code Elegance,14,1,A++
+18,480.0,,Code Elegance,14,1,A++
+1,620.0,,Documentation,14,1,A+
+10,400.0,,Documentation,14,1,A+
+17,422.0,,Documentation,14,1,A++
+18,480.0,,Documentation,14,1,A++
