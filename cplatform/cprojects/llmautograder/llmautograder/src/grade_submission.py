@@ -10,6 +10,9 @@ warnings.filterwarnings("ignore", message=".*LangChain.*")
 import os
 import json
 import sys
+import time
+import traceback
+import linecache
 from urllib.parse import urljoin
 from c3dclasses.csystem.cai.cllm.cllm import CLLM
 from c3dclasses.ccore.cutility.cutility import readJSONFromFilename, split_text_into_chunks, writeJSONToFilename, writeTextToFilename, readTextFromFilename, is_compilable
@@ -19,6 +22,24 @@ try:
     import fire
 except ImportError:
     fire = None
+
+def format_error_code_snippet(error):
+    traceback_frames = traceback.extract_tb(error.__traceback__)
+    if not traceback_frames:
+        return []
+
+    frame = traceback_frames[-1]
+    source_lines = linecache.getlines(frame.filename)
+    if not source_lines:
+        return [f"  At {frame.filename}:{frame.lineno}"]
+
+    start_line = max(1, frame.lineno - 2)
+    end_line = min(len(source_lines), frame.lineno + 2)
+    snippet = [f"  At {frame.filename}:{frame.lineno}"]
+    for line_number in range(start_line, end_line + 1):
+        marker = "  -> " if line_number == frame.lineno else "     "
+        snippet.append(f"{marker}{line_number}: {source_lines[line_number - 1].rstrip()}")
+    return snippet
 
 #--------------------------------------------------------------
 # name: generate_grading_prompt()
@@ -36,7 +57,7 @@ def generate_grading_prompt(questions, source_code):
         str: A formatted prompt for grading.
     """
     # Split the questions into a list
-    question_list = questions.strip().split('\n')
+    question_list = [line.strip() for line in questions.replace('\r', '').split('\n') if line.strip()]
     numquestions = len(question_list)
     
     strexistance = "[yes/no]"
@@ -67,6 +88,7 @@ def generate_grading_prompt(questions, source_code):
 # desc: generates a prompt for machine feedback
 #--------------------------------------------------------------
 def generate_feedback_prompt(questions, source_code, answers):
+    question_list = [line.strip() for line in questions.replace('\r', '').split('\n') if line.strip()]
     prompt = {
         "instructions": (
             "Write concise grading feedback for this Java source code. "
@@ -75,7 +97,7 @@ def generate_feedback_prompt(questions, source_code, answers):
             "Return plain text only, with no JSON, markdown, or score table. "
             "Keep the feedback to 2-4 sentences."
         ),
-        "questions": questions.strip().split('\n'),
+        "questions": question_list,
         "rubric_answers": answers,
         "source_code": source_code
     }
@@ -283,6 +305,7 @@ class CSubmissionGrader:
     # end grade_similarity_percentages()
     
     def gradeSubmissionSummary(self):
+        submission_start_time = time.perf_counter()
         if(self.m_jsonsubmission == None):
             self.m_jsonsubmission = {}
         # end if
@@ -297,32 +320,40 @@ class CSubmissionGrader:
         # get all the files
         strfiles = [f for f in os.listdir(self.m_strsubmissionpath)] 
         strfiles = [strfile for strfile in strfiles if strfile.endswith(".java")]
-        i = 0
         count = len(strfiles)
         print(f"  Files found: {count}")
         print("")
-        for strfile in strfiles:
+        for file_index, strfile in enumerate(strfiles):
             strfilepath = f"{self.m_strsubmissionpath}/{strfile}"
+            file_start_time = time.perf_counter()
             try:
                 if(strfile.endswith(".java")):
                     strcode = readTextFromFilename(strfilepath)
                     strquestions = self.m_strspec
                     print(f"  Processing: {strfile} ({len(strcode)} chars)")
-                    self.gradeSubmissionSummaryOfAFile(strfile, strcode, strquestions) 
+                    self.gradeSubmissionSummaryOfAFile(strfile, strcode, strquestions)
+                    elapsed_minutes = (time.perf_counter() - file_start_time) / 60
+                    print(f"    -> Done (Finished {elapsed_minutes:.1f} minutes)")
                 # end if     
-                i += 1
             # end try
             except Exception as e:
                 error_msg = str(e)
                 print(f"    [ERROR] Could not process {strfile}: {error_msg[:100]}..." if len(error_msg) > 100 else f"    [ERROR] Could not process {strfile}: {error_msg}")
+                for snippet_line in format_error_code_snippet(e):
+                    print(f"      {snippet_line}")
                 self.printCloudflareReauthMessageIfNeeded(error_msg)
-                i += 1
+                if file_index + 1 < count:
+                    print("")
                 continue
             # end except
+            if file_index + 1 < count:
+                print("")
         # end for
         
         writeJSONToFilename(self.m_strjsonsubmissionfilename, self.m_jsonsubmission)
         writeTextToFilename("./debugtext.txt", self.m_strdebug)
+        total_elapsed_minutes = (time.perf_counter() - submission_start_time) / 60
+        print(f"\n  Submission complete (Finished {total_elapsed_minutes:.1f} minutes)")
         return True
     # end gradeSubmissionSummary()
 
@@ -343,7 +374,7 @@ class CSubmissionGrader:
     def gradeSubmissionSummaryOfAFile(self, strfilename, strfilecode, strquestiontoask):
         codefilesize = len(strfilecode)
         codefilesizelimit = 4500
-        strquestions = strquestiontoask.strip().split('\n')
+        strquestions = [line.strip() for line in strquestiontoask.replace('\r', '').split('\n') if line.strip()]
         nquestions = len(strquestions)
         
         if(codefilesize > codefilesizelimit):
@@ -395,16 +426,30 @@ class CSubmissionGrader:
         strresponse = self.m_cllm.getPromptResponse()
                      
         jsondata = self.m_cllm.parseJSON()
-        strresponse = ""
-        while (jsondata == None or len(jsondata) != nquestions) and reprompt_attempt > 0: 
-            print(f"    -> Retrying... ({reprompt_attempt} attempts remaining)")
+        while (not isinstance(jsondata, list) or len(jsondata) != nquestions) and reprompt_attempt > 0: 
+            returned_count = len(jsondata) if isinstance(jsondata, list) else "no JSON array"
+            print(f"    -> Retrying... ({reprompt_attempt} attempts remaining; received {returned_count}, expected {nquestions})")
             self.m_cllm.setMaxTokens(1000)
-            strnewprompt = f"\nMake sure the output is in JSON array of {nquestions} length. Try to use this information here along with the prompt\n\n{strprompt}\n\nInformation:\n\n{strresponse}."    
+            strnewprompt = (
+                f"\nReturn exactly {nquestions} answers in a JSON array with no extra elements, "
+                f"preamble, or explanation. The previous output had {returned_count}. "
+                f"Each array element must correspond to one rubric question in order.\n\n"
+                f"{strprompt}\n\nPrevious response:\n\n{strresponse}"
+            )
             self.m_cllm.prompt(strnewprompt)
             strresponse = self.m_cllm.getPromptResponse()
             jsondata = self.m_cllm.parseJSON()
             reprompt_attempt -= 1
         # end while
+
+        if not isinstance(jsondata, list):
+            raise ValueError(f"LLM output is not a JSON array (expected {nquestions} answers)")
+        if len(jsondata) != nquestions:
+            if len(jsondata) > nquestions:
+                print(f"    -> Warning: LLM returned {len(jsondata)} answers; using the first {nquestions} and discarding {len(jsondata) - nquestions} trailing answer(s)")
+                jsondata = jsondata[:nquestions]
+            else:
+                raise ValueError(f"LLM returned {len(jsondata)} answers but the rubric has {nquestions} questions")
     
         jsonfilesummary = []
         strfeedback = ""
@@ -446,7 +491,6 @@ class CSubmissionGrader:
         self.m_jsonsubmission["machine_feedback"][strfilename] = strfeedback if (jsondata) else None
         self.m_jsonsubmission["metadata"] = jsonmetadatasummary if (jsondata) else None        
         writeJSONToFilename(self.m_strjsonsubmissionfilename, self.m_jsonsubmission)
-        print(f"    -> Done")
         return True
     # end gradeSubmissionSummaryOfAFile()
 
